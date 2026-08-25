@@ -142,9 +142,10 @@ player. If you block a player, that is stored, and the two of you are
 hidden from each other's rosters, player cards and plans.</p>
 
 <p><strong>Crash reports.</strong> Since July 28, 2026 the app includes crash
-reporting (Sentry) so we can find bugs that only happen on real devices —
-it arrived through an app update, so store versions installed earlier
-have it too. When the app crashes or hits an error, it sends diagnostic
+reporting (Sentry) so we can find bugs that only happen on real devices.
+It is built into recent store versions — older installed versions don't
+have it, and an app update alone cannot add it to them.
+When the app crashes or hits an error, it sends diagnostic
 information: device model, operating system version, app version, which
 app update was running, and the technical stack of the failure. It does
 not include your location, your messages, or anything you typed, and it
@@ -178,7 +179,7 @@ of service providers necessarily handle some data to make the app work:</p>
   Google" verifies your identity if you choose it; Firebase carries
   Android notifications to your phone.</li>
   <li><strong>Sentry</strong> — receives crash reports from store builds, where
-  enabled.</li>
+  enabled; that data is hosted in the United States.</li>
   <li><strong>Apple and Google app stores</strong> — distribute the app; we never
   receive your payment details.</li>
 </ul>

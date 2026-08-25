@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OpenHoops — add a friend</title>
+<meta name="description" content="Add a player as a friend on OpenHoops." />
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center;
+    justify-content: center; background: #0e1013; color: #f2f3f5;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 24px; text-align: center;
+  }
+  .card { max-width: 380px; }
+  .ball { font-size: 56px; line-height: 1; margin-bottom: 18px; }
+  h1 { font-size: 22px; margin: 0 0 10px; letter-spacing: 0.2px; }
+  p { color: #a7adb6; font-size: 15px; line-height: 1.5; margin: 0 0 22px; }
+  a.btn {
+    display: inline-block; background: #ffc400; color: #17181b;
+    text-decoration: none; font-weight: 700; font-size: 15px;
+    padding: 13px 22px; border-radius: 999px;
+  }
+  a.btn[hidden] { display: none; }
+  .muted { display: block; margin-top: 16px; font-size: 13px; color: #6f757e; }
+  .muted a { color: #a7adb6; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="ball">🏀</div>
+    <h1 id="headline">Add a friend on OpenHoops</h1>
+    <p id="sub">Open the app to send the request.</p>
+    <a class="btn" id="open" hidden>Open OpenHoops</a>
+    <span class="muted">
+      Don't have it yet?
+      <a href="https://play.google.com/store/apps/details?id=com.openhoops.app">Get OpenHoops</a>
+    </span>
+  </div>
+
+<script>
+(function () {
+  // The username travels in the FRAGMENT (#u=), not the query string, and that
+  // is the whole reason this page reads location.hash: a fragment is never
+  // sent to the server, so it stays out of web-server and CDN request logs.
+  // Moving it to ?u= would start logging who is adding whom.
+  var hash = window.location.hash || "";
+  var params = new URLSearchParams(hash.replace(/^#/, ""));
+
+  // Exactly one u=, or nothing. get() would silently return the FIRST of
+  // "#u=someone&u=attacker" and the page would then offer to add a name the
+  // link's second half disagrees with -- a link that reads one way and acts
+  // another. Refusing the ambiguity costs nothing; no honest link has two.
+  var all = params.getAll("u");
+
+  // URLSearchParams ALREADY percent-decodes, so this value is the final one --
+  // do not decodeURIComponent it again. A second pass turns "%2575" into "%75"
+  // into "u", which walks characters past the format check below by spending
+  // two decodes on what the checker only sees once.
+  var name = all.length === 1 ? all[0] : "";
+
+  // Validate rather than trust: this value is about to be written into a URL
+  // the OS is asked to open, and anyone can craft a link to this page. The
+  // rule is the app's own handle rule (USERNAME_RE in utils/usernameCheck.ts)
+  // and nothing else may reach the app.
+  var ok = /^[a-zA-Z0-9_]{3,20}$/.test(name);
+
+  if (!ok) {
+    // No usable username -- don't offer to add nobody.
+    document.getElementById("headline").textContent = "Add friends on OpenHoops";
+    document.getElementById("sub").textContent =
+      "Ask for their username, or scan their code in the app.";
+    return;
+  }
+
+  // textContent, never innerHTML: the name is attacker-supplied even though it
+  // passed the rule above, and the rule is not an HTML-safety argument.
+  document.getElementById("headline").textContent = "Add " + name + " on OpenHoops";
+  document.getElementById("sub").textContent =
+    "Tap below and the app will fill in their username. Nothing is sent until you send it.";
+
+  // A button, deliberately, rather than court.html's automatic redirect: this
+  // link arrives by QR scan or by someone handing it over, so an unprompted
+  // app switch is the wrong feel and a scanner preview would fire it. The
+  // encoded value is passed through unchanged so the app receives exactly what
+  // the QR encoded.
+  var btn = document.getElementById("open");
+  btn.href = "openhoops://add-friend?u=" + encodeURIComponent(name);
+  btn.hidden = false;
+})();
+</script>
+</body>
+</html>
