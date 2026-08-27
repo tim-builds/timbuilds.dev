@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.openhoops.app",
+      "sha256_cert_fingerprints": [
+        "2F:CC:26:81:7B:F7:76:D8:4B:DB:38:D1:B6:9D:B9:49:30:89:DD:89:D2:90:A8:FF:BD:54:53:F6:C3:0F:C8:76",
+        "DE:4E:60:F3:E7:F6:C4:FA:70:50:11:2A:19:F4:27:3B:98:3A:42:A2:45:FF:26:3C:A5:8A:D5:51:46:88:69:43"
+      ]
+    }
+  }
+]
