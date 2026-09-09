@@ -13,39 +13,72 @@
   strong { color: #fff; }
   a { color: #FFD84D; }
   .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; padding: 18px 20px; margin: 1em 0; }
+  ul li { margin-bottom: 0.6em; }
 </style>
 </head>
 <body>
 <main>
 <h1>Delete your OpenHoops account</h1>
 
-<p>Deleting your account permanently removes your profile, check-ins,
-thumbs-ups ("daps"), "heading there" plans, favorite courts, reports,
-blocks, and notification token. <strong>There is no undo.</strong></p>
+<p>Deleting your account removes your profile and the things attached to it.
+<strong>There is no undo.</strong> Three things outlive your account, and they
+are listed at the bottom of this page.</p>
 
 <h2>Fastest: in the app</h2>
 <div class="card">
   <p>Open OpenHoops → <strong>Profile</strong> tab → gear icon (top right) →
   scroll to the bottom → <strong>Delete account</strong> → confirm twice.</p>
-  <p>Deletion is immediate.</p>
+  <p>In the live database, deletion happens immediately.</p>
+  <p>The app removes your profile picture first, and stops without deleting
+  anything if that removal fails — so this route cannot leave a photo behind. If you see that message, try again on a better
+  connection, or email us and we will remove the photo by hand.</p>
 </div>
 
 <h2>Without the app: by email</h2>
 <div class="card">
-  <!-- Email domain has NO hyphen (timbuilds.dev); the site this page is
-       served from KEEPS it (tim-builds.dev). See the root index.html. -->
   <p>Email <strong>support@timbuilds.dev</strong> with the subject
   "Delete my OpenHoops account", <strong>sent from the email address you
-  signed up with</strong> (that's how we verify it's you). We will delete the
-  account and confirm within 30 days.</p>
+  signed up with</strong> — that address is how we check the request is
+  yours.</p>
 </div>
 
-<h2>What is deleted, and when</h2>
-<p>All data associated with your account is removed at deletion time:
-account email, username, optional name and photo, check-in history,
-daps given and received, plans, favorites, reports and blocks, and your
-notification token. Nothing is retained afterward except records we are
-legally required to keep (we don't expect any for a basketball app).</p>
+<h2>What deletion removes</h2>
+
+<p>Your profile, your detailed check-in records, your personal check-in day and
+week summaries, the Reps you received and the Reps you gave (so other players'
+totals go down), your "heading there" plans, your favourite courts, your pending
+friend requests and accepted friendships, reports you filed, blocks you set and
+blocks set against you, your notification registrations and court-alert log,
+your sign-in identifiers, your abuse-prevention counters, internal presence
+bookkeeping records, and your profile picture. Your account email and username
+go with the account itself.</p>
+
+<h2>Three things outlive your account</h2>
+
+<ul>
+  <li><strong>Reports other players filed about you.</strong> These are kept,
+  with your account detached from them, because a report is a record of
+  behaviour rather than your own data. What remains is the category, the venue,
+  the time and who filed it, with no link back to you. Reports <em>you</em>
+  filed about other players are deleted with your account.</li>
+
+  <li><strong>Venue busy-time statistics.</strong> A nightly job combines
+  check-ins by venue and time block into figures about how busy each court
+  tends to be. They contain no account ID, they are kept on a rolling 52-week
+  basis, and they are not removed when an individual account is deleted.</li>
+
+  <li><strong>Encrypted backups.</strong> We keep encrypted copies of the
+  database so the app can be restored if the live database is lost or damaged.
+  Each copy is a snapshot of the whole database as it stood when the copy was
+  made — accounts included — so <strong>a copy of your information can remain
+  in any snapshot made before you deleted your account</strong>. Deleting your
+  account changes the live database, and it cannot reach a snapshot that was
+  already written. Those snapshots are locked with strong encryption, the key
+  that opens them is stored separately from them, they are kept on the
+  operator's own computer, and they are never uploaded to the project's code
+  repository. A backup is made once a day and only the 14 most recent are kept. A copy of your information stays in the backups until 14 newer ones have been made, and is deleted with the backup it sits in. That is normally about two weeks, but it is a count and not a deadline: if a backup is missed or fails, an older one stays longer. Profile pictures are not part of these
+  snapshots.</li>
+</ul>
 
 <p><a href="privacy.html">Read the full privacy policy →</a></p>
 </main>

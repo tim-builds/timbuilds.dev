@@ -22,27 +22,19 @@
 <body>
 <main>
 <h1>OpenHoops Privacy Policy</h1>
-<!--
-  2026-07-29: contact address moved from support@tim-builds.dev to
-  support@timbuilds.dev — contact change only, policy unchanged, so the
-  effective date below is deliberately NOT bumped (same convention as
-  terms.html). The old address stays a permanent alias to the same inbox
-  because it is named in already-published copies of this policy.
-  Note the EMAIL domain drops the hyphen; the SITE domain keeps it
-  (tim-builds.dev serves this page) — do not unify them.
--->
-<p class="meta">Effective date: July 28, 2026 · Contact: support@timbuilds.dev</p>
+<p class="meta">Effective date: September 6, 2026 · Contact: support@timbuilds.dev</p>
 
 <p>OpenHoops ("the app") helps basketball players find gyms and outdoor
-courts and see who is playing right now. This policy explains what
+courts, and see activity at nearby courts. This policy explains what
 information the app handles and why. The short version: we collect the
-minimum needed to run the app, we don't sell anything, your location is
-never read in the background, and the parts of the app that show you to
-other players are described plainly below.</p>
+information the app needs to work, plus optional profile details you choose
+to add; we don't sell your personal information; your location is never read
+in the background; and the parts of the app that show you to other players
+are described plainly below.</p>
 
 <p>Using OpenHoops also means agreeing to our
 <a href="terms.html">Terms of Service</a>. You must be at least 13 years
-old to have an account.</p>
+old to use OpenHoops.</p>
 
 <h2>What other players can see about you</h2>
 
@@ -51,20 +43,56 @@ app.</p>
 
 <table>
   <tr><th>They can see</th><th>Detail</th></tr>
-  <tr><td>Your username and profile picture</td><td>Always, to any signed-in player.</td></tr>
-  <tr><td>That you are checked in at a court, right now</td><td>Only while the check-in is active (3 hours at most, or until you leave).</td></tr>
+  <tr><td>Your username</td><td>On rosters and player cards when the visibility and block rules below allow it. Accepted friends also see it in their Friends list, and a signed-in player who already knows your exact username can use it to send a friend request or block.</td></tr>
+  <tr><td>Your profile picture</td><td>Any signed-in player the visibility and block rules allow can fetch it. That check is only those rules — it does not also require that you share a court or appear on a roster with them. The photo is delivered through a link that expires after one hour, and anyone holding an unexpired link can open it.</td></tr>
+  <tr><td>That the app still treats you as checked in at a court</td><td>While your check-in is active. Without a new nearby verification it ends after your auto check-out window, which starts at 2 hours and can be set anywhere from 1 to 3. A check-in the open app keeps verifying can last longer, but is capped at about 12 hours. A scheduled server check can add a few minutes.</td></tr>
   <tr><td>Roughly how long ago you arrived</td><td>Rounded down to 15-minute steps ("just now", "~30 min ago"). Your exact arrival time is shown only to you.</td></tr>
-  <tr><td>Your "heading there" plan</td><td>Venue and estimated arrival, with your username, until that time passes.</td></tr>
-  <tr><td>Your respect count and streak</td><td>Totals only — never who gave you daps, or where.</td></tr>
+  <tr><td>Your current venue in Friends</td><td>Accepted friends can see the venue and rounded arrival age while your check-in is active and was confirmed nearby within the previous three hours, but only when both players' roster-visibility settings and the block rules allow it.</td></tr>
+  <tr><td>Your "heading there" plan</td><td>Venue and estimated arrival, with your username, until that time passes, under the same visibility and block rules. Other players see the arrival time rounded up to the next 15 minutes; you see the exact time.</td></tr>
+  <tr><td>Your Reps and streak</td><td>Totals only — never who gave you a Rep, or where.</td></tr>
+  <tr><td>The date you joined OpenHoops</td><td>Shown as "Member since" on your player card, and returned alongside your name wherever a roster is shown to a player permitted to see you.</td></tr>
   <tr><td>Your real name</td><td><strong>Only if you turn it on.</strong> Hidden by default; never more than a first name plus last initial.</td></tr>
 </table>
 
-<p>Other players <strong>cannot</strong> see your email address, your
-check-in history, which courts you visit most, your favourite courts, your
-plans after they expire, your settings, or who you have blocked. Since
-July 2026 those limits are enforced by the database itself, not only by
-what the app chooses to display — so they hold even against someone
-querying our servers directly rather than using the app.</p>
+<p>Other players <strong>cannot</strong> see your email address, your historical
+Activity list, which courts you visit most, your favourite courts, expired
+plans, your settings, or the list of people you have blocked. Other players
+cannot directly read your complete account profile. The app gives them only
+the roster, player-card, plan, Friends-presence and photo details described
+above, through specific lookups that apply the visibility and block rules.
+The two court numbers are the one deliberate exception. The count of players
+at a court, and the count of players heading to it, both still count everyone
+— including players whose names are hidden from you and players either of you
+has blocked. You see the number; you do not see the name.</p>
+
+<h2>Friends, visibility and blocks</h2>
+
+<p>You can add another player as a friend by exact username or their in-app
+QR code, which contains the player's current username in an add-friend link.
+Hidden mode does not prevent a request from an exact username or QR code, but
+a block in either direction makes that request unavailable. We store pending
+and accepted friend relationships. Accepted friends see each other's
+usernames in Friends. When both players' settings allow it, Friends also
+shows a friend's current venue and rounded arrival age for an active check-in
+confirmed nearby within the previous three hours.</p>
+
+<p>The "Show me on rosters" setting starts at <strong>Visible</strong> for a
+new account. Visible shows your username, photo and rounded arrival time to
+other visible players at the court. <strong>Friends only</strong> shows those
+details to accepted friends whose own setting also permits it.
+<strong>Hidden</strong> leaves you in the court's headcount but removes your
+name from these presence views. It also hides other players' roster names and
+removes friends' live venues from your Friends list. The same two-sided rules
+apply to "heading there" plans. New accounts also start with Check-in mode set
+to Instant, so after you allow precise location, opening the app at a venue
+can start a named check-in without a separate tap unless you change one of
+these settings.</p>
+
+<p>Blocking ends any friendship and removes both players from each other's
+rosters, plans and Friends presence. A narrow player-card exception remains
+only for the person who set the block: they can open a limited card when the
+other player's own visibility setting allows it, so Unblock remains available.
+A player who blocked you is not revealed to you through that exception.</p>
 
 <h2>What we collect</h2>
 
@@ -72,7 +100,8 @@ querying our servers directly rather than using the app.</p>
 address and a username you choose. If you sign in with Google, we receive
 your email address and the name on your Google account (which pre-fills
 the optional name fields — you can clear them). Your email is used for
-signing in and account recovery. Other players never see it.</p>
+signing in, account recovery, and verifying an email deletion request.
+Other players never see it.</p>
 
 <p><strong>Optional profile details.</strong> You may add your first and last
 name and a profile picture. These are entirely optional and leaving them
@@ -81,91 +110,145 @@ blank changes nothing about how the app works. Your name is
 display option in settings (initials, first name only, or first name plus
 last initial; your full last name is never displayed to anyone).</p>
 
-<p><strong>Your profile picture is publicly accessible.</strong> It is stored
-with our infrastructure provider at a web address that anyone holding the
-link can open, without signing in — this is how photos load quickly on
-court rosters. Please don't upload anything you would mind being seen
-outside the app. The file is deleted when you delete your account.</p>
+<p><strong>Your profile picture.</strong> It is stored with our infrastructure
+provider in a private bucket, not at a public web address. A signed-in app
+can request a one-hour signed link only when the visibility and block rules
+above permit that photo; there is no additional requirement that you be at the
+same court as the person asking. Anyone who receives an unexpired signed link
+can still open it until it expires. In-app account deletion removes the photo
+first and does not continue if that removal fails.</p>
 
 <p><strong>Location (while using the app).</strong> The app uses your device's
-precise location for two purposes only: showing venues near you on the
-map, and checking that you are close enough to a venue to check in (about
-50 metres for an outdoor court, 200 metres for a gym — gyms use a wider
-ring because GPS is less accurate inside large buildings). Location is
-read <strong>only while the app is open</strong>, never in the background,
-When you check in, your position is sent to our server once, solely to
-confirm you are inside the venue's check-in ring, and is immediately
-discarded — it is never stored. What we keep is only the venue you
-checked in at.</p>
+precise location to show venues near you on the map, to place your own marker
+on it, to tell you how far away a venue is, and to manage check-ins:
+confirming that you are close enough to a venue to arrive or check in,
+renewing an active check-in while you remain nearby, and detecting when you
+leave for automatic check-out. The check-in ring is about 50 metres for an
+outdoor court and 200 metres for a gym; gyms use a wider ring because GPS is
+less accurate inside large buildings. Location is
+read <strong>only while the app is open</strong>, never in the background.
+To load nearby venues, the app queries our server with the latitude and
+longitude edges of a search box centred on your location or the part of the
+map you are viewing. It sends a foreground position for manual and automatic
+check-in or arrival attempts. While the app is open and you have an active
+check-in, it can also send a fresh position that confirms you are within the
+check-in ring to renew that check-in;
+regular renewals are spaced at least ten minutes apart after a successful
+nearby check, and a separate fresh check may happen before timed check-out.
+The server uses the coordinates to measure distance, but the current check-in
+and arrival database records contain account and venue IDs, relevant
+times, active or pending status and an internal request number — not the
+coordinates. The departure test runs on the device, and its check-out request
+does not send your position. This describes what the current database records
+store, not how long temporary network handling may last.</p>
 
-<p><strong>Automatic check-in</strong> is on by default: when the open app sees
-you at a venue it files a brief pending arrival, which becomes a check-in
-about a minute later unless you leave first. A check-in shows your
-username to other players at that court. You can turn automatic check-in
-off at any time in Settings → Presence, and check in by hand instead.</p>
+<p><strong>Check-in mode</strong> defaults to Instant. While the app is open,
+Instant can use your precise location to check you in when it places you at
+a venue. Ask first waits for your tap. Off disables automatic location use
+for check-in; a manual check-in still uses location to verify that you are
+near the venue. Change this at Profile → gear icon → Check-in mode.</p>
+
+<p>The auto check-out window starts at <strong>2 hours</strong> and can be set
+anywhere from 1 to 3 hours at Profile → gear icon → Advanced → Auto check-out
+timer.</p>
 
 <p><strong>Check-ins and your activity history.</strong> When you check in we
-store which venue and when. That record is kept as your own activity
-history — the Activity tab and the "gyms you frequent" list on your
-profile are built from it — <strong>until you delete your account</strong>.
-To be precise about a phrase we used to get wrong: a check-in stops being
-shown to other players after 3 hours, but the record of it remains in your
-own history. Only you can read your history.</p>
+store which venue and when. While it is live, permitted players can see the
+venue and rounded arrival age as described above. Only you can read the
+historical Activity list and the "gyms you frequent" list on your profile.
+A nightly job creates personal day and week summaries before deleting detailed
+check-in records that are no longer active and started more than 90 days
+earlier. Those summaries record only the day or week, not the venue or exact
+time; they remain while your account exists and are deleted with it. The same
+job separately creates venue-level busy-time
+statistics. Those statistics combine check-ins by venue and time block, contain
+no account ID, are kept on a rolling 52-week basis, and are not deleted when
+an individual account is deleted. Any signed-in player can ask our server for a
+venue's busy-time statistics, although no screen in the app shows them today.</p>
 
-<p><strong>Daps.</strong> When you give another player a dap, it is stored and
-shown to the recipient <strong>anonymously</strong> — the app never reveals who
-gave it, and the venue history behind daps is visible only to the person
-who received them.</p>
+<p><strong>Reps.</strong> When you give another player a Rep, it is stored. The
+recipient's Activity list can show when and where the Rep was received, but
+not who gave it. Other players see the recipient's Rep total only, subject
+to the visibility rules above.</p>
 
 <p><strong>"Heading there" plans.</strong> If you announce you're heading to a
 court at a certain time, we store that plan (venue and estimated arrival)
-and show it, with your username, to players looking at that court. Once
-the time passes the plan stops being shown to anyone, and you can cancel
-it at any time; the underlying record is kept with your account data until
-you delete your account.</p>
+and show it, with your username, to permitted players looking at that court.
+Other players receive an arrival time rounded up to the next 15 minutes.
+Once the time passes the plan stops being shown, and you can cancel it at
+any time. A nightly job deletes the underlying record seven days after its
+estimated arrival time.</p>
 
 <p><strong>Favourite courts.</strong> Courts you star are stored so the app can
 alert you when players show up there. Your favourites list is visible only
 to you.</p>
 
-<p><strong>Notification token.</strong> If you allow notifications in the store
+<p><strong>Notification token and court-alert log.</strong> If you allow notifications in the store
 version of the app, your device's push-notification token (a random
 address for delivering notifications — not your phone number or any
-hardware ID) is stored so alerts about your favourite courts can reach
-your device with the app closed. It is removed when you sign out and when
-your account is deleted.</p>
+hardware ID) is stored so server alerts can reach your device with the app
+closed. The registration stays active only if renewed within 24 hours. A
+confirmed online sign-out closes that sign-in's registration and removes its
+tokens. If you choose the local sign-out fallback after the server cannot
+confirm closure, alerts can continue until the 24 hours expires; an alert
+already selected for sending can still arrive. Account deletion removes the
+registration.</p>
 
-<p><strong>Reports and blocks.</strong> If you report a player, we store the
-report (who you reported, the category — including a child-safety option —
-and where) so we can review it; reports are never shown to the reported
-player. If you block a player, that is stored, and the two of you are
-hidden from each other's rosters, player cards and plans.</p>
+<p>Court-alert text can name the venue. Crowd-size alerts can include the
+active-player count; a plan alert can say anonymously that someone is heading
+there with an approximate arrival time. These alerts do not name the player
+who checked in or announced the plan. To avoid
+duplicate alerts, we store your account, the venue, alert type and the time
+the alert was selected for sending. This log does not prove that delivery
+succeeded. A nightly job removes entries older than seven days, and account
+deletion removes entries linked to that account.</p>
 
-<p><strong>Crash reports.</strong> Since July 28, 2026 the app includes crash
-reporting (Sentry) so we can find bugs that only happen on real devices.
-It is built into recent store versions — older installed versions don't
-have it, and an app update alone cannot add it to them.
-When the app crashes or hits an error, it sends diagnostic
-information: device model, operating system version, app version, which
-app update was running, and the technical stack of the failure. It does
-not include your location, your messages, or anything you typed, and it
-is not used for advertising or to profile you.</p>
+<p><strong>Sign-in identifiers.</strong> Each time you sign in, that sign-in gets an internal identifier. It is stored alongside your notification
+registration and your presence bookkeeping so that signing out closes exactly
+that sign-in and no other, and so a stale device cannot keep a check-in alive.
+It is an internal number, not anything about your device or you. These
+identifiers are deleted with your account.</p>
+
+<p><strong>Abuse-prevention counters.</strong> For actions with limits, we store
+your account, the action, its time window and a count. Each time a limited
+action runs, it removes that account's counter rows whose windows began more
+than two days earlier. Account deletion removes the account's counters too.</p>
+
+<p><strong>Reports and blocks.</strong> If you report a player, we store your
+account as the reporter, who you reported, the category — including a
+child-safety option — the venue if supplied, and the time. Reports are not
+shown to the reported player. Filing a report can send a notification to an
+account marked as a moderator; that notification carries only the report
+category, never your username or the reported player's. A report is available
+for possible review, but this policy does not promise that it will be reviewed
+or acted on. Blocking works as described in the first section.</p>
+
+<p><strong>Crash reports and analytics.</strong> Google Play builds with Sentry
+enabled send crash logs and diagnostics used to monitor app health and find
+bugs. These can include device model, operating system and app versions, the
+app update that was running, and technical details about where a failure
+happened. A report can also carry a short trail of the app events that led up
+to the failure, which the crash-reporting library records by default. Sentry's
+default personal-information option is off, and the app does not identify you
+to Sentry as a user or add an account ID, email address or username. The app
+does not turn on session recording, screenshots or performance profiling. This
+crash analytics is not used for advertising or player profiling.</p>
 
 <h2>What we don't collect</h2>
 
-<p>No contacts, no files, no payment information, no health data, no
-advertising identifiers, and no background location. We don't read your
-photo library — when you set a profile picture, your phone's own picker
-hands us just the one image you chose. The app contains no advertising
-SDK and no analytics or tracking SDK.</p>
+<p>No contacts, payment information, health data, advertising identifiers or
+background location. We do not browse your files or photo library: when you
+set a profile picture, your phone's picker gives the app only the image you
+chose. The app's declared dependencies contain no advertising, attribution
+or product-analytics SDK. Sentry crash analytics is described above.</p>
 
 <h2>Where your data lives, and who else touches it</h2>
 
-<p>App data is stored with <strong>Supabase</strong> (our database and
-authentication provider), hosted in the United States (AWS us-east-2).
-All data travels over encrypted connections (HTTPS). Database access
-rules restrict every player — including anyone querying our servers
-directly — to the information described in the first section.</p>
+<p>OpenHoops account and database data is stored with
+<strong>Supabase</strong> (our database and authentication provider), hosted
+in the United States (AWS us-east-2). The app sends its service requests over
+encrypted HTTPS connections. The database access boundaries for
+player-visible data are described in the first section.</p>
 
 <p>We do not sell, rent, or trade your personal information. A small number
 of service providers necessarily handle some data to make the app work:</p>
@@ -173,33 +256,63 @@ of service providers necessarily handle some data to make the app work:</p>
 <ul>
   <li><strong>Supabase</strong> — database, accounts, sign-in.</li>
   <li><strong>Expo</strong> — delivers push notifications to your device (it
-  receives the notification text and your device's push token) and
-  delivers app updates.</li>
-  <li><strong>Google</strong> — Google Maps renders the map; "Continue with
-  Google" verifies your identity if you choose it; Firebase carries
-  Android notifications to your phone.</li>
+  receives the notification text, which can name the venue, and your device's
+  push token) and delivers app updates. The update component checks Expo for a
+  newer version when the app starts unless that behaviour is switched off, and
+  the app does not switch it off. A check tells Expo your device's network
+  address, platform and app version.</li>
+  <li><strong>Google</strong> — Google Maps renders the map, which means Google
+  receives requests for the map area you are looking at, and that area is
+  usually centred on where you are; "Continue with Google" verifies your
+  identity if you choose it; Firebase carries Android notifications to your
+  phone.</li>
   <li><strong>Sentry</strong> — receives crash reports from store builds, where
   enabled; that data is hosted in the United States.</li>
-  <li><strong>Apple and Google app stores</strong> — distribute the app; we never
+  <li><strong>Google Play</strong> — distributes the Android app; we never
   receive your payment details.</li>
 </ul>
 
 <h2>Data retention and deletion</h2>
 
-<p>Your account data is kept until you delete your account. You can delete
-it three ways:</p>
+<p>Except for the shorter retention periods described above, and the three
+things named below that outlive your account, account data is kept while your
+account exists. You can delete in the app or request deletion by email:</p>
 <ol>
-  <li><strong>In the app:</strong> Profile → gear icon → Advanced → Delete
-  account. This immediately and permanently removes your profile, check-in
-  history, daps, plans, favourites, reports, blocks, notification token,
-  and profile picture.</li>
-  <li><strong>On the web:</strong> see our
-  <a href="delete-account.html">account-deletion page</a> — no app
-  required.</li>
+  <li><strong>In the app:</strong> Profile → gear icon → Delete account, then
+  confirm twice. This removes your profile, detailed check-in records, personal
+  check-in day and week summaries, Reps you received and Reps you gave (so other
+  players' totals go down), plans, favourites, pending friend requests and
+  accepted friendships, reports you filed, blocks you set and blocks set against
+  you, notification registrations and court-alert log, sign-in identifiers,
+  abuse-prevention counters, internal presence bookkeeping records, and your
+  profile picture. In the live database this happens immediately.</li>
   <li><strong>By email:</strong> write to <strong>support@timbuilds.dev</strong>
-  from the address you signed up with, and we will complete the deletion
-  within 30 days.</li>
+  from the address you signed up with to request deletion. Our
+  <a href="delete-account.html">account-deletion page</a> gives these email
+  instructions if you do not have the app.</li>
 </ol>
+
+<p><strong>Three things outlive your account.</strong></p>
+
+<ul>
+  <li><strong>Reports other players filed about you.</strong> These are kept,
+  with your account detached from them, because a report is a record of
+  behaviour rather than your own data — what remains is the category, the venue,
+  the time and who filed it, with no link back to you.</li>
+  <li><strong>The venue busy-time statistics</strong> described above. They
+  contain no account ID.</li>
+  <li><strong>Encrypted backups.</strong> We keep encrypted copies of the
+  database so the app can be restored if the live database is lost or damaged.
+  Each copy is a snapshot of the whole database as it stood when the copy was
+  made — accounts included — so <strong>a copy of your information can remain
+  in any snapshot made before you deleted your account</strong>. Deleting your
+  account changes the live database, and it cannot reach a snapshot that was
+  already written. Those snapshots are locked with strong encryption, the key
+  that opens them is stored separately from them, they are kept on the
+  operator's own computer, and they are never uploaded to the project's code
+  repository. A backup is made once a day and only the 14 most recent are kept. A copy of your information stays in the backups until 14 newer ones have been made, and is deleted with the backup it sits in. That is normally about two weeks, but it is a count and not a deadline: if a backup is missed or fails, an older one stays longer. Profile pictures are not part of these
+  snapshots.</li>
+</ul>
 
 <h2>Children</h2>
 
