@@ -43,14 +43,14 @@ app.</p>
 
 <table>
   <tr><th>They can see</th><th>Detail</th></tr>
-  <tr><td>Your username</td><td>On rosters and player cards when the visibility and block rules below allow it. Accepted friends also see it in their Friends list, and a signed-in player who already knows your exact username can use it to send a friend request or block.</td></tr>
-  <tr><td>Your profile picture</td><td>Any signed-in player the visibility and block rules allow can fetch it. That check is only those rules — it does not also require that you share a court or appear on a roster with them. The photo is delivered through a link that expires after one hour, and anyone holding an unexpired link can open it.</td></tr>
+  <tr><td>Your username</td><td>On rosters and player cards when the visibility and block rules below allow it. Accepted friends also see it in their Friends list, and a signed-in player who already knows your exact username can use it to send a friend request or block. If someone sends you a friend request, you see their username on the request even if their visibility setting is Hidden.</td></tr>
+  <tr><td>Your profile picture</td><td>Any signed-in player the visibility and block rules allow can fetch it. The block exception described below also applies: someone who blocked you can still fetch your picture if you are set to Visible. That check is only those rules — it does not also require that you share a court or appear on a roster with them. The photo is delivered through a link that expires after one hour, and anyone holding an unexpired link can open it.</td></tr>
   <tr><td>That the app still treats you as checked in at a court</td><td>While your check-in is active. Without a new nearby verification it ends after your auto check-out window, which starts at 2 hours and can be set anywhere from 1 to 3. A check-in the open app keeps verifying can last longer, but is capped at about 12 hours. A scheduled server check can add a few minutes.</td></tr>
   <tr><td>Roughly how long ago you arrived</td><td>Rounded down to 15-minute steps ("just now", "~30 min ago"). Your exact arrival time is shown only to you.</td></tr>
   <tr><td>Your current venue in Friends</td><td>Accepted friends can see the venue and rounded arrival age while your check-in is active and was confirmed nearby within the previous three hours, but only when both players' roster-visibility settings and the block rules allow it.</td></tr>
   <tr><td>Your "heading there" plan</td><td>Venue and estimated arrival, with your username, until that time passes, under the same visibility and block rules. Other players see the arrival time rounded up to the next 15 minutes; you see the exact time.</td></tr>
-  <tr><td>Your Reps and streak</td><td>Totals only — never who gave you a Rep, or where.</td></tr>
-  <tr><td>The date you joined OpenHoops</td><td>Shown as "Member since" on your player card, and returned alongside your name wherever a roster is shown to a player permitted to see you.</td></tr>
+  <tr><td>Your Reps and streak</td><td>Totals only. Other players never see who gave you a Rep or where you got it. Your own Activity list shows you the venue.</td></tr>
+  <tr><td>The date you joined OpenHoops</td><td>Shown as "Member since" on your player card, and sent with your roster row to players permitted to see you, although the roster itself does not display it.</td></tr>
   <tr><td>Your real name</td><td><strong>Only if you turn it on.</strong> Hidden by default; never more than a first name plus last initial.</td></tr>
 </table>
 
@@ -78,7 +78,8 @@ confirmed nearby within the previous three hours.</p>
 
 <p>The "Show me on rosters" setting starts at <strong>Visible</strong> for a
 new account. Visible shows your username, photo and rounded arrival time to
-other visible players at the court. <strong>Friends only</strong> shows those
+any signed-in player whose own setting is Visible, whether or not they are at
+the court, and to your accepted friends set to Friends only. <strong>Friends only</strong> shows those
 details to accepted friends whose own setting also permits it.
 <strong>Hidden</strong> leaves you in the court's headcount but removes your
 name from these presence views. It also hides other players' roster names and
@@ -89,10 +90,11 @@ can start a named check-in without a separate tap unless you change one of
 these settings.</p>
 
 <p>Blocking ends any friendship and removes both players from each other's
-rosters, plans and Friends presence. A narrow player-card exception remains
-only for the person who set the block: they can open a limited card when the
-other player's own visibility setting allows it, so Unblock remains available.
-A player who blocked you is not revealed to you through that exception.</p>
+rosters, plans and Friends presence. One exception remains only for the person
+who set the block. If the blocked player is set to Visible, the person who set
+the block can still open the player's card so the Unblock button remains
+available. A player who blocked you is not revealed to you through that
+exception.</p>
 
 <h2>What we collect</h2>
 
@@ -115,8 +117,9 @@ provider in a private bucket, not at a public web address. A signed-in app
 can request a one-hour signed link only when the visibility and block rules
 above permit that photo; there is no additional requirement that you be at the
 same court as the person asking. Anyone who receives an unexpired signed link
-can still open it until it expires. In-app account deletion removes the photo
-first and does not continue if that removal fails.</p>
+can still open it until it expires. When you delete in the app, the photo is
+removed first. If that removal fails, deletion stops. For an email request, we
+remove the photo by hand.</p>
 
 <p><strong>Location (while using the app).</strong> The app uses your device's
 precise location to show venues near you on the map, to place your own marker
@@ -134,7 +137,7 @@ check-in or arrival attempts. While the app is open and you have an active
 check-in, it can also send a fresh position that confirms you are within the
 check-in ring to renew that check-in;
 regular renewals are spaced at least ten minutes apart after a successful
-nearby check, and a separate fresh check may happen before timed check-out.
+nearby check.
 The server uses the coordinates to measure distance, but the current check-in
 and arrival database records contain account and venue IDs, relevant
 times, active or pending status and an internal request number — not the
@@ -239,7 +242,7 @@ crash analytics is not used for advertising or player profiling.</p>
 <p>No contacts, payment information, health data, advertising identifiers or
 background location. We do not browse your files or photo library: when you
 set a profile picture, your phone's picker gives the app only the image you
-chose. The app's declared dependencies contain no advertising, attribution
+chose. The app's own runtime dependencies include no advertising, attribution
 or product-analytics SDK. Sentry crash analytics is described above.</p>
 
 <h2>Where your data lives, and who else touches it</h2>
@@ -285,7 +288,9 @@ account exists. You can delete in the app or request deletion by email:</p>
   accepted friendships, reports you filed, blocks you set and blocks set against
   you, notification registrations and court-alert log, sign-in identifiers,
   abuse-prevention counters, internal presence bookkeeping records, and your
-  profile picture. In the live database this happens immediately.</li>
+  profile picture. Your account itself, including your email address, username
+  and sign-in details, goes with it. In the live database this happens
+  immediately.</li>
   <li><strong>By email:</strong> write to <strong>support@timbuilds.dev</strong>
   from the address you signed up with to request deletion. Our
   <a href="delete-account.html">account-deletion page</a> gives these email
@@ -310,7 +315,7 @@ account exists. You can delete in the app or request deletion by email:</p>
   already written. Those snapshots are locked with strong encryption, the key
   that opens them is stored separately from them, they are kept on the
   operator's own computer, and they are never uploaded to the project's code
-  repository. A backup is made once a day and only the 14 most recent are kept. A copy of your information stays in the backups until 14 newer ones have been made, and is deleted with the backup it sits in. That is normally about two weeks, but it is a count and not a deadline: if a backup is missed or fails, an older one stays longer. Profile pictures are not part of these
+  repository. A backup is made once a day and only the 14 most recent are kept. A copy of your information stays in the backups until 14 newer ones have been made, and is deleted with the backup it sits in. That is usually one to two weeks — more if backups are missed, less when extra ones are taken — because it is a count and not a deadline. Profile pictures are not part of these
   snapshots.</li>
 </ul>
 
