@@ -18,7 +18,7 @@ for (const p of data) {
  if(p.source){assert.ok(p.source.startsWith('https://github.com/'));assert.equal(p.source,p.url);}
 }
 for(const match of html.matchAll(/(?:src|href)="([^"#]+)"/g)){
- const url=match[1].split('#')[0];
+ const url=match[1].split('#')[0].split('?')[0];
  if(/^(https?:|mailto:|\/openhoops\/)/.test(url)||url.startsWith('openhoops/'))continue;
  assert.ok(fs.existsSync(path.join(root,url)),`Local asset exists: ${url}`);
 }

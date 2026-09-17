@@ -15,7 +15,12 @@
   <link rel="canonical" href="https://timbuilds.dev/">
   <link rel="icon" href="portfolio/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="portfolio/site.css">
-  <script src="portfolio/site.js" defer></script>
+  <link rel="stylesheet" href="portfolio/desktop.css">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <script src="portfolio/locked.js" defer></script>
+  <script src="portfolio/desktop.js" defer></script>
+  <script src="portfolio/site.js?v=2" defer></script>
 </head>
 <body>
   <a href="#projects" class="skip-link">Skip to projects</a>
@@ -29,7 +34,7 @@
   </nav>
   <div id="desktop-rest" class="desktop-rest" hidden><img src="portfolio/desk.svg" width="245" height="180" alt="A little pixel-art computer and plant"><h1>Still here. Just minimised.</h1><button class="bevel-button" data-action="projects">Open My Projects</button></div>
   <main class="window main-window" id="portfolio-window" tabindex="-1">
-    <div class="titlebar"><div class="window-title"><svg aria-hidden="true"><use href="portfolio/icons.svg#computer"/></svg><span>timBuilds — My Projects</span></div><div class="window-controls"><button data-action="minimize" aria-label="Minimise project window" title="Minimise">_</button><button data-action="maximize" aria-label="Maximise project window" title="Maximise">□</button><button data-action="minimize" aria-label="Close project window" title="Close">×</button></div></div>
+    <div class="titlebar"><div class="window-title"><svg aria-hidden="true"><use href="portfolio/icons.svg#computer"/></svg><span>timBuilds — My Projects</span></div><div class="window-controls"><button data-action="minimize" aria-label="Minimise project window" title="Minimise">_</button><button data-action="maximize" aria-label="Maximise project window" title="Maximise">□</button><button data-action="close-projects" aria-label="Close project window" title="Close">×</button></div></div>
     <nav class="window-menubar" aria-label="Window actions"><button data-action="projects"><span>F</span>ile</button><button data-action="toggle-view"><span>V</span>iew</button><button data-dialog="about"><span>A</span>bout</button><button data-dialog="help"><span>H</span>elp</button><span class="menu-caption">a work in progress, in the best way</span></nav>
     <div class="addressbar"><span class="address-label">Address</span><div class="address-field"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><span id="address-text">C:\Tim\Projects\All projects</span></div><a class="address-home" href="#projects" aria-label="Go to project collection" title="Go to projects">↵</a></div>
     <div class="explorer-layout">
@@ -57,7 +62,7 @@
         <footer class="portfolio-footer"><span>© <span id="year">2026</span> timBuilds. Keep making things.</span><div><a href="openhoops/privacy.html">OpenHoops privacy</a><span aria-hidden="true">·</span><a href="openhoops/terms.html">Terms</a></div></footer>
       </div>
     </div>
-    <div class="window-statusbar"><span id="window-status">{{COUNT}} projects</span><span>No dial-up required.</span><span aria-hidden="true" class="resize-grip">◢</span></div>
+    <div class="window-statusbar"><span id="window-status">{{COUNT}} projects</span><span>No dial-up required.</span><button class="resize-grip" data-resize="se" aria-label="Resize project window with arrow keys" title="Drag to resize, or focus and use arrow keys">◢</button></div>
   </main>
   <div class="desktop-signature" aria-hidden="true">timBuilds<span>personal software, quietly made</span></div>
   <div class="start-menu window" id="start-menu" hidden><div class="start-brand">tim<span>Builds</span></div><nav aria-label="Start menu"><button data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg>My Projects</button><button data-dialog="about"><svg aria-hidden="true"><use href="portfolio/icons.svg#document"/></svg>About Tim</button><button data-dialog="contact"><svg aria-hidden="true"><use href="portfolio/icons.svg#mail"/></svg>Say Hello</button><button data-dialog="display"><svg aria-hidden="true"><use href="portfolio/icons.svg#palette"/></svg>Display settings</button><a href="https://github.com/flushatoilet" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="portfolio/icons.svg#code"/></svg>GitHub <span aria-hidden="true">↗</span></a></nav></div>
