@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" data-wallpaper="teal">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#367b79">
+  <meta name="description" content="Small apps for real people. Explore Tim’s portfolio of games, mobile apps, websites and creative experiments—from OpenHoops to Letters with Lola.">
+  <meta property="og:title" content="timBuilds — Small apps. Real people.">
+  <meta property="og:description" content="A growing folder of apps, websites, games and the occasional rabbit hole. Welcome to my desktop.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://timbuilds.dev/portfolio/social.png">
+  <meta property="og:url" content="https://timbuilds.dev/">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>timBuilds — Small apps. Real people.</title>
+  <link rel="canonical" href="https://timbuilds.dev/">
+  <link rel="icon" href="portfolio/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="portfolio/site.css">
+  <script src="portfolio/site.js" defer></script>
+</head>
+<body>
+  <a href="#projects" class="skip-link">Skip to projects</a>
+  <header class="desktop-heading"><span>PERSONAL SOFTWARE &amp; OTHER CURIOSITIES</span><span>ONTARIO, CANADA <span aria-hidden="true">↗</span></span></header>
+  <nav class="desktop-dock" aria-label="Desktop shortcuts">
+    <button class="desktop-shortcut" data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><span>My Projects</span></button>
+    <button class="desktop-shortcut" data-dialog="about"><svg aria-hidden="true"><use href="portfolio/icons.svg#document"/></svg><span>About Tim</span></button>
+    <button class="desktop-shortcut" data-dialog="contact"><svg aria-hidden="true"><use href="portfolio/icons.svg#mail"/></svg><span>Say Hello</span></button>
+    <a class="desktop-shortcut" href="https://github.com/flushatoilet" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="portfolio/icons.svg#code"/></svg><span>GitHub <span class="sr-only">(opens in a new tab)</span></span></a>
+    <button class="desktop-shortcut" data-dialog="display"><svg aria-hidden="true"><use href="portfolio/icons.svg#palette"/></svg><span>Display</span></button>
+  </nav>
+  <div id="desktop-rest" class="desktop-rest" hidden><img src="portfolio/desk.svg" width="245" height="180" alt="A little pixel-art computer and plant"><h1>Still here. Just minimised.</h1><button class="bevel-button" data-action="projects">Open My Projects</button></div>
+  <main class="window main-window" id="portfolio-window" tabindex="-1">
+    <div class="titlebar"><div class="window-title"><svg aria-hidden="true"><use href="portfolio/icons.svg#computer"/></svg><span>timBuilds — My Projects</span></div><div class="window-controls"><button data-action="minimize" aria-label="Minimise project window" title="Minimise">_</button><button data-action="maximize" aria-label="Maximise project window" title="Maximise">□</button><button data-action="minimize" aria-label="Close project window" title="Close">×</button></div></div>
+    <nav class="window-menubar" aria-label="Window actions"><button data-action="projects"><span>F</span>ile</button><button data-action="toggle-view"><span>V</span>iew</button><button data-dialog="about"><span>A</span>bout</button><button data-dialog="help"><span>H</span>elp</button><span class="menu-caption">a work in progress, in the best way</span></nav>
+    <div class="addressbar"><span class="address-label">Address</span><div class="address-field"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><span id="address-text">C:\Tim\Projects\All projects</span></div><a class="address-home" href="#projects" aria-label="Go to project collection" title="Go to projects">↵</a></div>
+    <div class="explorer-layout">
+      <aside class="explorer-sidebar">
+        <div class="sidebar-title">Project folders</div>
+        <nav aria-label="Filter projects" class="folder-nav"><!--FILTERS--></nav>
+        <div class="sidebar-note"><svg aria-hidden="true"><use href="portfolio/icons.svg#computer"/></svg><strong>Built out of curiosity.</strong><p>Useful things for family, friends, and the occasional stranger on the internet.</p></div>
+        <div class="sidebar-links"><button data-dialog="about">Meet the maker <span aria-hidden="true">↗</span></button><button data-dialog="contact">Get in touch <span aria-hidden="true">↗</span></button></div>
+      </aside>
+      <div class="workspace">
+        <section class="welcome" aria-labelledby="welcome-title">
+          <div class="welcome-copy"><div class="eyebrow"><span class="tiny-square" aria-hidden="true"></span> README.TXT</div><h1 id="welcome-title">Small apps.<br>Real people.</h1><p>I’m Tim. I make things I wish existed.<br>A basketball app. A word game for my grandma.<br>A home on the web for someone’s business.</p><div class="welcome-actions"><a class="bevel-button primary-button" href="#projects">Explore my projects <span aria-hidden="true">↓</span></a><button class="text-button" data-dialog="about">A little about me <span aria-hidden="true">↗</span></button></div></div>
+          <div class="welcome-art"><img src="portfolio/desk.svg" width="245" height="180" alt="Original pixel art of a desktop computer and a houseplant"><div class="art-caption">Made in the present.<br>Feels a little like 1995.</div></div>
+        </section>
+        <div class="current-note"><span class="status-light" aria-hidden="true"></span><span>On my desk lately:</span><button data-project="openhoops">OpenHoops</button><span class="current-end">finding the next basketball run <span aria-hidden="true">↗</span></span></div>
+        <section id="projects" class="project-collection" aria-labelledby="collection-title" tabindex="-1">
+          <div class="collection-heading"><div><div class="eyebrow">A GROWING COLLECTION</div><h2 id="collection-title">The project folder<span class="heading-period">.</span></h2></div><div class="view-toggle" aria-label="Project layout"><button class="view-button is-active" data-view="grid" aria-pressed="true" aria-label="Grid view" title="Grid view"><span aria-hidden="true">▦</span></button><button class="view-button" data-view="list" aria-pressed="false" aria-label="List view" title="List view"><span aria-hidden="true">☰</span></button></div></div>
+          <div class="collection-tools"><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><span class="sr-only">Search projects</span><input id="project-search" type="search" placeholder="Find something interesting…" autocomplete="off"><kbd aria-hidden="true">/</kbd></label><label class="sort-box"><span class="sr-only">Sort projects</span><select id="project-sort"><option value="curated">Portfolio order</option><option value="name">Name: A–Z</option><option value="category">By category</option></select></label></div>
+          <div class="results-caption"><span id="results-count" role="status" aria-live="polite">{{COUNT}} projects · All folders</span><span>Some finished. Some finding their feet.</span></div>
+          <div class="project-grid" id="project-grid"><!--PROJECT_CARDS--></div>
+          <div class="empty-state" id="empty-state" hidden><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><h3>This folder is empty.</h3><p>No projects match those filters. Try a different word or look in all folders.</p><button class="bevel-button" data-action="reset-filters">Show all projects</button></div>
+          <noscript><p class="noscript-note">The full portfolio and public project links work without JavaScript. Enable it for search, filters and project-detail windows.</p></noscript>
+        </section>
+        <section class="hello-strip"><svg aria-hidden="true"><use href="portfolio/icons.svg#mail"/></svg><div><h2>Got something in mind?</h2><p>A good idea usually starts with a conversation.</p></div><a class="bevel-button" href="mailto:support@timbuilds.dev?subject=Hello%20Tim">Say hello <span aria-hidden="true">↗</span></a></section>
+        <footer class="portfolio-footer"><span>© <span id="year">2026</span> timBuilds. Keep making things.</span><div><a href="openhoops/privacy.html">OpenHoops privacy</a><span aria-hidden="true">·</span><a href="openhoops/terms.html">Terms</a></div></footer>
+      </div>
+    </div>
+    <div class="window-statusbar"><span id="window-status">{{COUNT}} projects</span><span>No dial-up required.</span><span aria-hidden="true" class="resize-grip">◢</span></div>
+  </main>
+  <div class="desktop-signature" aria-hidden="true">timBuilds<span>personal software, quietly made</span></div>
+  <div class="start-menu window" id="start-menu" hidden><div class="start-brand">tim<span>Builds</span></div><nav aria-label="Start menu"><button data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg>My Projects</button><button data-dialog="about"><svg aria-hidden="true"><use href="portfolio/icons.svg#document"/></svg>About Tim</button><button data-dialog="contact"><svg aria-hidden="true"><use href="portfolio/icons.svg#mail"/></svg>Say Hello</button><button data-dialog="display"><svg aria-hidden="true"><use href="portfolio/icons.svg#palette"/></svg>Display settings</button><a href="https://github.com/flushatoilet" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="portfolio/icons.svg#code"/></svg>GitHub <span aria-hidden="true">↗</span></a></nav></div>
+  <footer class="taskbar" aria-label="Desktop taskbar"><button id="start-button" class="start-button bevel-button" aria-expanded="false" aria-controls="start-menu"><svg aria-hidden="true"><use href="portfolio/icons.svg#computer"/></svg><strong>Start</strong></button><div class="task-separator" aria-hidden="true"></div><button class="task-button is-active" data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><span>My Projects</span></button><span class="taskbar-note">Thanks for stopping by.</span><div class="clock-tray"><span class="online-dot" aria-hidden="true"></span><time id="clock" aria-label="Your local time">--:--</time></div></footer>
+  <dialog class="window detail-window" id="detail-dialog" aria-labelledby="dialog-title"><div class="titlebar dialog-titlebar"><div class="window-title"><svg id="dialog-icon" aria-hidden="true"><use href="portfolio/icons.svg#document"/></svg><span id="dialog-title">Project details</span></div><button class="dialog-close" aria-label="Close dialog" title="Close">×</button></div><div class="dialog-body" id="dialog-body"></div></dialog>
+  <script type="application/json" id="project-data"><!--PROJECT_DATA--></script>
+</body>
+</html>
