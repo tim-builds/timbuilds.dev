@@ -1,44 +1,82 @@
-/* Desktop geometry is a preference, never an authentication signal. */
+/* Desktop selection and icon layout; never used to determine owner access. */
 (() => {
   'use strict';
-  const main=document.querySelector('#portfolio-window'), dock=document.querySelector('.desktop-dock'), bar=main.querySelector('.titlebar'), task=document.querySelector('.task-button');
-  const icons=[...dock.querySelectorAll('.desktop-shortcut')], mobile=()=>innerWidth<=820, margin=12, gridX=104, gridY=96, top=66;
-  const storage='timbuilds.desktop.v2'; let saved={}; try{saved=JSON.parse(localStorage.getItem(storage)||'{}')||{};}catch{}
-  let positions={}, rect=null, normal=null, state='open', gesture=null, suppressUntil=0, lastPointer='mouse';
-  const finite=v=>typeof v==='number'&&Number.isFinite(v), clamp=(v,lo,hi)=>Math.max(lo,Math.min(Math.max(lo,hi),v));
-  const height=()=>innerHeight-document.querySelector('.taskbar').getBoundingClientRect().height;
-  const defaults=()=>({x:innerWidth<1100?112:140,y:60,w:Math.min(1200,innerWidth-(innerWidth<1100?136:168)),h:Math.max(280,height()-84)});
-  function bounded(r){const available=height(),w=clamp(r.w,Math.min(540,innerWidth),innerWidth),h=clamp(r.h,Math.min(280,available),available);return {x:clamp(r.x,0,innerWidth-w),y:clamp(r.y,0,available-h),w,h};}
-  function persist(){try{localStorage.setItem(storage,JSON.stringify({positions,rect:normal||rect}));}catch{}}
-  function paint(){if(mobile()){for(const k of ['left','top','width','height'])main.style.removeProperty(k);return;}const r=main.classList.contains('is-maximized')?{x:0,y:0,w:innerWidth,h:height()}:rect;Object.assign(main.style,{left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px'});}
-  function placeIcons(reset=false){if(mobile()){icons.forEach(el=>{el.style.left='';el.style.top='';});return;}const rows=Math.max(1,Math.floor((height()-top)/gridY));const used=new Set();icons.forEach((el,i)=>{const id=el.dataset.shortcut;let p=!reset&&positions[id];let col=p&&finite(p.x)?Math.round((p.x-margin)/gridX):Math.floor(i/rows),row=p&&finite(p.y)?Math.round((p.y-top)/gridY):i%rows;col=clamp(col,0,Math.floor((innerWidth-margin-98)/gridX));row=clamp(row,0,rows-1);while(used.has(col+','+row)){row++;if(row>=rows){row=0;col++;}}used.add(col+','+row);p={x:margin+col*gridX,y:top+row*gridY};positions[id]=p;el.style.left=p.x+'px';el.style.top=p.y+'px';});}
-  function status(next){state=next;main.hidden=next!=='open';task.hidden=next==='closed';task.classList.toggle('is-active',next==='open');task.setAttribute('aria-pressed',String(next==='open'));document.querySelector('#desktop-rest').hidden=true;if(next==='open'){paint();main.focus({preventScroll:true});}else{icons[0].focus({preventScroll:true});}}
-  function maximize(){if(!main.classList.contains('is-maximized')){normal={...rect};main.classList.add('is-maximized');}else{main.classList.remove('is-maximized');rect=bounded(normal||defaults());normal=null;}const b=main.querySelector('[data-action="maximize"]'),big=main.classList.contains('is-maximized');b.setAttribute('aria-label',big?'Restore project window':'Maximise project window');b.title=big?'Restore':'Maximise';b.textContent=big?'▣':'□';paint();persist();}
-  function arrange(){positions={};placeIcons(true);persist();}
-  function resetWindow(){main.classList.remove('is-maximized');normal=null;rect=bounded(defaults());const b=main.querySelector('[data-action="maximize"]');b.setAttribute('aria-label','Maximise project window');b.title='Maximise';b.textContent='□';status('open');persist();}
-  window.TimDesktop={open:()=>status('open'),minimize:()=>status('minimized'),close:()=>status('closed'),maximize,arrange,resetWindow};
-  icons.forEach((el,i)=>{el.dataset.shortcut=['projects','about','contact','github','display'][i];el.title='Double-click to open · drag to move · arrow keys to move when selected';el.draggable=false;});
-  if(saved.positions&&typeof saved.positions==='object')for(const el of icons){const p=saved.positions[el.dataset.shortcut];if(p&&finite(p.x)&&finite(p.y))positions[el.dataset.shortcut]={x:p.x,y:p.y};}
-  rect=saved.rect&&['x','y','w','h'].every(k=>finite(saved.rect[k]))?bounded(saved.rect):bounded(defaults());
-  document.documentElement.classList.add('desktop-ready');placeIcons();paint();
-  function select(el){icons.forEach(i=>i.classList.toggle('is-selected',i===el));}
-  document.addEventListener('click',event=>{const el=event.target.closest('.desktop-shortcut');if(!el)return;if(performance.now()<suppressUntil){event.preventDefault();event.stopImmediatePropagation();return;}if(!mobile()&&event.detail>0&&lastPointer!=='touch'){event.preventDefault();event.stopImmediatePropagation();select(el);}},true);
-  dock.addEventListener('dblclick',event=>{const el=event.target.closest('.desktop-shortcut');if(!el||mobile()||lastPointer==='touch'||performance.now()<suppressUntil)return;event.preventDefault();if(el.tagName==='A')window.open(el.href,'_blank','noopener,noreferrer');else el.click();});
-  for(const dir of ['n','s','e','w','ne','nw','se','sw']){const handle=document.createElement('span');handle.className='window-resize resize-'+dir;handle.dataset.resize=dir;handle.setAttribute('aria-hidden','true');main.appendChild(handle);}
-  bar.tabIndex=0;bar.setAttribute('aria-label','Move project window with arrow keys. Double-click to maximise.');bar.addEventListener('dblclick',e=>{if(!e.target.closest('button'))maximize();});
-  document.addEventListener('pointerdown',event=>{
-    lastPointer=event.pointerType||'mouse';if(mobile()||event.button!==0||document.querySelector('dialog[open]'))return;
-    const icon=event.target.closest('.desktop-shortcut'),handle=event.target.closest('[data-resize]'),title=event.target.closest('#portfolio-window > .titlebar');
-    if(!icon&&!handle&&(!title||event.target.closest('button')))return;if(!icon&&main.classList.contains('is-maximized'))return;
-    const target=icon||handle||title;gesture={target,icon,dir:handle?.dataset.resize,x:event.clientX,y:event.clientY,start:icon?{...positions[icon.dataset.shortcut]}:{...rect},moved:false,id:event.pointerId};target.setPointerCapture(event.pointerId);if(icon){select(icon);icon.focus({preventScroll:true});}else if(target===bar||target.tagName==='BUTTON')target.focus({preventScroll:true});event.preventDefault();
+  const dock=document.querySelector('.desktop-dock'), icons=[...dock.querySelectorAll('.desktop-shortcut')];
+  const compact=()=>innerWidth<=820, left=12, top=12, cellW=104, cellH=96;
+  const clamp=(v,a,b)=>Math.max(a,Math.min(Math.max(a,b),v));
+  let positions={}, selected=new Set(), gesture=null, suppressUntil=0, pointerType='mouse';
+  const box=document.createElement('div');box.id='desktop-selection';box.hidden=true;box.setAttribute('aria-hidden','true');document.body.appendChild(box);
+  const status=document.createElement('span');status.className='sr-only';status.setAttribute('role','status');dock.appendChild(status);dock.tabIndex=0;
+  icons.forEach((el,i)=>{el.dataset.shortcut=['projects','about','contact','github','display'][i];el.draggable=false;el.title='Double-click to open · drag to move · Ctrl-click to select more';});
+  try{const saved=JSON.parse(localStorage.getItem('timbuilds.desktop.v3')||'null');if(saved?.positions&&typeof saved.positions==='object'&&!Array.isArray(saved.positions))positions=saved.positions;else{const previous=JSON.parse(localStorage.getItem('timbuilds.desktop.v2')||'{}');for(const [id,p] of Object.entries(previous?.positions||{}))positions[id]={x:p.x,y:p.y-54};}}catch{}
+  const workHeight=()=>window.TimWindows.workHeight();
+  function persist(){try{localStorage.setItem('timbuilds.desktop.v3',JSON.stringify({positions}));}catch{}}
+  function paintSelection(){icons.forEach(el=>el.classList.toggle('is-selected',selected.has(el.dataset.shortcut)));status.textContent=selected.size?`${selected.size} desktop item${selected.size===1?'':'s'} selected`:'';}
+  function layout(priority=[]){
+    if(compact()){icons.forEach(el=>{el.style.left='';el.style.top='';});return;}
+    const rows=Math.max(1,Math.floor((workHeight()-top)/cellH)),cols=Math.max(1,Math.floor((innerWidth-left)/cellW));
+    const used=new Set(), ordered=[...icons].sort((a,b)=>Number(priority.includes(b.dataset.shortcut))-Number(priority.includes(a.dataset.shortcut)));
+    for(const el of ordered){const id=el.dataset.shortcut,i=icons.indexOf(el),p=positions[id];let col=p&&Number.isFinite(p.x)?Math.round((p.x-left)/cellW):Math.floor(i/rows),row=p&&Number.isFinite(p.y)?Math.round((p.y-top)/cellH):i%rows;
+      col=clamp(col,0,cols-1);row=clamp(row,0,rows-1);let attempts=0;
+      while(used.has(col+','+row)&&attempts++<rows*cols){row++;if(row>=rows){row=0;col=(col+1)%cols;}}
+      used.add(col+','+row);positions[id]={x:left+col*cellW,y:top+row*cellH};el.style.left=positions[id].x+'px';el.style.top=positions[id].y+'px';
+    }
+  }
+  function arrange(){positions={};layout();persist();}
+  function selectOnly(id){selected=new Set(id?[id]:[]);paintSelection();}
+  function activate(el){el.click();}
+  layout();
+  dock.addEventListener('pointerdown',event=>{
+    pointerType=event.pointerType||'mouse';if(compact()||event.button!==0||document.querySelector('dialog[open]'))return;
+    const el=event.target.closest('.desktop-shortcut'), modifier=event.ctrlKey||event.metaKey||event.shiftKey;
+    window.TimWindows.deactivate();
+    if(el){const id=el.dataset.shortcut;if(modifier){if(selected.has(id))selected.delete(id);else selected.add(id);}else if(!selected.has(id))selected=new Set([id]);paintSelection();el.focus({preventScroll:true});}
+    const initial=new Set(selected),start=Object.fromEntries([...selected].map(id=>[id,{...positions[id]}]));
+    if(!el&&!modifier)selectOnly(null);if(!el)dock.focus({preventScroll:true});
+    gesture={id:event.pointerId,el,modifier,initial,start,x:event.clientX,y:event.clientY,moved:false};(el||dock).setPointerCapture(event.pointerId);event.preventDefault();
   });
-  document.addEventListener('pointermove',event=>{
-    if(!gesture||event.pointerId!==gesture.id)return;const g=gesture,dx=event.clientX-g.x,dy=event.clientY-g.y;if(!g.moved&&Math.hypot(dx,dy)<5)return;g.moved=true;document.documentElement.classList.add('desktop-dragging');
-    if(g.icon){const p={x:clamp(g.start.x+dx,margin,innerWidth-98),y:clamp(g.start.y+dy,top,height()-82)};positions[g.icon.dataset.shortcut]=p;g.icon.style.left=p.x+'px';g.icon.style.top=p.y+'px';return;}
-    const s=g.start;if(!g.dir){rect=bounded({...s,x:s.x+dx,y:s.y+dy});}else{let {x,y,w,h}=s;const minW=Math.min(540,innerWidth),minH=Math.min(280,height());if(g.dir.includes('e'))w=clamp(s.w+dx,minW,innerWidth-x);if(g.dir.includes('s'))h=clamp(s.h+dy,minH,height()-y);if(g.dir.includes('w')){x=clamp(s.x+dx,0,s.x+s.w-minW);w=s.x+s.w-x;}if(g.dir.includes('n')){y=clamp(s.y+dy,0,s.y+s.h-minH);h=s.y+s.h-y;}rect={x,y,w,h};}paint();
+  dock.addEventListener('pointermove',event=>{
+    if(!gesture||gesture.id!==event.pointerId)return;const g=gesture,dx=event.clientX-g.x,dy=event.clientY-g.y;
+    if(!g.moved&&Math.hypot(dx,dy)<5)return;g.moved=true;document.documentElement.classList.add('desktop-dragging');
+    if(g.el){const group=Object.values(g.start);if(!group.length)return;
+      const mx=clamp(dx,left-Math.min(...group.map(p=>p.x)),innerWidth-98-Math.max(...group.map(p=>p.x))),my=clamp(dy,top-Math.min(...group.map(p=>p.y)),workHeight()-82-Math.max(...group.map(p=>p.y)));
+      for(const el of icons){const p=g.start[el.dataset.shortcut];if(!p)continue;positions[el.dataset.shortcut]={x:p.x+mx,y:p.y+my};el.style.left=p.x+mx+'px';el.style.top=p.y+my+'px';}
+    }else{
+      const x=Math.min(g.x,event.clientX),y=Math.min(g.y,event.clientY),w=Math.abs(dx),h=Math.abs(dy);
+      Object.assign(box.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});box.hidden=false;
+      const hits=icons.filter(el=>{const r=el.getBoundingClientRect();return r.left<x+w&&r.right>x&&r.top<y+h&&r.bottom>y;}).map(el=>el.dataset.shortcut);
+      selected=new Set(g.modifier?[...g.initial,...hits]:hits);paintSelection();
+    }
   });
-  function end(event){if(!gesture||(event.pointerId!==undefined&&event.pointerId!==gesture.id))return;const g=gesture;if(event.type==='pointercancel'||event.type==='lostpointercapture'){if(g.icon)positions[g.icon.dataset.shortcut]=g.start;else rect=g.start;}if(g.moved)suppressUntil=performance.now()+300;gesture=null;document.documentElement.classList.remove('desktop-dragging');placeIcons();paint();persist();}
-  document.addEventListener('pointerup',end);document.addEventListener('pointercancel',end);document.addEventListener('lostpointercapture',end);window.addEventListener('blur',()=>{if(gesture)end({type:'pointercancel'});});
-  document.addEventListener('keydown',event=>{if(mobile()||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;const el=event.target.closest('.desktop-shortcut');if(el){event.preventDefault();const p=positions[el.dataset.shortcut];p.x+=event.key==='ArrowRight'?gridX:event.key==='ArrowLeft'?-gridX:0;p.y+=event.key==='ArrowDown'?gridY:event.key==='ArrowUp'?-gridY:0;placeIcons();persist();return;}const resize=event.target.closest('.resize-grip');if((event.target!==bar&&!resize)||main.classList.contains('is-maximized'))return;event.preventDefault();const d=event.shiftKey?40:10,x=event.key==='ArrowRight'?d:event.key==='ArrowLeft'?-d:0,y=event.key==='ArrowDown'?d:event.key==='ArrowUp'?-d:0;rect=bounded(resize?{...rect,w:rect.w+x,h:rect.h+y}:{...rect,x:rect.x+x,y:rect.y+y});paint();persist();});
-  window.addEventListener('resize',()=>{if(!mobile())rect=bounded(rect);placeIcons();paint();});
+  function finish(event){
+    if(!gesture||(event.pointerId!==undefined&&event.pointerId!==gesture.id))return;const g=gesture;gesture=null;
+    if(event.type!=='pointerup'){for(const [id,p] of Object.entries(g.start))positions[id]=p;selected=g.initial;}
+    else if(g.el&&!g.moved&&!g.modifier)selected=new Set([g.el.dataset.shortcut]);
+    if(g.moved)suppressUntil=performance.now()+300;box.hidden=true;document.documentElement.classList.remove('desktop-dragging');layout([...selected]);paintSelection();persist();
+  }
+  dock.addEventListener('pointerup',finish);dock.addEventListener('pointercancel',finish);dock.addEventListener('lostpointercapture',finish);
+  window.addEventListener('blur',()=>finish({type:'cancel'}));
+  document.addEventListener('click',event=>{
+    const el=event.target.closest('.desktop-shortcut');if(!el)return;
+    if(performance.now()<suppressUntil){event.preventDefault();event.stopImmediatePropagation();return;}
+    if(!compact()&&event.detail>0&&pointerType!=='touch'){event.preventDefault();event.stopImmediatePropagation();}
+  },true);
+  dock.addEventListener('dblclick',event=>{const el=event.target.closest('.desktop-shortcut');if(!el||compact()||pointerType==='touch'||performance.now()<suppressUntil)return;event.preventDefault();activate(el);});
+  dock.addEventListener('keydown',event=>{
+    if(compact())return;
+    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='a'){event.preventDefault();selected=new Set(icons.map(el=>el.dataset.shortcut));paintSelection();return;}
+    if(event.key==='Escape'){finish({type:'cancel'});selectOnly(null);return;}
+    const el=event.target.closest('.desktop-shortcut');
+    if(!el&&event.key==='Enter'){event.preventDefault();icons.filter(el=>selected.has(el.dataset.shortcut)).forEach(activate);return;}
+    if(!el||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;
+    event.preventDefault();
+    if(event.altKey){for(const id of selected){const p=positions[id];p.x+=event.key==='ArrowRight'?cellW:event.key==='ArrowLeft'?-cellW:0;p.y+=event.key==='ArrowDown'?cellH:event.key==='ArrowUp'?-cellH:0;}layout([...selected]);persist();}
+    else{const index=icons.indexOf(el),next=icons[clamp(index+(['ArrowRight','ArrowDown'].includes(event.key)?1:-1),0,icons.length-1)];selectOnly(next.dataset.shortcut);next.focus({preventScroll:true});}
+  });
+  window.addEventListener('resize',()=>{if(gesture)finish({type:'cancel'});layout();});
+  window.TimDesktop=Object.freeze({
+    open:()=>window.TimWindows.show('projects'), minimize:()=>window.TimWindows.minimize('projects'),
+    close:()=>window.TimWindows.close('projects'), maximize:()=>window.TimWindows.maximize('projects'),
+    resetWindow:()=>window.TimWindows.reset('projects'), arrange
+  });
 })();
