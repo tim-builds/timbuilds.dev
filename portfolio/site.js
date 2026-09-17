@@ -31,7 +31,10 @@
   async function openLocked(){
     const request=++folderRequest;const access=await window.TimLocked.ready;if(request!==folderRequest)return;
     if(access.projects){installLocked(access.projects);category='Locked';search.value='';showProjects();applyFilter();}
-    else {openWindow('Locked — Password Guessing Department',window.TimLocked.renderGame(),'lock','guessing-game');window.TimLocked.paintGame();$('#guess-choices button').focus({preventScroll:true});}
+    else {
+      const panel=window.TimWindows.openPanel({id:'locked',title:'Locked — Access terminal',label:'Locked',icon:'lock',html:'',onClose:()=>window.TimBreach.destroy(),onVisibility:visible=>window.TimBreach.visibility(visible)});
+      if(panel.created)window.TimBreach.mount(panel.body);
+    }
   }
 
   function applyFilter() {
@@ -84,13 +87,7 @@
     if(scroll) $('#projects').scrollIntoView({block:'start',behavior:'auto'});
     main.focus({preventScroll:true});
   }
-  function setWallpaper(name) {
-    if (!['teal','night','olive'].includes(name)) return;
-    document.documentElement.dataset.wallpaper = name;
-    try { localStorage.setItem('timbuilds.wallpaper.v1',name); } catch { /* Private storage can be disabled. */ }
-    $$('.wallpaper-option').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.wallpaper===name)));
-  }
-  try { const saved = localStorage.getItem('timbuilds.wallpaper.v1'); if (saved) setWallpaper(saved); } catch { /* Default wallpaper is sufficient. */ }
+  const setWallpaper=name=>window.TimWallpaper.set(name);
   function openWindow(title, html, glyph='document', kind=null) {
     previousFocus = document.activeElement;
     dialogKind = kind;
@@ -113,15 +110,18 @@
   const panels = {
     about: {title:'About Tim — README.txt', icon:'document', html:`<div class="project-detail-copy"><div class="eyebrow">THE PERSON BEHIND THE FOLDER</div><div class="about-layout"><div><p class="about-lede">Hi, I’m Tim.<br>I like making things.</p><p>I’m an independent developer in Ontario, learning by building things people around me can actually use.</p></div><img src="portfolio/desk.svg" width="245" height="180" alt="Pixel-art computer and plant"></div><div class="about-points"><p>Some projects start close to home: a word game and solitaire for my grandma, a piano studio website for my sister. Others start with an itch—like knowing whether there’s a basketball run before heading to the gym.</p><p>I work with AI coding tools, then spend a lot of time on the part people feel: the wording, the interactions, and whether the thing does what it promised.</p><p>This is the whole collection, including the experiments. A prototype is labelled a prototype. There’s always another folder taking shape.</p></div><div class="detail-actions"><button class="bevel-button primary-button" data-dialog="contact">Say hello ↗</button><a class="text-button" href="https://github.com/flushatoilet" target="_blank" rel="noopener noreferrer">Find me on GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a></div></div>`},
     contact: {title:'Say Hello — New message', icon:'mail', html:`<div class="project-detail-copy"><div class="eyebrow">INBOX, NOT A CONTACT FORM</div><h2>Let’s talk.</h2><p>A question about a project, an idea worth making, or just a hello. Email is the easiest way to reach me.</p><a class="email-address" href="mailto:support@timbuilds.dev?subject=Hello%20Tim">support@timbuilds.dev</a><div class="detail-actions"><a class="bevel-button primary-button" href="mailto:support@timbuilds.dev?subject=Hello%20Tim">Open your email app ↗</a><button class="bevel-button" data-action="copy-email">Copy address</button></div><p class="clipboard-status" id="clipboard-status" role="status" aria-live="polite"></p><p class="private-note">No form submission or account needed. This page does not send a message on your behalf.</p></div>`},
-    display: {title:'Display Properties', icon:'palette', html:`<div class="project-detail-copy"><div class="eyebrow">MAKE YOURSELF AT HOME</div><h2>A different kind of wallpaper.</h2><p>Choose a desktop colour. Wallpaper, icon locations and window geometry stay in this browser; they are not sent anywhere.</p><div class="wallpaper-options">${[['teal','Classic teal'],['night','Night shift'],['olive','Olive desk']].map(([id,label])=>`<button class="wallpaper-option" data-wallpaper="${id}" aria-pressed="${document.documentElement.dataset.wallpaper===id}"><span class="wallpaper-swatch ${id}" aria-hidden="true"></span>${label}</button>`).join('')}</div><div class="detail-actions"><button class="bevel-button" data-action="arrange-icons">Arrange icons on left</button><button class="bevel-button" data-action="reset-window">Reset project window</button><button class="bevel-button" data-action="close-dialog">OK</button></div></div>`},
-    help: {title:'A little help', icon:'document', html:`<div class="project-detail-copy"><div class="eyebrow">NO MANUAL REQUIRED</div><h2>Have a look around.</h2><ul class="help-list"><li>Double-click desktop icons to open them, or press Enter. On touchscreens, tap once. Drag icons to move them; they snap to a grid. Display settings can arrange them on the left again.</li><li>Drag the project title bar to move the window. Drag an edge or corner to resize. Maximise fills the workspace, restore returns to the previous size, and close removes the taskbar item. Double-click My Projects to reopen. Focus the title bar or resize grip and use arrow keys for keyboard control.</li><li>Choose a folder to filter the projects. Search works across names, descriptions and technologies.</li><li>Click a project’s name for details. Public apps and demos also have a direct link.</li><li>Use <kbd>/</kbd> to jump to search, <kbd>Tab</kbd> to move through controls, and <kbd>Esc</kbd> to close a popup.</li><li>Minimised the window? Open it again from <strong>My Projects</strong> or the <strong>Start</strong> button.</li></ul><p class="private-note">A modern portfolio dressed for 1995. All artwork is original; this is not Microsoft software.</p><div class="detail-actions"><button class="bevel-button" data-action="close-dialog">Got it</button></div></div>`},
+    display: {title:'Display Properties',icon:'palette',html:''},
+    github: {title:'GitHub — Source explorer',icon:'code',html:'<div class="project-detail-copy"><div class="eyebrow">SOURCE EXPLORER</div><h2>Behind the folders.</h2><p>Explore my public GitHub profile, or look at the source for this desktop.</p><div class="detail-actions"><a class="bevel-button primary-button" href="https://github.com/flushatoilet" target="_blank" rel="noopener noreferrer">Open GitHub profile ↗<span class="sr-only"> (opens in a new tab)</span></a><a class="bevel-button" href="https://github.com/tim-builds/timbuilds.dev" target="_blank" rel="noopener noreferrer">Portfolio source ↗<span class="sr-only"> (opens in a new tab)</span></a></div><p class="private-note">External pages open in your browser. Private repositories remain private.</p></div>'},
+    help: {title:'A little help', icon:'document', html:`<div class="project-detail-copy"><div class="eyebrow">NO MANUAL REQUIRED</div><h2>Have a look around.</h2><ul class="help-list"><li>Double-click desktop icons to open them, or press Enter. On touchscreens, tap once. Drag the empty desktop to select a group; Ctrl-click adds or removes icons. Drag selected icons together; they snap to a grid. Use Alt + arrow keys to move a selected group. Display settings can arrange them on the left again.</li><li>Drag the project title bar to move the window. Drag an edge or corner to resize. Maximise fills the workspace, restore returns to the previous size, and close removes the taskbar item. Double-click My Projects to reopen. Focus the title bar or resize grip and use arrow keys for keyboard control.</li><li>Choose a folder to filter the projects. Search works across names, descriptions and technologies.</li><li>Click a project’s name for details. Public apps and demos also have a direct link.</li><li>Use <kbd>/</kbd> to jump to search, <kbd>Tab</kbd> to move through controls, and <kbd>Esc</kbd> to close a popup.</li><li>Click a focused window’s taskbar button to minimise it; click again to restore. About, contact, GitHub and Display each have their own window. Open My Projects again from <strong>My Projects</strong> or the <strong>Start</strong> button.</li></ul><p class="private-note">A modern portfolio dressed for 1995. All artwork is original; this is not Microsoft software.</p><div class="detail-actions"><button class="bevel-button" data-action="close-dialog">Got it</button></div></div>`},
   };
   function openPanel(name) {
-    if (!panels[name]) return;
-    // Recalculate the pressed states for the saved colour.
-    if(name==='display') panels.display.html=panels.display.html.replace(/data-wallpaper="(teal|night|olive)" aria-pressed="(?:true|false)"/g,(_,id)=>`data-wallpaper="${id}" aria-pressed="${document.documentElement.dataset.wallpaper===id}"`);
-    const panel=panels[name]; openWindow(panel.title,panel.html,panel.icon,name);
+    if(!panels[name])return;
+    if(dialog.open)closeDialog();
+    const panel=panels[name],labels={about:'About Tim',contact:'Say Hello',display:'Display',github:'GitHub',help:'Help'};
+    window.TimWindows.openPanel({id:name,title:panel.title,label:labels[name],icon:panel.icon,html:name==='display'?window.TimWallpaper.markup():panel.html});
+    if(name==='display')window.TimWallpaper.sync();
   }
+  function closeSurface(el){const app=el.closest('.app-window');if(app)window.TimWindows.close(app.dataset.windowId);else closeDialog();}
   function closeDialog(clearHash=true) {
     const wasProject=dialogKind==='project';
     dialog.close();dialog.style.transform='';dialogKind=null;
@@ -137,6 +137,7 @@
     else if(el.dataset.view) setView(el.dataset.view);
     else if(el.dataset.project) openProject(el.dataset.project);
     else if(el.dataset.dialog) {
+      event.preventDefault();
       // Moving between information windows must not leave a stale project URL.
       if(dialogKind==='project' && location.hash.startsWith('#project-')) writeURL('replaceState',null,location.pathname+location.search+'#projects');
       openPanel(el.dataset.dialog);
@@ -144,14 +145,14 @@
     else if(el.dataset.wallpaper) setWallpaper(el.dataset.wallpaper);
     else if(el.dataset.action==='projects') showProjects();
     else if(el.dataset.action==='locked') await openLocked();
-    else if(el.dataset.action==='arrange-icons'){window.TimDesktop.arrange();closeDialog();}
-    else if(el.dataset.action==='reset-window'){window.TimDesktop.resetWindow();closeDialog();}
+    else if(el.dataset.action==='arrange-icons'){window.TimDesktop.arrange();closeSurface(el);}
+    else if(el.dataset.action==='reset-window'){window.TimDesktop.resetWindow();closeSurface(el);}
     else if(el.dataset.action==='close-projects')window.TimDesktop.close();
     else if(el.dataset.action==='minimize')window.TimDesktop.minimize();
     else if(el.dataset.action==='maximize')window.TimDesktop.maximize();
     else if(el.dataset.action==='toggle-view')setView(view==='grid'?'list':'grid');
     else if(el.dataset.action==='reset-filters'){category='All projects';search.value='';applyFilter();search.focus({preventScroll:true});}
-    else if(el.dataset.action==='close-dialog')closeDialog();
+    else if(el.dataset.action==='close-dialog')closeSurface(el);
     else if(el.dataset.action==='copy-email'){
       const status=$('#clipboard-status');
       try {if(!navigator.clipboard)throw new Error('clipboard unavailable');await navigator.clipboard.writeText('support@timbuilds.dev');status.textContent='Address copied. See you in the inbox.';}
