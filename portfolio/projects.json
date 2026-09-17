@@ -89,6 +89,24 @@
     "source": null
   },
   {
+    "id": "grit-athletics",
+    "title": "Grit Athletics",
+    "category": "Websites",
+    "status": "Interactive demo",
+    "summary": "A home on the web for my volleyball-coach friend.",
+    "detail": "A volleyball coaching website for Grit Athletics, hosted on Cloudflare Pages. Built for my friend and handed over to his own repository, with a home for his coaching approach and training programmes. The portfolio links directly to his website.",
+    "stack": [
+      "HTML / CSS",
+      "JavaScript",
+      "Cloudflare Pages"
+    ],
+    "icon": "globe",
+    "preview": "grit",
+    "url": "https://grit-athletics.pages.dev/",
+    "cta": "Visit the website",
+    "source": null
+  },
+  {
     "id": "block-app",
     "title": "blockApp",
     "category": "Apps",
@@ -208,57 +226,6 @@
     "source": null
   },
   {
-    "id": "developer-dashboard",
-    "title": "Developer Dashboard",
-    "category": "Tools",
-    "status": "Private tool",
-    "summary": "A home base for the projects on my desk.",
-    "detail": "A compact, single-page personal development dashboard. A small experiment in making the useful things easier to find without building another complicated system.",
-    "stack": [
-      "HTML / CSS",
-      "JavaScript"
-    ],
-    "icon": "computer",
-    "preview": "tools",
-    "url": null,
-    "cta": null,
-    "source": null
-  },
-  {
-    "id": "advisor-desk",
-    "title": "Advisor Desk",
-    "category": "Tools",
-    "status": "Development tooling",
-    "summary": "Keep the work moving when the context changes.",
-    "detail": "Shared development tools for tracking project decisions, handoffs and current work across coding sessions. Built to make resuming a project less dependent on whoever remembers what happened last.",
-    "stack": [
-      "Node.js",
-      "GitHub"
-    ],
-    "icon": "folder",
-    "preview": "tools",
-    "url": null,
-    "cta": null,
-    "source": null
-  },
-  {
-    "id": "living-process",
-    "title": "The Living Process",
-    "category": "Tools",
-    "status": "Development tooling",
-    "summary": "A practical notebook for how the work gets done.",
-    "detail": "A versioned set of development practices for planning, reviewing and delivering projects. An ongoing documentation project about making a workflow more reliable without letting the workflow become the work.",
-    "stack": [
-      "Documentation",
-      "GitHub"
-    ],
-    "icon": "document",
-    "preview": "tools",
-    "url": null,
-    "cta": null,
-    "source": null
-  },
-  {
     "id": "shoe-ratings",
     "title": "Shoe Ratings",
     "category": "Experiments",
@@ -274,74 +241,5 @@
     "url": "https://github.com/flushatoilet/Shoe-Rating-Aggregation",
     "cta": "View source",
     "source": "https://github.com/flushatoilet/Shoe-Rating-Aggregation"
-  },
-  {
-    "id": "rent-around-me",
-    "title": "Rent Around Me",
-    "category": "Experiments",
-    "status": "Research tool",
-    "summary": "Turn a rental search into something easier to compare.",
-    "detail": "A Python rental-search experiment for Ontario, with city and price filters and structured reports. A research tool rather than a live listings service; availability and prices need checking with the original source.",
-    "stack": [
-      "Python",
-      "Structured data"
-    ],
-    "icon": "home",
-    "preview": "research",
-    "url": "https://github.com/flushatoilet/Rent-around-me",
-    "cta": "View source",
-    "source": "https://github.com/flushatoilet/Rent-around-me"
-  },
-  {
-    "id": "domain-research",
-    "title": "Domain Research",
-    "category": "Experiments",
-    "status": "Research notes",
-    "summary": "An early rabbit hole: names and domains.",
-    "detail": "A small research repository for exploring a domain-name idea. Included here as a notebook from the early experiments, not as a released application or a domain marketplace.",
-    "stack": [
-      "Research",
-      "Markdown"
-    ],
-    "icon": "globe",
-    "preview": "research",
-    "url": "https://github.com/flushatoilet/domain-search",
-    "cta": "View repository",
-    "source": "https://github.com/flushatoilet/domain-search"
-  },
-  {
-    "id": "ontario-specialists",
-    "title": "Ontario Specialists",
-    "category": "Experiments",
-    "status": "Research reference",
-    "summary": "Organising a complicated search into a starting point.",
-    "detail": "A public research reference on fertility specialists in Ontario. This is a historical shortlisting resource, not a clinical recommendation, medical service or assurance that provider details remain current.",
-    "stack": [
-      "Research",
-      "Markdown"
-    ],
-    "icon": "document",
-    "preview": "research",
-    "url": "https://github.com/flushatoilet/fertility-doctors-in-ontario",
-    "cta": "View reference",
-    "source": "https://github.com/flushatoilet/fertility-doctors-in-ontario"
-  },
-  {
-    "id": "timbuilds",
-    "title": "timBuilds",
-    "category": "Websites",
-    "status": "You are here",
-    "summary": "My own little desktop on the web.",
-    "detail": "This portfolio: a Windows 95-inspired home for apps, websites, tools and experiments. Plain HTML, CSS and JavaScript, with keyboard-friendly controls and no build service required to serve it.",
-    "stack": [
-      "HTML / CSS",
-      "JavaScript",
-      "GitHub Pages"
-    ],
-    "icon": "computer",
-    "preview": "portfolio",
-    "url": "https://github.com/tim-builds/timbuilds.dev",
-    "cta": "View source",
-    "source": "https://github.com/tim-builds/timbuilds.dev"
   }
 ]
