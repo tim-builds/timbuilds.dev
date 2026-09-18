@@ -30,7 +30,7 @@
   }
   for(const [id,label] of Object.entries(names))A.register(id,label,id==='computer'?'computer':'folder',(body)=>{
     let browser;body.innerHTML=toolbar()+'<div class="program-grid"></div>';const grid=body.querySelector('.program-grid');
-    function render(next){if(!folders[next]){route(next);return false;}grid.replaceChildren();const list=A.list();for(const key of folders[next]){const app=list.find(a=>a.id===key);const title=key==='projects'?'My Projects':app?.label||names[key]||key;const b=document.createElement('button');b.className='program-icon';b.dataset.entry=key;b.innerHTML='<svg aria-hidden="true"><use href="portfolio/icons.svg#'+(app?.icon||'folder')+'"/></svg>';const text=document.createElement('span');text.textContent=title;b.append(text);grid.append(b);}}
+    function render(next){if(!folders[next]){route(next);return false;}grid.replaceChildren();const list=A.list();for(const key of folders[next]){const app=list.find(a=>a.id===key);const title=key==='projects'?'My Projects':app?.label||names[key]||key;const b=document.createElement('button');b.className='program-icon';b.dataset.entry=key;b.innerHTML='<svg aria-hidden="true"><use href="portfolio/icons.svg?v=12#'+(app?.icon||'folder')+'"/></svg>';const text=document.createElement('span');text.textContent=title;b.append(text);grid.append(b);}}
     browser=attach(body.querySelector('form'),id,render);render(id);grid.addEventListener('click',e=>{const item=e.target.closest('[data-entry]');if(!item)return;const next=item.dataset.entry;if(folders[next])browser.go(next);else route(next);});
   });
   const old=document.querySelector('#portfolio-window .addressbar');old.innerHTML=toolbar();const form=old.querySelector('form');form.querySelector('input').id='address-text';

@@ -12,9 +12,13 @@
     if(panel.created){panel.el.classList.add('classic-app');panel.el.dataset.app=id;const cleanBody=panel.body.cloneNode(false);panel.body.replaceWith(cleanBody);const result=app.mount(cleanBody,panel.el)||{};cleanup=result.cleanup||cleanup;visibility=result.visibility||visibility;}
     document.querySelector('#start-menu').hidden=true;document.querySelector('#start-button').setAttribute('aria-expanded','false');return true;
   }
+  function toggle(id){const existing=W.list().find(w=>w.id===id);if(existing&&existing.state!=='closed'){W.toggleTask(id);return true;}return open(id);}
+  function syncTray(){for(const button of document.querySelectorAll('.taskbar [data-app-open],.platform-topbar [data-app-open]')){const id=button.dataset.appOpen,w=W.list().find(w=>w.id===id);button.setAttribute('aria-pressed',String(w?.state==='open'&&W.active()===id));if(w)button.setAttribute('aria-controls','window-'+id);}}
+  window.addEventListener('timbuilds-active-window',syncTray);
+  document.addEventListener('DOMContentLoaded',syncTray);
   const button=(label,action)=>`<button class="bevel-button" data-command="${action}">${label}</button>`;
-  window.TimApps=Object.freeze({register,open,safe,read,save,download,button,list:()=>[...apps.values()].map(({id,label,icon})=>({id,label,icon}))});
-  document.addEventListener('click',e=>{const app=e.target.closest('[data-app-open]');if(app){e.preventDefault();open(app.dataset.appOpen);}});
+  window.TimApps=Object.freeze({register,open,toggle,safe,read,save,download,button,list:()=>[...apps.values()].map(({id,label,icon})=>({id,label,icon}))});
+  document.addEventListener('click',e=>{const app=e.target.closest('[data-app-open]');if(app){e.preventDefault();if(app.closest('.taskbar,.platform-topbar'))toggle(app.dataset.appOpen);else open(app.dataset.appOpen);}});
   register('datetime','Date/Time Properties','clock',(body)=>{
     let today=new Date(),year=today.getFullYear(),month=today.getMonth(),selected=today.getDate(),timer;
     body.innerHTML='<div class="accessory-pad"><div class="classic-tabs"><button class="selected">Date &amp; Time</button></div><div class="date-layout"><section><div class="calendar-nav"><button data-month="-1" aria-label="Previous month">◀</button><strong id="calendar-month"></strong><button data-month="1" aria-label="Next month">▶</button></div><div id="calendar-grid" class="calendar-grid" role="grid" aria-label="Calendar"></div><button class="bevel-button" id="calendar-today">Today</button></section><section class="clock-section"><div class="analog-clock" aria-hidden="true"><span class="clock-12">12</span><span class="clock-3">3</span><span class="clock-6">6</span><span class="clock-9">9</span><i class="clock-hand hours"></i><i class="clock-hand minutes"></i><i class="clock-hand seconds"></i><b></b></div><time id="live-time"></time><p id="clock-zone"></p></section></div><p class="accessory-note">Shows your device’s local time. Browsing the calendar does not change your computer’s date or time.</p></div>';

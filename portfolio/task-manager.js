@@ -3,7 +3,7 @@
   'use strict';
   const A = window.TimApps;
   const W = window.TimWindows;
-  A.register('taskmanager', 'Task Manager', 'chart', (body) => {
+  A.register('taskmanager', 'Task Manager', 'taskmanager', (body) => {
     let selected = null;
     let visible = true;let signature="";
     body.innerHTML = '<div class="taskmanager"><h2>Applications</h2><div class="taskmanager-list" role="listbox" aria-label="Open applications"></div><p class="taskmanager-status" role="status"></p><div class="app-menubar"></div><p class="accessory-note">Only programs in this web desktop are listed. Save unsaved work before ending a task.</p></div>';
@@ -57,6 +57,6 @@
   const button = document.createElement('button');
   button.id='task-manager-button'; button.className='tray-icon'; button.dataset.appOpen='taskmanager';
   button.title='Task Manager'; button.setAttribute('aria-label','Open Task Manager');
-  button.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="16" fill="#182727" stroke="#ddd"/><path d="M4 14h4l2-7 3 9 2-5h5" fill="none" stroke="#80e49b" stroke-width="2"/><path d="M8 22h8" stroke="currentColor" stroke-width="2"/></svg>';
+  button.innerHTML='<svg aria-hidden="true"><use href="portfolio/icons.svg?v=12#taskmanager"/></svg>';
   document.querySelector('.clock-tray').before(button);
 })();

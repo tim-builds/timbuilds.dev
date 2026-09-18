@@ -176,3 +176,11 @@ All thirteen public images were reviewed as a contact sheet and in responsive co
 QA adds fresh/default migration, custom-paper persistence, full card/list/detail ratios, all-eight small/large control geometry and active icon-state checks, removed-copy checks and the compact updated alert. The existing website/new-tab game launch, mobile keyboard, gestures, Task Manager, games, power, documents and owner-key regressions remain enabled. No host, DNS, auth route, locked catalogue, game engine or external project repository changes.
 
 The finishing checks also verify the centre of every title-bar button is the actual pointer target. Mobile upper-corner resize zones sit outside those centres so XP Close taps are no longer intercepted by a resize handle.
+
+## Blue-screen recovery and tray interactions
+
+Dragging My Projects into the Recycle Bin, or opening Locked as a guest, enters the shared page-local blue-screen recovery console. Escape and the fixed Return to desktop button dismiss it without reloading or deleting anything. Technical information and Retry system check are interactive. All nine existing puzzle families share their session progress across both entrances. Typed answers remain transient; owner decryption and direct authenticated catalogue access remain independent.
+
+Tray apps now share the window-task open/focus/minimise/restore behavior. Task Manager uses one green performance-monitor icon. A separate underlined OS-era year and chevron after the live time opens the environment picker. XP uses the labelled 4089 × 2726 Microsoft Design Bliss re-creation, with the original archive still available; Display reports each image’s source resolution and offers a no-enlargement option.
+
+The browser suite includes tools/check-recovery.mjs for keyboard containment, preserved work, both entrances, all eight skins at 320/390/1440 pixels, real tray clicks, and the decoded high-resolution asset.

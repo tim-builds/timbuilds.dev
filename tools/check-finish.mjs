@@ -22,7 +22,7 @@ export async function checkFinish({evaluate,send,click,box,viewport,navigate,ori
    await click('#window-notepad [data-win-control=maximize]');assert.equal(await evaluate('document.querySelector("#window-notepad [data-win-control=maximize]").dataset.chromeIcon'),'restore');await click('#window-notepad [data-win-control=maximize]');assert.equal(await evaluate('document.querySelector("#window-notepad [data-win-control=maximize]").dataset.chromeIcon'),'maximize');await screenshot(path.join(output,'finished-chrome-'+os+'-'+width+'.png'));await click('#window-notepad [data-win-control=close]');
  }
  pass('Vector minimise/maximise/restore/close controls are aligned, labelled, non-overlapping and functional in all eight skins on desktop and phone');
- await viewport(390,844);await evaluate('window.TimVersion.set("2000");window.TimDesktopActions.warn("move")');assert.equal(await evaluate('document.querySelector("#recycle-warning-heading").textContent'),'Hey! Nice try.');const r=await box('#desktop-warning');assert.ok(r.w<=390&&r.h<280);await screenshot(path.join(output,'nice-try-mobile.png'));await click('#desktop-warning .warning-ok');
- pass('Hey! Nice try. appears in a compact, dismissible error dialog rather than an oversized message');
+ await viewport(390,844);await evaluate('window.TimVersion.set("2000");window.TimDesktopActions.warn("move")');assert.equal(await evaluate('document.querySelector("#bsod-stop").textContent'),'PROJECTS_CANNOT_BE_RECYCLED');const r=await box('#bsod-dialog');assert.ok(r.w===390&&r.h===844);await screenshot(path.join(output,'nice-try-mobile.png'));await click('#bsod-dialog [data-bsod-action="desktop"]');
+ pass('Protected-project Stop screen fills the phone with an always-available desktop return control');
  await viewport(1440,1000);await navigate(origin);await evaluate('window.TimVersion.set("2000");window.TimVersion.reset();window.TimWindows.reset("projects");window.TimDesktop.arrange()');
 }
