@@ -1,5 +1,6 @@
 import {checkShell} from './check-shell.mjs';
 import {checkClassic} from './check-classic.mjs';
+import {checkEnvironments} from './check-environments.mjs';
 /** Optional, dependency-free Chrome checks. Uses its own temporary profile and loopback server. */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -34,7 +35,7 @@ async function evaluate(expression){const r=await send('Runtime.evaluate',{expre
 async function click(selector){await evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);}
 function pass(label){checks.push(label);console.log('PASS: '+label);}
 async function navigate(url){await send('Page.navigate',{url});await until(()=>evaluate('document.readyState === "complete" && !!document.querySelector("#project-data")'),'page load');await sleep(180);}
-async function viewport(width,height=900){await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(80);}
+async function viewport(width,height=900){await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(120);await evaluate("new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))))");}
 async function screenshot(file,clip){const r=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false,...(clip?{clip}:{})});fs.writeFileSync(file,Buffer.from(r.data,'base64'));}
 try{
  const active=path.join(profile,'DevToolsActivePort');await until(()=>fs.existsSync(active),'Chrome startup');
@@ -61,7 +62,7 @@ try{
  for(const width of [320,390,600,768,1024,1440,1920,2560,3440]){await viewport(width);assert.equal(await evaluate('document.documentElement.scrollWidth > innerWidth'),false,`horizontal overflow at ${width}`);}pass('Responsive widths 320–3440 px');
  await viewport(390,844);await evaluate('window.scrollTo(0,0)');await screenshot(path.join(output,'mobile.png'));
  await viewport(1440,1100);await evaluate('window.scrollTo(0,0);document.activeElement.blur()');await screenshot(path.join(output,'desktop.png'));
- if(process.argv.includes('--capture-social')){await viewport(1280,720);await evaluate('window.scrollTo(0,0)');await screenshot(path.join(root,'portfolio/social.png'),{x:0,y:0,width:1280,height:672,scale:.9375});pass('Social preview generated from this actual website');}
+ if(process.argv.includes('--capture-social')){await evaluate('window.TimVersion.reset()');await viewport(1280,720);await evaluate('window.scrollTo(0,0)');await screenshot(path.join(root,'portfolio/social.png'),{x:0,y:0,width:1280,height:672,scale:.9375});pass('Social preview generated from this actual website');}
  const box=selector=>evaluate(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height};})()`);
  async function mouse(x,y,type='mouseMoved',count=1){await send('Input.dispatchMouseEvent',{type,x,y,button:type==='mouseMoved'?'none':'left',buttons:type==='mouseReleased'?0:1,clickCount:type==='mouseMoved'?0:count});}
  async function drag(selector,dx,dy){const r=await box(selector),x=r.x+r.w/2,y=r.y+r.h/2;await mouse(x,y);await mouse(x,y,'mousePressed');for(let i=1;i<=5;i++){await mouse(x+dx*i/5,y+dy*i/5);await sleep(25);}await mouse(x+dx,y+dy,'mouseReleased');await sleep(350);}
@@ -75,6 +76,7 @@ try{
  await click('[data-action="close-projects"]');await drag('.desktop-shortcut[data-action="projects"]',220,0);const movedIcon=await box('.desktop-shortcut[data-action="projects"]');assert.equal(movedIcon.x,220);await navigate(origin);assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,220);await evaluate('window.TimDesktop.arrange()');assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,12);pass('Desktop icon drag, grid snapping, persistence and arrange-left reset');
  for(const width of [1024,1440,2560,3440]){await viewport(width,1100);await evaluate('window.TimDesktop.arrange()');assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,12);assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth'),false);}await screenshot(path.join(output,'ultrawide.png'));pass('Left-aligned icons across 1024–3440 px widths');
  await viewport(1440,1000);await evaluate('window.TimDesktop.resetWindow();document.querySelector(".workspace").scrollTop=200');const scroll=await evaluate('document.querySelector(".workspace").scrollTop');await click('[data-category="Websites"]');assert.equal(await evaluate('document.querySelector(".workspace").scrollTop'),scroll);assert.equal(await evaluate('window.scrollY'),0);await click('[data-category="All projects"]');pass('Filtering preserves explorer scroll position and never scrolls the desktop');
+ await checkEnvironments({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass});
  await checkShell({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkClassic({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await evaluate('localStorage.setItem("owner","true");localStorage.setItem("timbuilds.owner","true")');await navigate(origin);await click('[data-action="locked"]');await until(()=>evaluate('!!document.querySelector("#window-locked:not([hidden]) .access-terminal")'),'guest terminal after owner-key lookup');assert.ok(await evaluate('!!document.querySelector(".access-terminal")'));await click('#window-locked [data-win-control="close"]');pass('Spoofing an owner preference does not bypass encryption');
@@ -83,6 +85,8 @@ try{
   const owner=JSON.parse(fs.readFileSync(ownerFile,'utf8')),publicIds=new Set(JSON.parse(fs.readFileSync(path.join(root,'portfolio/projects.json'),'utf8')).map(p=>p.id));for(const p of owner.projects){assert.ok(!publicIds.has(p.id));assert.ok(!fs.readFileSync(path.join(root,'index.html'),'utf8').includes(`data-id="${p.id}"`));}
   await navigate(origin+'/#owner-key='+owner.key);await until(()=>evaluate('document.querySelectorAll(".locked-project").length===7'),'owner catalogue');assert.equal(await evaluate('location.hash'),'');await click('.dialog-close');assert.equal(await evaluate('document.querySelectorAll(".project-card:not([hidden])").length'),7);pass('Valid owner capability decrypts seven entries and is removed from browser history');
   await navigate(origin);await click('[data-action="locked"]');assert.equal(await evaluate('document.querySelectorAll(".project-card:not([hidden])").length'),7);assert.equal(await evaluate('document.querySelector("#detail-dialog").open'),false);pass('Saved owner key automatically opens Locked after a real reload');
+  for(const version of ['95','98','2000','xp']){await evaluate('window.TimVersion.set('+JSON.stringify(version)+')');await click('[data-action="locked"]');assert.equal(await evaluate('document.querySelectorAll(".project-card:not([hidden])").length'),7);assert.equal(await evaluate('document.querySelector("#detail-dialog").open'),false);}pass('Owner access and all seven private entries survive switching between every Windows version');
+  await evaluate('window.TimVersion.set("95")');
   await click('[data-category="All projects"]');assert.equal(await evaluate('document.querySelectorAll(".locked-project:not([hidden])").length'),0);pass('Private entries remain excluded from All projects even for the owner');
   const keyFlags=await evaluate(`new Promise((resolve,reject)=>{const r=indexedDB.open('timbuilds-owner-v1',1);r.onsuccess=()=>{const db=r.result,tx=db.transaction('keys','readonly'),q=tx.objectStore('keys').get('catalogue');q.onsuccess=()=>{resolve({extractable:q.result.extractable,algorithm:q.result.algorithm.name});db.close();};};r.onerror=()=>reject(r.error);})`);assert.deepEqual(keyFlags,{extractable:false,algorithm:'AES-GCM'});pass('Browser persists a non-exportable CryptoKey, not a plaintext localStorage flag');
   await navigate(origin+'/#owner-key='+'A'.repeat(43));await until(()=>evaluate('document.querySelector("#detail-dialog").open'),'invalid enrollment result');assert.equal(await evaluate('document.querySelectorAll(".locked-project").length'),0);await click('.dialog-close');pass('Wrong decryption key fails closed');
@@ -97,7 +101,7 @@ try{
  assert.deepEqual(errors,[]);pass('No runtime JavaScript errors');
  fs.writeFileSync(path.join(output,'browser-checks.json'),JSON.stringify({checks,origin,browser:'installed Chrome, separate disposable profile',timestamp:new Date().toISOString(),limits:'Not a physical-phone or formal accessibility certification.'},null,2));
  console.log(`PASS: ${checks.length} browser check groups. Screenshots in .qa/.`);
-}catch(error){console.error(error);process.exitCode=1;}
+}catch(error){try{console.error("Viewport diagnostic",await evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll("body *")].filter(e=>e.getBoundingClientRect().right>innerWidth+.5&&e.getBoundingClientRect().width>0).slice(0,18).map(e=>({tag:e.tagName,id:e.id,classes:String(e.className),right:e.getBoundingClientRect().right,width:e.getBoundingClientRect().width}))})'));}catch{}console.error(error);process.exitCode=1;}
 finally{
  if(ws&&ws.readyState===WebSocket.OPEN){try{await send('Browser.close');}catch{}ws.close();}
  server.close();await sleep(700);if(browser.exitCode===null)browser.kill();

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-wallpaper="teal">
+<html lang="en" data-os="2000" data-wallpaper="win2000-windows-2000" data-wallpaper-kind="image" data-wallpaper-placement="fill">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,28 +14,33 @@
   <title>timBuilds — Small apps. Real people.</title>
   <link rel="canonical" href="https://timbuilds.dev/">
   <link rel="icon" href="portfolio/favicon.svg" type="image/svg+xml">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <script src="portfolio/environment-data.js?v=5"></script>
+  <script src="portfolio/versions.js?v=5"></script>
   <link rel="stylesheet" href="portfolio/site.css">
   <link rel="stylesheet" href="portfolio/desktop.css">
-  <link rel="stylesheet" href="portfolio/shell.css?v=4">
-  <link rel="stylesheet" href="portfolio/wallpapers.css?v=4">
-  <link rel="stylesheet" href="portfolio/breach.css?v=4">
-  <link rel="stylesheet" href="portfolio/classic-apps.css?v=4">
+  <link rel="stylesheet" href="portfolio/shell.css?v=5">
+  <link rel="stylesheet" href="portfolio/wallpapers.css?v=5">
+  <link rel="stylesheet" href="portfolio/breach.css?v=5">
+  <link rel="stylesheet" href="portfolio/classic-apps.css?v=5">
+  <link rel="stylesheet" href="portfolio/environments.css?v=5">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
-  <script src="portfolio/locked.js?v=4" defer></script>
-  <script src="portfolio/challenge-rules.js?v=4" defer></script>
-  <script src="portfolio/breach.js?v=4" defer></script>
-  <script src="portfolio/wallpapers.js?v=4" defer></script>
-  <script src="portfolio/windows.js?v=4" defer></script>
-  <script src="portfolio/desktop.js?v=4" defer></script>
-  <script src="portfolio/site.js?v=4" defer></script>
-  <script src="portfolio/classic-engines.js?v=4" defer></script>
-  <script src="portfolio/accessories.js?v=4" defer></script>
-  <script src="portfolio/minesweeper.js?v=4" defer></script>
-  <script src="portfolio/paint.js?v=4" defer></script>
-  <script src="portfolio/pinball.js?v=4" defer></script>
-  <script src="portfolio/screensaver.js?v=4" defer></script>
-  <script src="portfolio/classic-shell.js?v=4" defer></script>
+  <script src="portfolio/locked.js?v=5" defer></script>
+  <script src="portfolio/challenge-rules.js?v=5" defer></script>
+  <script src="portfolio/breach.js?v=5" defer></script>
+  <script src="portfolio/wallpapers.js?v=5" defer></script>
+  <script src="portfolio/windows.js?v=5" defer></script>
+  <script src="portfolio/desktop.js?v=5" defer></script>
+  <script src="portfolio/site.js?v=5" defer></script>
+  <script src="portfolio/classic-engines.js?v=5" defer></script>
+  <script src="portfolio/accessories.js?v=5" defer></script>
+  <script src="portfolio/minesweeper.js?v=5" defer></script>
+  <script src="portfolio/paint.js?v=5" defer></script>
+  <script src="portfolio/pinball.js?v=5" defer></script>
+  <script src="portfolio/screensaver.js?v=5" defer></script>
+  <script src="portfolio/start-menus.js?v=5" defer></script>
+  <script src="portfolio/classic-shell.js?v=5" defer></script>
+  <script src="portfolio/environment-ui.js?v=5" defer></script>
 </head>
 <body>
   <a href="#projects" class="skip-link">Skip to projects</a>
@@ -66,7 +71,7 @@
       <div class="workspace">
         <section class="welcome" aria-labelledby="welcome-title">
           <div class="welcome-copy"><div class="eyebrow"><span class="tiny-square" aria-hidden="true"></span> README.TXT</div><h1 id="welcome-title">Small apps.<br>Real people.</h1><p>I’m Tim. I make things I wish existed.<br>A basketball app. A word game for my grandma.<br>A home on the web for someone’s business.</p><div class="welcome-actions"><a class="bevel-button primary-button" href="#projects">Explore my projects <span aria-hidden="true">↓</span></a><button class="text-button" data-dialog="about">A little about me <span aria-hidden="true">↗</span></button></div></div>
-          <div class="welcome-art"><img src="portfolio/desk.svg" width="245" height="180" alt="Original pixel art of a desktop computer and a houseplant"><div class="art-caption">Made in the present.<br>Feels a little like 1995.</div></div>
+          <div class="welcome-art"><img src="portfolio/desk.svg" width="245" height="180" alt="Original pixel art of a desktop computer and a houseplant"><div class="art-caption">Made in the present.<br>Feels a little like <span data-os-year>2000</span>.</div></div>
         </section>
         <div class="current-note"><span class="status-light" aria-hidden="true"></span><span>On my desk lately:</span><button data-project="openhoops">OpenHoops</button><span class="current-end">finding the next basketball run <span aria-hidden="true">↗</span></span></div>
         <section id="projects" class="project-collection" aria-labelledby="collection-title" tabindex="-1">
@@ -84,7 +89,7 @@
     <div class="window-statusbar"><span id="window-status">{{COUNT}} projects</span><span>No dial-up required.</span><button class="resize-grip" data-resize="se" aria-label="Resize project window with arrow keys" title="Drag to resize, or focus and use arrow keys">◢</button></div>
   </main>
   <div class="desktop-signature" aria-hidden="true">timBuilds<span>personal software, quietly made</span></div>
-  <div class="start-menu window" id="start-menu" hidden><div class="start-brand">tim<span>Builds</span></div><nav aria-label="Start menu"><button data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg>My Projects</button><button data-dialog="about"><svg aria-hidden="true"><use href="portfolio/icons.svg#document"/></svg>About Tim</button><button data-dialog="contact"><svg aria-hidden="true"><use href="portfolio/icons.svg#mail"/></svg>Say Hello</button><button data-dialog="display"><svg aria-hidden="true"><use href="portfolio/icons.svg#palette"/></svg>Display settings</button><a href="https://github.com/flushatoilet" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="portfolio/icons.svg#code"/></svg>GitHub <span aria-hidden="true">↗</span></a></nav></div>
+  <div class="start-menu window" id="start-menu" hidden><div class="start-brand"><strong>Windows</strong><span>2000</span><small>Professional</small></div><nav aria-label="Start menu"><button data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg>My Projects</button><button data-dialog="about"><svg aria-hidden="true"><use href="portfolio/icons.svg#document"/></svg>About Tim</button><button data-dialog="contact"><svg aria-hidden="true"><use href="portfolio/icons.svg#mail"/></svg>Say Hello</button><button data-dialog="display"><svg aria-hidden="true"><use href="portfolio/icons.svg#palette"/></svg>Display settings</button><a href="https://github.com/flushatoilet" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="portfolio/icons.svg#code"/></svg>GitHub <span aria-hidden="true">↗</span></a></nav></div>
   <footer class="taskbar" aria-label="Desktop taskbar"><button id="start-button" class="start-button bevel-button" aria-expanded="false" aria-controls="start-menu"><svg aria-hidden="true"><use href="portfolio/icons.svg#computer"/></svg><strong>Start</strong></button><div class="task-separator" aria-hidden="true"></div><div id="task-list" class="task-list" aria-label="Open windows"><button class="task-button is-active" data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><span>My Projects</span></button></div><button class="clock-tray" title="Date/Time Properties" aria-label="Open Date/Time Properties"><span class="online-dot" aria-hidden="true"></span><time id="clock" aria-label="Your local time">--:--</time></button></footer>
   <dialog class="window detail-window" id="detail-dialog" aria-labelledby="dialog-title"><div class="titlebar dialog-titlebar"><div class="window-title"><svg id="dialog-icon" aria-hidden="true"><use href="portfolio/icons.svg#document"/></svg><span id="dialog-title">Project details</span></div><button class="dialog-close" aria-label="Close dialog" title="Close">×</button></div><div class="dialog-body" id="dialog-body"></div></dialog>
   <script type="application/json" id="project-data"><!--PROJECT_DATA--></script>

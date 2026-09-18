@@ -1,0 +1,13 @@
+/* Era-specific Start layouts, sharing the same app launch actions. */
+(() => {
+  'use strict';
+  const icon=id=>`<svg aria-hidden="true"><use href="portfolio/icons.svg#${id}"/></svg>`;
+  const app=(label,id,glyph)=>`<button data-app-open="${id}">${icon(glyph)}<span>${label}</span></button>`;
+  const panel=(label,id,glyph)=>`<button data-dialog="${id}">${icon(glyph)}<span>${label}</span></button>`;
+  const projects=()=>`<button data-action="projects">${icon('folder')}<span>My Projects</span></button>`;
+  const programs=()=>app('Accessories','accessories','folder')+app('Notepad','notepad','notepad')+app('Calculator','calculator','calculator')+app('Paint','paint','paint')+'<hr>'+app('Minesweeper','minesweeper','mine')+app('Pinball','pinball','pinball');
+  const group=(title,glyph,html)=>`<div class="start-group"><button class="start-parent" aria-expanded="false">${icon(glyph)}<span>${title}</span><b aria-hidden="true">▸</b></button><div class="start-submenu window">${html}</div></div>`;
+  function classic(){const settings=panel('Display','display','palette')+app('Windows version…','versions','computer')+app('Date/Time','datetime','clock')+app('Volume','volume','speaker')+app('Control Panel','settings','settings')+app('Screen Saver','screensaver','computer');return group('Programs','folder',programs())+projects()+app('My Computer','computer','computer')+group('Settings','settings',settings)+app('Windows version…','versions','computer')+panel('Help','help','document')+app('Run…','run','computer')+'<hr>'+app('Shut Down…','shutdown','power');}
+  function xp(){return `<div class="xp-start-header">${icon('computer')}<div>timBuilds<small>Windows XP · personal desktop</small></div></div><div class="xp-start-columns"><div class="xp-start-left">${projects()}${panel('About Tim','about','document')}${panel('GitHub','github','code')}${panel('Say Hello','contact','mail')}<hr>${app('Notepad','notepad','notepad')}${app('Paint','paint','paint')}${group('All Programs','folder',programs())}</div><div class="xp-start-right">${app('My Computer','computer','computer')}${app('Games','games','folder')}<hr>${app('Control Panel','settings','settings')}${panel('Display Properties','display','palette')}${app('Windows version…','versions','computer')}${app('Date and Time','datetime','clock')}<hr>${panel('Help and Support','help','document')}${app('Run…','run','computer')}</div></div><div class="xp-start-footer">${app('Switch Windows','versions','computer')}${app('Turn Off Computer','shutdown','power')}</div>`;}
+  window.TimStartMenu=()=>window.TimVersion.current()==='xp'?xp():classic();
+})();
