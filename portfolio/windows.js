@@ -14,7 +14,7 @@
   function defaults(id){
     if(compact())return {x:8,y:workTop()+42,w:Math.min(innerWidth-16,document.documentElement.clientWidth-16),h:Math.max(200,availableHeight()-92)};
     const i=registry.size;
-    const sizes={solitaire:[760,680],reversi:[530,680],minigolf:[830,720],documents:[560,380],'document-privacy':[730,710],'document-terms':[730,710],versions:[720,800],calculator:[350,460],datetime:[560,450],minesweeper:[380,465],notepad:[670,500],paint:[820,640],pinball:[790,760],run:[440,280],volume:[350,350],shutdown:[440,370],system:[490,440],computer:[570,430],accessories:[470,330],games:[420,330],settings:[540,360],recycle:[650,460],screensaver:[460,380]};
+    const sizes={naughty:[300,190],solitaire:[760,680],reversi:[530,680],minigolf:[830,720],documents:[560,380],'document-privacy':[730,710],'document-terms':[730,710],versions:[720,800],calculator:[350,460],datetime:[560,450],minesweeper:[380,465],notepad:[670,500],paint:[820,640],pinball:[790,760],run:[440,280],volume:[350,350],shutdown:[440,370],system:[490,440],computer:[570,430],accessories:[470,330],games:[420,330],settings:[540,360],recycle:[650,460],screensaver:[460,380]};
     const size=sizes[id]||[660,id==='locked'?800:660];
     return id==='projects'?{x:innerWidth<1100?216:252,y:24,w:Math.min(1200,innerWidth-(innerWidth<1100?240:280)),h:availableHeight()-48}:{x:180+i*26,y:45+i*23,w:size[0],h:Math.min(size[1],availableHeight()-60)};
   }
