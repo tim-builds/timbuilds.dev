@@ -1,2 +1,4 @@
 .qa/
 .portfolio-bundle.b64
+dist/
+.wrangler/

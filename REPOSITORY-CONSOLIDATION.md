@@ -1,4 +1,6 @@
-# One website repository — proposed migration, not a completed cutover
+# One website repository — approved preparation, cutover pending
+
+Owner approved proceeding on 2026-09-18. The canonical-repository migration branch now includes a tested Cloudflare export and route checks. Cloudflare authorization is still missing, so neither domain has moved and no repository has been retired. See `docs/cloudflare-migration-status.md` for results and remaining gates.
 
 ## What is duplicated today
 
