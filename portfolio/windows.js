@@ -5,16 +5,16 @@
   const taskList=document.querySelector('#task-list'), compact=()=>innerWidth<=820;
   const clamp=(n,a,b)=>Math.max(a,Math.min(Math.max(a,b),n));
   const workTop=()=>parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--desktop-top"))||0;
-  const workBottom=()=>Math.max(workTop()+160,innerHeight-(document.documentElement.dataset.family==="mac"?0:taskbar.getBoundingClientRect().height));
+  const workBottom=()=>Math.max(workTop()+160,window.TimViewport.height()-(document.documentElement.dataset.family==="mac"?0:taskbar.getBoundingClientRect().height));
   const availableHeight=()=>workBottom()-workTop();
   const valid=r=>r&&['x','y','w','h'].every(k=>typeof r[k]==='number'&&Number.isFinite(r[k]));
   let saved={}, order=[], active=null, drag=null, mobileMode=compact();
   try{saved=JSON.parse(localStorage.getItem('timbuilds.windows.v3')||'{}')||{};}catch{}
   const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function defaults(id){
-    if(compact())return {x:8,y:workTop()+42,w:Math.min(innerWidth-16,document.documentElement.clientWidth-16),h:Math.max(200,availableHeight()-92)};
+    if(compact())return {x:8,y:workTop()+42,w:Math.min(innerWidth-16,document.documentElement.clientWidth-16),h:Math.max(180,Math.min(({taskmanager:455,calculator:465,naughty:220,run:305,shutdown:410,"command-notice":235,volume:370,screensaver:400})[id]||10000,availableHeight()-92))};
     const i=registry.size;
-    const sizes={naughty:[300,190],solitaire:[760,680],reversi:[530,680],minigolf:[830,720],documents:[560,380],'document-privacy':[730,710],'document-terms':[730,710],versions:[720,800],calculator:[350,460],datetime:[560,450],minesweeper:[380,465],notepad:[670,500],paint:[820,640],pinball:[790,760],run:[440,280],volume:[350,350],shutdown:[440,370],system:[490,440],computer:[570,430],accessories:[470,330],games:[420,330],settings:[540,360],recycle:[650,460],screensaver:[460,380]};
+    const sizes={browser:[1050,760],taskmanager:[540,430],naughty:[300,190],solitaire:[760,680],reversi:[530,680],minigolf:[830,720],documents:[560,380],'document-privacy':[730,710],'document-terms':[730,710],versions:[720,800],calculator:[350,460],datetime:[560,450],minesweeper:[380,465],notepad:[670,500],paint:[820,640],pinball:[790,760],run:[440,280],volume:[350,350],shutdown:[440,370],system:[490,440],computer:[570,430],accessories:[470,330],games:[420,330],settings:[540,360],recycle:[650,460],screensaver:[460,380]};
     const size=sizes[id]||[660,id==='locked'?800:660];
     return id==='projects'?{x:innerWidth<1100?216:252,y:24,w:Math.min(1200,innerWidth-(innerWidth<1100?240:280)),h:availableHeight()-48}:{x:180+i*26,y:45+i*23,w:size[0],h:Math.min(size[1],availableHeight()-60)};
   }
@@ -68,6 +68,7 @@
   },true);
   function updateWindowDrag(event) {
     if (!drag || event.pointerId !== drag.id) return;
+    if(event.pointerType==='mouse'&&event.buttons===0){endWindowDrag({type:'cancel'});return;}
     const { w: windowState, start, dir } = drag;
     const dx = event.clientX - drag.x;
     const dy = event.clientY - drag.y;
@@ -97,12 +98,13 @@
   }
   document.addEventListener('pointerup', endWindowDrag);
   document.addEventListener('pointercancel', endWindowDrag);
-  document.addEventListener('lostpointercapture', endWindowDrag);
+  document.addEventListener('lostpointercapture',event=>{if(event.pointerType==='mouse'&&(event.buttons&1))return;endWindowDrag(event);});
   window.addEventListener('blur', () => endWindowDrag({type:'cancel'}));
   document.addEventListener('keydown', event => {
     const el = event.target.closest('[data-window-id]');
     if (!el) return;
     const w = registry.get(el.dataset.windowId);
+    if (event.key === 'Escape' && event.target.closest('input,textarea,select,[contenteditable=true]'))return;
     if (event.key === 'Escape' && !w.main && !document.querySelector('dialog[open]')) {
       close(w.id); event.preventDefault(); return;
     }
@@ -115,6 +117,7 @@
     paint(w); persist();
   });
   window.addEventListener('resize', () => {
+    if(window.TimViewport.keyboard())return;
     if (drag) endWindowDrag({type:'cancel'});
     const next=compact();for (const w of registry.values()) {
       if(next!==mobileMode){if(mobileMode)w.mobileRect={...(w.normal||w.rect)};else w.desktopRect={...(w.normal||w.rect)};w.rect=bound((next?w.mobileRect:w.desktopRect)||defaults(w.id),w);if(w.maximized)w.normal={...w.rect};}

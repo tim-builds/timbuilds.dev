@@ -1,0 +1,9 @@
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';import assert from 'node:assert/strict';import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const projects=JSON.parse(fs.readFileSync(path.join(root,'portfolio/projects.json'),'utf8'));
+const manifest=JSON.parse(fs.readFileSync(path.join(root,'portfolio/media/provenance.json'),'utf8'));
+assert.equal(projects.length,manifest.items.length);assert.equal(new Set(projects.map(p=>p.image)).size,projects.length);
+for(const p of projects){assert.match(p.image,/^portfolio\/media\/[a-z0-9-]+\.jpg$/);assert.ok(p.imageAlt&&p.imageNote&&p.imageLabel);const bytes=fs.readFileSync(path.join(root,p.image));assert.equal(bytes[0],255);assert.equal(bytes[1],216);const record=manifest.items.find(r=>r.project===p.id);assert.ok(record);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),record.sha256);}
+const html=fs.readFileSync(path.join(root,'index.html'),'utf8');for(const p of projects)assert.ok(html.includes('src="'+p.image+'"'));assert.ok(!html.includes('PROJECT SKETCH'));
+const landing=fs.readFileSync(path.join(root,'openhoops/index.html'),'utf8');for(const p of ['privacy.html','terms.html','delete-account.html'])assert.ok(landing.includes(p));assert.ok(landing.includes('Internal testing'));assert.ok(!landing.includes('apps.apple.com'));
+console.log('PASS: all '+projects.length+' public media paths, source labels and hashes; OpenHoops landing keeps policy links and truthful availability.');

@@ -1,0 +1,97 @@
+{
+  "prepared": "2026-09-18",
+  "note": "User-owned project screenshots and original design studies. Raw private sources and financial information were not published. Source captures may show earlier development builds; sample states are explicitly labelled.",
+  "items": [
+    {
+      "project": "openhoops",
+      "image": "portfolio/media/openhoops.jpg",
+      "label": "App screenshots",
+      "description": "Actual OpenHoops map and venue screens in a two-phone composition.",
+      "sha256": "fb1244fd3a1dc489bc17afe1a08e945794268876260a4014f252c8535432d829"
+    },
+    {
+      "project": "letters-with-lola",
+      "image": "portfolio/media/lola.jpg",
+      "label": "Game screenshot",
+      "description": "Letters with Lola test game board with generic test players.",
+      "sha256": "85a78855b08cb7c6caa0a32237b37279a05592ec25dda091397e4b6d81a3f754"
+    },
+    {
+      "project": "studio-siomai",
+      "image": "portfolio/media/siomai.jpg",
+      "label": "Website screenshot",
+      "description": "Studio Siomai public homepage.",
+      "sha256": "ae1e8b41f4c7ddab0dc34c3c524137ef090d54e56435a33b0889669acaa1f841"
+    },
+    {
+      "project": "solitaire",
+      "image": "portfolio/media/solitaire.jpg",
+      "label": "Game screenshot",
+      "description": "Solitaire Clemulie public game table.",
+      "sha256": "a69bdf571e0ab29f6fd8b21a7e321f570bbd185bda9523327266873b920cfc9f"
+    },
+    {
+      "project": "grit-athletics",
+      "image": "portfolio/media/grit.jpg",
+      "label": "Website screenshot",
+      "description": "Grit Athletics public coaching website concept.",
+      "sha256": "6adbae58dde2e35e9da59c1dbf62240fb4617a3751b810a74106d726ddb682d0"
+    },
+    {
+      "project": "block-app",
+      "image": "portfolio/media/blockapp.jpg",
+      "label": "Native proof screen",
+      "description": "blockApp native blocking proof screen in an editorial composition.",
+      "sha256": "babfd0e3e8ee957f8035df6f1df2553ee28f34a18eefb7ef99ddd6eeb52dfbb0"
+    },
+    {
+      "project": "tv-app",
+      "image": "portfolio/media/tv.jpg",
+      "label": "Native test screen",
+      "description": "TV player channel browser with a user-supplied test playlist.",
+      "sha256": "34ba21fdccdd8c8199d096534a6f3b8292594d4e10efbf7aa38b017b6a426a89"
+    },
+    {
+      "project": "showtally",
+      "image": "portfolio/media/showtally.jpg",
+      "label": "Prototype screenshot",
+      "description": "ShowTally extension panel using sample session figures from its store mockup.",
+      "sha256": "6c06b468ca2cc50d2f23df11accff3277000b0e8ff2766c63cdfe02f64e12cee"
+    },
+    {
+      "project": "north-of-the-6ix",
+      "image": "portfolio/media/north.jpg",
+      "label": "Design study",
+      "description": "Black-and-gold basketball brand study; not a launched website or screenshot.",
+      "sha256": "3ad62d9609d1211b233cec1a3e80a9faf633afb86d433b0d0207582d1764581f"
+    },
+    {
+      "project": "ratings-aggregator",
+      "image": "portfolio/media/ratings.jpg",
+      "label": "Prototype screenshot",
+      "description": "Ratings Explorer rendered from its source with clearly labelled sample data and no external API.",
+      "sha256": "48bc6aac3358fae405dfda6fee6ad6dfd323b6beb9d7fbac87435e7200fcc91f"
+    },
+    {
+      "project": "lofi-demos",
+      "image": "portfolio/media/lofi.jpg",
+      "label": "Original audio waveform",
+      "description": "Measured waveform of the original Harbor Lights composition, decoded locally without publishing the audio.",
+      "sha256": "8993de6b03dbb02a29f8e0820b067021b5ab9fb887782a7790cd551e21d3f0e6"
+    },
+    {
+      "project": "household-money",
+      "image": "portfolio/media/money.jpg",
+      "label": "Concept illustration",
+      "description": "Household budgeting scenario illustration; no personal figures or real projections.",
+      "sha256": "b2a516dd9c2d6d0ef2f87afc46ea255349c61d06dfc18eab9e5e57a799fdd26e"
+    },
+    {
+      "project": "shoe-ratings",
+      "image": "portfolio/media/research.jpg",
+      "label": "Prototype screenshot",
+      "description": "Shoe Ratings rendered from its existing public source.",
+      "sha256": "24cfb6fa543eca978f553a45668dd6f762e77d16013181a46bc1dd2513bcb6c4"
+    }
+  ]
+}
