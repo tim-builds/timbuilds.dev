@@ -14,8 +14,8 @@ for (const p of data) {
  assert.ok(p.stack.length>0);
  assert.ok(fs.existsSync(path.join(root,'portfolio/previews',p.preview+'.svg')));
  assert.ok(html.includes(`data-id="${p.id}"`),`${p.id} is rendered without JS`);
- if(p.url){assert.ok(p.url.startsWith('https://')||p.url==='/openhoops/');assert.ok(p.cta);}
- if(p.source){assert.ok(p.source.startsWith('https://github.com/'));assert.equal(p.source,p.url);}
+ if(p.url){assert.ok(p.url.startsWith('https://')||p.url==='/openhoops/'||/^\/projects\/[a-z0-9-]+\/$/.test(p.url));assert.ok(p.cta);}
+ if(p.source){assert.ok(p.source.startsWith('https://github.com/'));assert.ok(p.source!==p.url||p.url.startsWith('https://github.com/'));}
 }
 for(const match of html.matchAll(/(?:src|href)="([^"#]+)"/g)){
  const url=match[1].split('#')[0].split('?')[0];

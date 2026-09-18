@@ -36,7 +36,7 @@
   function commands(name) {
     const id=owner.dataset.windowId, projects=id==='projects', note=id==='notepad', paint=id==='paint';
     const named=label=>()=>[...owner.querySelectorAll('button')].find(b=>b.textContent===label)?.click();
-    if(name==='Favourites')return [['OpenHoops','/openhoops/'],['Studio Siomai','https://studio-siomai.vercel.app/'],['Letters with Lola','https://letters-with-lola.vercel.app/'],['Grit Athletics','https://grit-athletics.pages.dev/']].map(([label,url])=>item(label,()=>window.TimBrowser.open(url)));
+    if(name==='Favourites')return [['openHoops','/openhoops/'],['Studio Siomai','https://studio-siomai.vercel.app/'],['Letters with Lola','/projects/letters-with-lola/'],['Grit Athletics','https://grit-athletics.pages.dev/']].map(([label,url])=>item(label,()=>window.TimBrowser.open(url)));
     if(name==='View'&&id==='browser')return [item('Back',click('[data-browser-action=back]'),q('[data-browser-action=back]').disabled),item('Forward',click('[data-browser-action=forward]'),q('[data-browser-action=forward]').disabled),item('Reload',click('[data-browser-action=reload]')),item('Home',click('[data-browser-action=home]')),null,item('Maximise / Restore',()=>W.maximize(id)),item('Fit window to screen',()=>W.reset(id))];
     if(name==='File') return [
       ...(id==='browser'?[item('Open location…',()=>q('.browser-url').focus())]:[]),

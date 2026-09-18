@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const roots=['index.html','.nojekyll','portfolio','openhoops','.well-known','legacy-stubs'];
+const roots=['index.html','.nojekyll','portfolio','projects','openhoops','.well-known','legacy-stubs'];
 const files=[];
 function collect(relative){const absolute=path.join(root,relative),stat=fs.lstatSync(absolute);if(stat.isSymbolicLink())throw new Error('Refusing symbolic link: '+relative);if(stat.isDirectory()){for(const name of fs.readdirSync(absolute))collect(path.join(relative,name));}else if(stat.isFile())files.push({path:relative,bytes:stat.size});}
 for(const item of roots)collect(item);

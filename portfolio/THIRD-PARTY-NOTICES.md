@@ -55,3 +55,7 @@ Solitaire, Reversi and Mini Golf are original browser implementations in this re
 ## Release 9 project visuals
 
 The public catalogue uses new 1200×700 captures/compositions of the user's projects. Live-site captures preserve their visible branding. Development/store fixtures are labelled as such, not represented as live users or current production data. North of the 6ix and Household Money use explicitly labelled design/concept studies; no personal financial amounts are disclosed. Lo-fi Lab uses an actual waveform of the user's original Harbor Lights composition, not the unrelated cover-track audio. Underlying screenshots may include map-provider attribution or existing project artwork; those attributions are preserved. Public output paths, labels, descriptions and SHA-256 hashes are recorded in media/provenance.json. Raw private source files and audio are not bundled.
+
+## Release 10 information pages
+
+The new project websites reuse the public project assets with their existing source labels. The openHoops preview is refreshed from the actual updated project website with an unchanged development app capture; its hash and description are in media/provenance.json. Project websites contain no copied game runtime. Letters with Lola and Solitaire Clemulie launch their existing externally hosted games through explicit new-tab links. The protected-file alert graphic and drag-return UI are original CSS/HTML recreations, not bundled operating-system artwork or audio.
