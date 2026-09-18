@@ -1,4 +1,5 @@
 import {checkShell} from './check-shell.mjs';
+import {checkClassic} from './check-classic.mjs';
 /** Optional, dependency-free Chrome checks. Uses its own temporary profile and loopback server. */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -13,7 +14,7 @@ const chrome=process.env.PORTFOLIO_CHROME || (process.platform==='win32'?'C:\\Pr
 assert.ok(fs.existsSync(chrome),'Set PORTFOLIO_CHROME to an installed Chrome/Chromium executable.');
 const output=path.join(root,'.qa');fs.mkdirSync(output,{recursive:true});
 const profile=fs.mkdtempSync(path.join(os.tmpdir(),'timbuilds-browser-'));
-const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.json':'application/json','.png':'image/png'};
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.json':'application/json','.png':'image/png','.wasm':'application/wasm'};
 const server=http.createServer((req,res)=>{
  let relative;
  try{relative=decodeURIComponent(new URL(req.url,'http://localhost').pathname);}catch{res.writeHead(400).end();return;}
@@ -24,7 +25,7 @@ const server=http.createServer((req,res)=>{
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const origin=process.env.PORTFOLIO_ORIGIN || `http://127.0.0.1:${server.address().port}`;
-const browser=spawn(chrome,['--headless=new','--no-first-run','--disable-default-apps','--disable-background-networking','--remote-debugging-port=0','--remote-debugging-address=127.0.0.1',`--user-data-dir=${profile}`,'about:blank'],{stdio:'ignore',windowsHide:true});
+const browser=spawn(chrome,['--headless=new','--enable-unsafe-swiftshader','--use-angle=swiftshader','--use-gl=angle','--no-first-run','--disable-default-apps','--disable-background-networking','--remote-debugging-port=0','--remote-debugging-address=127.0.0.1',`--user-data-dir=${profile}`,'about:blank'],{stdio:'ignore',windowsHide:true});
 let ws;let nextId=1;const pending=new Map();const errors=[];const checks=[];const requests=[];
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function until(fn,label){for(let i=0;i<100;i++){if(await fn())return;await sleep(100);}throw new Error(`Timed out: ${label}`);}
@@ -63,7 +64,7 @@ try{
  if(process.argv.includes('--capture-social')){await viewport(1280,720);await evaluate('window.scrollTo(0,0)');await screenshot(path.join(root,'portfolio/social.png'),{x:0,y:0,width:1280,height:672,scale:.9375});pass('Social preview generated from this actual website');}
  const box=selector=>evaluate(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height};})()`);
  async function mouse(x,y,type='mouseMoved',count=1){await send('Input.dispatchMouseEvent',{type,x,y,button:type==='mouseMoved'?'none':'left',buttons:type==='mouseReleased'?0:1,clickCount:type==='mouseMoved'?0:count});}
- async function drag(selector,dx,dy){const r=await box(selector),x=r.x+r.w/2,y=r.y+r.h/2;await mouse(x,y);await mouse(x,y,'mousePressed');for(let i=1;i<=5;i++)await mouse(x+dx*i/5,y+dy*i/5);await mouse(x+dx,y+dy,'mouseReleased');await sleep(350);}
+ async function drag(selector,dx,dy){const r=await box(selector),x=r.x+r.w/2,y=r.y+r.h/2;await mouse(x,y);await mouse(x,y,'mousePressed');for(let i=1;i<=5;i++){await mouse(x+dx*i/5,y+dy*i/5);await sleep(25);}await mouse(x+dx,y+dy,'mouseReleased');await sleep(350);}
  await viewport(1440,1000);await evaluate('window.TimDesktop.resetWindow();window.TimDesktop.arrange()');
  const before=await box('#portfolio-window');await drag('#portfolio-window > .titlebar',-40,10);const moved=await box('#portfolio-window');assert.equal(Math.round(moved.x),Math.round(before.x-40));assert.equal(Math.round(moved.y),Math.round(before.y+10));pass('Real pointer drag moves the main window');
  await drag('.resize-se',-160,-120);const resized=await box('#portfolio-window');assert.equal(Math.round(resized.w),Math.round(moved.w-160));assert.equal(Math.round(resized.h),Math.round(moved.h-120));pass('Corner drag resizes the project window');
@@ -75,6 +76,7 @@ try{
  for(const width of [1024,1440,2560,3440]){await viewport(width,1100);await evaluate('window.TimDesktop.arrange()');assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,12);assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth'),false);}await screenshot(path.join(output,'ultrawide.png'));pass('Left-aligned icons across 1024–3440 px widths');
  await viewport(1440,1000);await evaluate('window.TimDesktop.resetWindow();document.querySelector(".workspace").scrollTop=200');const scroll=await evaluate('document.querySelector(".workspace").scrollTop');await click('[data-category="Websites"]');assert.equal(await evaluate('document.querySelector(".workspace").scrollTop'),scroll);assert.equal(await evaluate('window.scrollY'),0);await click('[data-category="All projects"]');pass('Filtering preserves explorer scroll position and never scrolls the desktop');
  await checkShell({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
+ await checkClassic({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await evaluate('localStorage.setItem("owner","true");localStorage.setItem("timbuilds.owner","true")');await navigate(origin);await click('[data-action="locked"]');await until(()=>evaluate('!!document.querySelector("#window-locked:not([hidden]) .access-terminal")'),'guest terminal after owner-key lookup');assert.ok(await evaluate('!!document.querySelector(".access-terminal")'));await click('#window-locked [data-win-control="close"]');pass('Spoofing an owner preference does not bypass encryption');
  const ownerFile=process.env.TIMBUILDS_OWNER_FILE||path.join(process.env.LOCALAPPDATA||path.join(os.homedir(),'.local','share'),'timbuilds-owner','catalogue.json');
  if(fs.existsSync(ownerFile)){

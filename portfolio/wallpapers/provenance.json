@@ -1,0 +1,127 @@
+{
+  "retrieved": "2026-09-18T00:38:53.638Z",
+  "archive": "https://archive.org/details/sc-wall",
+  "note": "Original Microsoft theme artwork preserved as archival JPEGs; not modern reinterpretations, not represented as public-domain or as 4K. Names and attribution follow the archive.",
+  "images": [
+    {
+      "id": "win95-da",
+      "label": "95 Plus! · Dangerous Creatures",
+      "file": "win95-da.jpg",
+      "source": "https://archive.org/download/sc-wall/DA_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "a958d9a0648d3227542962f5a0f6d4cf07c47b48286fb892e2bcb0848666022a",
+      "bytes": 99357
+    },
+    {
+      "id": "win95-pc",
+      "label": "95 Plus! · Inside Your Computer",
+      "file": "win95-pc.jpg",
+      "source": "https://archive.org/download/sc-wall/PC_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "433d3e7f9d584cfaedc88a72eda2012e38b07e0669bc78396003403dca3e928b",
+      "bytes": 76769
+    },
+    {
+      "id": "win95-dv",
+      "label": "95 Plus! · Leonardo da Vinci",
+      "file": "win95-dv.jpg",
+      "source": "https://archive.org/download/sc-wall/DV_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "d480cf75700e8dcc416b9bcd6697578a149ec24e57807af9bb1fbd4309a3dafe",
+      "bytes": 91336
+    },
+    {
+      "id": "win95-wh",
+      "label": "95 Plus! · More Windows",
+      "file": "win95-wh.jpg",
+      "source": "https://archive.org/download/sc-wall/WH_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "2cf1d4c799e758aad3c607787b4163ccb6c84edb22a05aea2be979d8037b0b26",
+      "bytes": 32034
+    },
+    {
+      "id": "win95-my",
+      "label": "95 Plus! · Mystery",
+      "file": "win95-my.jpg",
+      "source": "https://archive.org/download/sc-wall/MY_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "4d0ca894e2f6ad60dc04709962dee4af195c0eae9674987493d30a2a4bfdbd56",
+      "bytes": 80213
+    },
+    {
+      "id": "win95-na",
+      "label": "95 Plus! · Nature",
+      "file": "win95-na.jpg",
+      "source": "https://archive.org/download/sc-wall/NA_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "2c9a3ace6bef4758bc1f8573ac898c0af22e99fbf2387eeb22753c27c214f421",
+      "bytes": 57803
+    },
+    {
+      "id": "win95-sc",
+      "label": "95 Plus! · Science",
+      "file": "win95-sc.jpg",
+      "source": "https://archive.org/download/sc-wall/SC_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "dbfb5ae938180963316572bc270f2d19fbcbfbfbda9f7141d5a467a3dfab2764",
+      "bytes": 107669
+    },
+    {
+      "id": "win95-sp",
+      "label": "95 Plus! · Sports",
+      "file": "win95-sp.jpg",
+      "source": "https://archive.org/download/sc-wall/SP_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "a7d43f6135ef582bbe6f1a066968c1cf700b0d21cb7204b4ea3643768b77f963",
+      "bytes": 90714
+    },
+    {
+      "id": "win95-sx",
+      "label": "95 Plus! · The 60s USA",
+      "file": "win95-sx.jpg",
+      "source": "https://archive.org/download/sc-wall/SX_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "e1736c8b7947da625d31d56e50f5f5492b624d06c1a57278449d78b594416b17",
+      "bytes": 94322
+    },
+    {
+      "id": "win95-mo",
+      "label": "95 Plus! · The Golden Era",
+      "file": "win95-mo.jpg",
+      "source": "https://archive.org/download/sc-wall/MO_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "bba2dde9987a1321f99e8393f5e84300d9f173c761562e05e9fae24d9fe380e1",
+      "bytes": 45220
+    },
+    {
+      "id": "win95-tr",
+      "label": "95 Plus! · Travel",
+      "file": "win95-tr.jpg",
+      "source": "https://archive.org/download/sc-wall/TR_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "a566f942f1cd5dd6b11d620514e69c8afdcc89e1c246f5ee7a887a10ea878aff",
+      "bytes": 48791
+    },
+    {
+      "id": "win95-wi",
+      "label": "95 Plus! · Windows 95",
+      "file": "win95-wi.jpg",
+      "source": "https://archive.org/download/sc-wall/WI_WALL.JPG",
+      "creator": "Microsoft",
+      "collection": "Windows 95 Plus! archival JPEG",
+      "sha256": "32759318d5cd2c11a91e357de71aadae87274b3fd3d49eb521b0f98c88b50ac6",
+      "bytes": 42497
+    }
+  ]
+}

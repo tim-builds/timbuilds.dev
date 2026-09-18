@@ -7,7 +7,7 @@
   let positions={}, selected=new Set(), gesture=null, suppressUntil=0, pointerType='mouse';
   const box=document.createElement('div');box.id='desktop-selection';box.hidden=true;box.setAttribute('aria-hidden','true');document.body.appendChild(box);
   const status=document.createElement('span');status.className='sr-only';status.setAttribute('role','status');dock.appendChild(status);dock.tabIndex=0;
-  icons.forEach((el,i)=>{el.dataset.shortcut=['projects','about','contact','github','display'][i];el.draggable=false;el.title='Double-click to open · drag to move · Ctrl-click to select more';});
+  icons.forEach((el,i)=>{el.dataset.shortcut=el.dataset.shortcut||['projects','about','contact','github','display'][i];el.draggable=false;el.title='Double-click to open · drag to move · Ctrl-click to select more';});
   try{const saved=JSON.parse(localStorage.getItem('timbuilds.desktop.v3')||'null');if(saved?.positions&&typeof saved.positions==='object'&&!Array.isArray(saved.positions))positions=saved.positions;else{const previous=JSON.parse(localStorage.getItem('timbuilds.desktop.v2')||'{}');for(const [id,p] of Object.entries(previous?.positions||{}))positions[id]={x:p.x,y:p.y-54};}}catch{}
   const workHeight=()=>window.TimWindows.workHeight();
   function persist(){try{localStorage.setItem('timbuilds.desktop.v3',JSON.stringify({positions}));}catch{}}
