@@ -3,7 +3,7 @@
   'use strict';
   const A=window.TimApps,W=window.TimWindows,navigators=new WeakMap();
   const categories=['All projects','Apps','Games','Websites','Tools','Experiments','Locked'];
-  const folders={computer:['projects','accessories','games','documents','browser','settings','recycle'],accessories:['notepad','calculator','paint'],games:['solitaire','minesweeper','pinball','reversi','minigolf'],documents:['document-privacy','document-terms'],settings:['versions','datetime','volume','system','screensaver','taskmanager']};
+  const folders={computer:['projects','accessories','games','documents','browser','settings','recycle'],accessories:['notepad','calculator','paint'],games:['pinball','solitaire','minesweeper','reversi','minigolf'],documents:['document-privacy','document-terms'],settings:['versions','datetime','volume','system','screensaver','taskmanager']};
   const names={computer:'My Computer',accessories:'Accessories',games:'Games',documents:'Documents',settings:'Control Panel'};
   function pathFor(id){return id==='computer'?'C:\\':id==='projects'?'C:\\Tim\\Projects\\All projects':id.startsWith('project:')?'C:\\Tim\\Projects\\'+id.slice(8):'C:\\'+(names[id]||id);}
   function resolve(raw){

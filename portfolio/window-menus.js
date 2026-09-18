@@ -74,7 +74,7 @@
   }
   function install() {
     for(const win of document.querySelectorAll('[data-window-id]')) {
-      if(win.querySelector(':scope > .application-menus') || ['taskmanager','naughty','command-notice','shutdown','locked'].includes(win.dataset.windowId))continue;
+      if(win.querySelector(':scope > .application-menus') || ['taskmanager','naughty','command-notice','shutdown','locked','pinball'].includes(win.dataset.windowId))continue;
       const nav=win.querySelector(':scope > .window-menubar')||document.createElement('nav');nav.className='window-menubar application-menus';nav.setAttribute('aria-label','Application menus');nav.replaceChildren();
       for(const name of (win.dataset.windowId==='browser'?['File','Edit','View','Favourites','Tools','Help']:['File','Edit','View','Tools','Help'])) {const b=document.createElement('button');b.dataset.windowMenu=name;b.textContent=name;b.setAttribute('aria-haspopup','menu');b.setAttribute('aria-expanded','false');nav.append(b);}
       win.querySelector(':scope > .titlebar').after(nav);
