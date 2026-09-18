@@ -9,7 +9,7 @@
   }
   const icon=id=>`<svg aria-hidden="true"><use href="portfolio/icons.svg?v=12#${id}"/></svg>`;
   const appButton=(id,label,glyph)=>`<button class="program-icon" data-app-open="${id}">${icon(glyph)}<span>${label}</span></button>`;
-  const categories={accessories:['notepad','calculator','paint'],games:['minesweeper','pinball'],settings:['versions','datetime','volume','system']};
+  const categories={accessories:['notepad','calculator','paint'],games:['pinball','minesweeper'],settings:['versions','datetime','volume','system']};
   for(const [id,label] of [['accessories','Accessories'],['games','Games'],['computer','My Computer'],['settings','Control Panel']]) {
     A.register(id,label,id==='computer'?'computer':'folder',(body)=>{
       const ids=id==='computer'?['accessories','games','settings','recycle']:categories[id];
