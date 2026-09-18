@@ -4,27 +4,29 @@
   const registry=new Map(), taskbar=document.querySelector('.taskbar');
   const taskList=document.querySelector('#task-list'), compact=()=>innerWidth<=820;
   const clamp=(n,a,b)=>Math.max(a,Math.min(Math.max(a,b),n));
-  const availableHeight=()=>Math.max(160,innerHeight-taskbar.getBoundingClientRect().height);
+  const workTop=()=>parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--desktop-top"))||0;
+  const workBottom=()=>Math.max(workTop()+160,innerHeight-(document.documentElement.dataset.family==="mac"?0:taskbar.getBoundingClientRect().height));
+  const availableHeight=()=>workBottom()-workTop();
   const valid=r=>r&&['x','y','w','h'].every(k=>typeof r[k]==='number'&&Number.isFinite(r[k]));
   let saved={}, order=[], active=null, drag=null;
   try{saved=JSON.parse(localStorage.getItem('timbuilds.windows.v3')||'{}')||{};}catch{}
   const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function defaults(id){
     const i=registry.size;
-    const sizes={calculator:[350,460],datetime:[560,450],minesweeper:[380,465],notepad:[670,500],paint:[820,640],pinball:[790,760],run:[440,280],volume:[350,350],shutdown:[440,370],system:[490,440],computer:[570,430],accessories:[470,330],games:[420,330],settings:[540,360],recycle:[650,460],screensaver:[460,380]};
+    const sizes={versions:[720,800],calculator:[350,460],datetime:[560,450],minesweeper:[380,465],notepad:[670,500],paint:[820,640],pinball:[790,760],run:[440,280],volume:[350,350],shutdown:[440,370],system:[490,440],computer:[570,430],accessories:[470,330],games:[420,330],settings:[540,360],recycle:[650,460],screensaver:[460,380]};
     const size=sizes[id]||[660,id==='locked'?800:660];
     return id==='projects'?{x:innerWidth<1100?216:252,y:24,w:Math.min(1200,innerWidth-(innerWidth<1100?240:280)),h:availableHeight()-48}:{x:180+i*26,y:45+i*23,w:size[0],h:Math.min(size[1],availableHeight()-60)};
   }
-  function bound(r,w){const width=clamp(r.w,Math.min(w.tiled?120:w.main?540:340,innerWidth),innerWidth),height=clamp(r.h,Math.min(w.tiled?50:250,availableHeight()),availableHeight());return {x:clamp(r.x,0,innerWidth-width),y:clamp(r.y,0,availableHeight()-height),w:width,h:height};}
+  function bound(r,w){const width=clamp(r.w,Math.min(w.tiled?120:w.main?540:340,innerWidth),innerWidth),height=clamp(r.h,Math.min(w.tiled?50:250,availableHeight()),availableHeight());return {x:clamp(r.x,0,innerWidth-width),y:clamp(r.y,workTop(),workBottom()-height),w:width,h:height};}
   function persist(){const geometry={};for(const [id,w] of registry)geometry[id]=w.normal||w.rect;try{localStorage.setItem('timbuilds.windows.v3',JSON.stringify(geometry));}catch{}}
   function paint(w){
     const el=w.el;el.classList.toggle('is-maximized',w.maximized);
     if(w.main&&compact()&&!w.maximized){for(const k of ['left','top','width','height'])el.style.removeProperty(k);return;}
     const usableWidth=Math.min(innerWidth,document.documentElement.clientWidth||innerWidth);
-    const r=w.maximized?{x:0,y:0,w:usableWidth,h:availableHeight()}:compact()?{x:8,y:16,w:usableWidth-16,h:Math.min(w.rect.h,availableHeight()-24)}:bound(w.rect,w);
+    const r=w.maximized?{x:0,y:workTop(),w:usableWidth,h:availableHeight()}:compact()?{x:8,y:workTop()+16,w:usableWidth-16,h:Math.min(w.rect.h,availableHeight()-24)}:bound(w.rect,w);
     Object.assign(el.style,{left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px'});
   }
-  function markActive(id){active=id;for(const [key,w] of registry){const yes=key===id&&w.state==='open';w.el.classList.toggle('is-focused',yes);w.task.classList.toggle('is-active',yes);w.task.setAttribute('aria-pressed',String(yes));}order.forEach((key,i)=>registry.get(key).el.style.zIndex=String(10+i));}
+  function markActive(id){active=id;for(const [key,w] of registry){const yes=key===id&&w.state==='open';w.el.classList.toggle('is-focused',yes);w.task.classList.toggle('is-active',yes);w.task.setAttribute('aria-pressed',String(yes));}order.forEach((key,i)=>registry.get(key).el.style.zIndex=String(10+i));window.dispatchEvent(new Event("timbuilds-active-window"));}
   function focusWindow(id,focus=true){const w=registry.get(id);if(!w||w.state!=='open')return;order=order.filter(k=>k!==id);order.push(id);markActive(id);if(focus)w.el.focus({preventScroll:true});}
   function fallback(){const id=[...order].reverse().find(key=>registry.get(key).state==='open');markActive(id||null);if(id)registry.get(id).el.focus({preventScroll:true});else document.querySelector('.desktop-shortcut')?.focus({preventScroll:true});}
   function show(id){const w=registry.get(id);if(!w)return;const wasHidden=w.state!=='open';w.state='open';w.el.hidden=false;w.task.hidden=false;paint(w);focusWindow(id);if(wasHidden)w.onVisibility?.(true);}
@@ -74,9 +76,9 @@
     if (!dir) { x += dx; y += dy; }
     else {
       if (dir.includes('e')) w = clamp(start.w + dx, minWidth, innerWidth - x);
-      if (dir.includes('s')) h = clamp(start.h + dy, minHeight, availableHeight() - y);
+      if (dir.includes('s')) h = clamp(start.h + dy, minHeight, workBottom() - y);
       if (dir.includes('w')) { x = clamp(start.x + dx, 0, start.x + start.w - minWidth); w = start.x + start.w - x; }
-      if (dir.includes('n')) { y = clamp(start.y + dy, 0, start.y + start.h - minHeight); h = start.y + start.h - y; }
+      if (dir.includes('n')) { y = clamp(start.y + dy, workTop(), start.y + start.h - minHeight); h = start.y + start.h - y; }
     }
     windowState.rect = bound({ x, y, w, h }, windowState);
     document.documentElement.classList.add('desktop-dragging');
@@ -127,10 +129,10 @@
     const windows=[...registry.values()].filter(w=>w.state==='open'),n=windows.length;if(!n)return;
     const vertical=mode==='vertical';let cols=1,rows=1;
     if(mode!=='cascade'){if(vertical){cols=Math.min(n,Math.max(1,Math.floor(innerWidth/340)));rows=Math.ceil(n/cols);}else{rows=Math.min(n,Math.max(1,Math.floor(availableHeight()/260)));cols=Math.ceil(n/rows);}}
-    windows.forEach((w,i)=>{if(w.maximized)maximize(w.id);w.tiled=mode!=='cascade';const col=vertical?Math.floor(i/rows):i%cols,row=vertical?i%rows:Math.floor(i/cols);const r=w.tiled?{x:Math.floor(col*innerWidth/cols),y:Math.floor(row*availableHeight()/rows),w:Math.floor(innerWidth/cols),h:Math.floor(availableHeight()/rows)}:{x:36+i*26,y:24+i*26,w:Math.min(w.main?1100:650,innerWidth-60),h:Math.min(650,availableHeight()-60)};w.rect=bound(r,w);paint(w);});persist();
+    windows.forEach((w,i)=>{if(w.maximized)maximize(w.id);w.tiled=mode!=='cascade';const col=vertical?Math.floor(i/rows):i%cols,row=vertical?i%rows:Math.floor(i/cols);const r=w.tiled?{x:Math.floor(col*innerWidth/cols),y:workTop()+Math.floor(row*availableHeight()/rows),w:Math.floor(innerWidth/cols),h:Math.floor(availableHeight()/rows)}:{x:36+i*26,y:24+i*26,w:Math.min(w.main?1100:650,innerWidth-60),h:Math.min(650,availableHeight()-60)};w.rect=bound(r,w);paint(w);});persist();
   }
   window.TimWindows=Object.freeze({
     openPanel, show, minimize, close, maximize, toggleTask, reset, list, arrange, showDesktop, restoreDesktop, cycle,
-    deactivate:()=>markActive(null), active:()=>active, workHeight:availableHeight
+    deactivate:()=>markActive(null), active:()=>active, workHeight:availableHeight,workTop,workBottom
   });
 })();
