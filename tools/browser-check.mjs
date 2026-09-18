@@ -1,3 +1,4 @@
+import {checkInlineFeedback} from './check-inline-feedback.mjs';
 import {checkRecovery} from './check-recovery.mjs';
 import {checkFinish} from './check-finish.mjs';
 import {checkProjectSites} from './check-project-sites.mjs';
@@ -88,6 +89,7 @@ try{
  await click('[data-action="close-projects"]');await drag('.desktop-shortcut[data-action="projects"]',220,0);const movedIcon=await box('.desktop-shortcut[data-action="projects"]');assert.equal(movedIcon.x,220);await navigate(origin);assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,220);await evaluate('window.TimDesktop.arrange()');assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,12);pass('Desktop icon drag, grid snapping, persistence and arrange-left reset');
  for(const width of [1024,1440,2560,3440]){await viewport(width,1100);await evaluate('window.TimDesktop.arrange()');assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,12);assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth'),false);}await screenshot(path.join(output,'ultrawide.png'));pass('Left-aligned icons across 1024–3440 px widths');
  await viewport(1440,1000);await evaluate('window.TimDesktop.resetWindow();document.querySelector(".workspace").scrollTop=200');const scroll=await evaluate('document.querySelector(".workspace").scrollTop');await click('[data-category="Websites"]');assert.equal(await evaluate('document.querySelector(".workspace").scrollTop'),scroll);assert.equal(await evaluate('window.scrollY'),0);await click('[data-category="All projects"]');pass('Filtering preserves explorer scroll position and never scrolls the desktop');
+ await checkInlineFeedback({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkRecovery({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkEnvironments({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass});
  await checkPlatforms({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});

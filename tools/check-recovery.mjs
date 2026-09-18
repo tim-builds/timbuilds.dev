@@ -14,19 +14,19 @@ export async function checkRecovery({evaluate,send,click,box,mouse,viewport,navi
  assert.equal(await evaluate('document.activeElement.id'),'bsod-title');
  await key('F5',116);assert.ok((await evaluate('document.querySelector("#bsod-check").textContent')).includes('PASSED'));
  await key('/',191);assert.equal(await evaluate('document.activeElement.id'),'bsod-title');
- await evaluate('document.querySelector("#bsod-title").focus()');await key('Tab',9,8);assert.equal(await evaluate('document.activeElement===document.querySelector(".bsod-footer button")'),true);
+ await evaluate('document.querySelector("#bsod-title").focus()');await key('Tab',9,8);assert.equal(await evaluate('document.activeElement===document.querySelector(".access-verify")'),true);
  for(let i=0;i<14;i++){await key('Tab',9);assert.equal(await evaluate('document.querySelector("#bsod-dialog").contains(document.activeElement)'),true);}
  await evaluate('document.querySelector("#access-response").focus()');await key('Escape',27);
  assert.equal(await evaluate('window.TimBSOD.isOpen()'),false);assert.deepEqual(await evaluate('window.TimWindows.list()'),before);assert.deepEqual(await box('#portfolio-window'),rect);
  assert.equal(await evaluate('document.querySelector("#notepad-text").value'),'Keep my work during the crash');
  pass('BSOD contains keyboard focus and shell shortcuts; Escape from its input preserves desktop windows, geometry and notes');
  await click('[data-action=locked]');await until(()=>evaluate('!!document.querySelector(".access-terminal")'),'recovery form');
- await evaluate('document.querySelector("#access-response").value=window.TimChallengeRules.makeStage(0,123456).answer;document.querySelector("#access-form").requestSubmit()');await click('[data-access-action=next]');
+ await evaluate('document.querySelector("#access-response").value=window.TimChallengeRules.makeStage(0,123456).answer;document.querySelector("#access-form").requestSubmit()');await click('.access-verify');
  await click('#bsod-dialog [data-bsod-action=desktop]');await evaluate('window.TimDesktopActions.warn("move")');
  assert.equal(await evaluate('document.querySelector("#bsod-stop").textContent'),'PROJECTS_CANNOT_BE_RECYCLED');assert.equal(await evaluate('document.querySelector(".access-terminal").dataset.depth'),'1');assert.equal(await evaluate('document.querySelector("#desktop-warning").open'),false);
  await evaluate('window.TimBSOD.close();window.TimBSOD.open("locked")');await sleep(80);assert.equal(await evaluate('document.querySelector(".access-terminal").dataset.depth'),'1');
- await click('[data-access-action=disconnect]');assert.equal(await evaluate('window.TimBSOD.isOpen()'),false);
- pass('Both entrances share saved challenge progress; rapid reopen and the in-console return button clean up safely');
+ await click('.bsod-toolbar [data-bsod-action=desktop]');assert.equal(await evaluate('window.TimBSOD.isOpen()'),false);
+ pass('Both entrances share saved challenge progress; rapid reopen and the single toolbar return button clean up safely');
  for(const os of ['95','98','2000','xp','system7','mac9','ubuntu','kde'])for(const width of [320,390,1440]){
   await viewport(width,900);await evaluate(`window.TimVersion.set(${JSON.stringify(os)});window.TimWindows.showDesktop()`);
   const clock=os==='ubuntu'?'.platform-clock':'.clock-tray',year=os==='ubuntu'?'.platform-topbar .environment-year':'#environment-button';
