@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Space Cadet — Open Cadet</title>
+<link rel="stylesheet" href="pinball.css">
+<script src="boot.js" defer></script>
+<script src="SpaceCadetPinball.js" defer></script>
+</head>
+<body>
+<p id="status" role="status">Loading pinball…</p>
+<canvas id="canvas" tabindex="0" aria-label="Space Cadet pinball table. Z and slash control the flippers. Space launches the ball."></canvas>
+</body>
+</html>

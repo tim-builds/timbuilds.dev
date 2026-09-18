@@ -9,8 +9,13 @@
   let saved={}, order=[], active=null, drag=null;
   try{saved=JSON.parse(localStorage.getItem('timbuilds.windows.v3')||'{}')||{};}catch{}
   const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  function defaults(id){const i=registry.size;return id==='projects'?{x:innerWidth<1100?112:140,y:24,w:Math.min(1200,innerWidth-(innerWidth<1100?136:168)),h:availableHeight()-48}:{x:180+i*26,y:45+i*23,w:660,h:Math.min(id==='locked'?800:660,availableHeight()-60)};}
-  function bound(r,w){const width=clamp(r.w,Math.min(w.main?540:340,innerWidth),innerWidth),height=clamp(r.h,Math.min(250,availableHeight()),availableHeight());return {x:clamp(r.x,0,innerWidth-width),y:clamp(r.y,0,availableHeight()-height),w:width,h:height};}
+  function defaults(id){
+    const i=registry.size;
+    const sizes={calculator:[350,460],datetime:[560,450],minesweeper:[380,465],notepad:[670,500],paint:[820,640],pinball:[790,760],run:[440,280],volume:[350,350],shutdown:[440,370],system:[490,440],computer:[570,430],accessories:[470,330],games:[420,330],settings:[540,360],recycle:[650,460],screensaver:[460,380]};
+    const size=sizes[id]||[660,id==='locked'?800:660];
+    return id==='projects'?{x:innerWidth<1100?216:252,y:24,w:Math.min(1200,innerWidth-(innerWidth<1100?240:280)),h:availableHeight()-48}:{x:180+i*26,y:45+i*23,w:size[0],h:Math.min(size[1],availableHeight()-60)};
+  }
+  function bound(r,w){const width=clamp(r.w,Math.min(w.tiled?120:w.main?540:340,innerWidth),innerWidth),height=clamp(r.h,Math.min(w.tiled?50:250,availableHeight()),availableHeight());return {x:clamp(r.x,0,innerWidth-width),y:clamp(r.y,0,availableHeight()-height),w:width,h:height};}
   function persist(){const geometry={};for(const [id,w] of registry)geometry[id]=w.normal||w.rect;try{localStorage.setItem('timbuilds.windows.v3',JSON.stringify(geometry));}catch{}}
   function paint(w){
     const el=w.el;el.classList.toggle('is-maximized',w.maximized);
@@ -43,7 +48,7 @@
     }
     w.onClose=onClose;w.onVisibility=onVisibility;const body=w.el.querySelector('.app-window-body');body.innerHTML=html;body.scrollTop=0;show(id);return {el:w.el,body,created:true};
   }
-  function reset(id='projects'){const w=registry.get(id);if(!w)return;if(w.maximized)maximize(id);w.rect=bound(defaults(id),w);show(id);persist();}
+  function reset(id='projects'){const w=registry.get(id);if(!w)return;w.tiled=false;if(w.maximized)maximize(id);w.rect=bound(defaults(id),w);show(id);persist();}
   document.documentElement.classList.add('desktop-ready');
   register({id:'projects',el:document.querySelector('#portfolio-window'),label:'My Projects',icon:'folder',main:true,task:document.querySelector('.task-button')});markActive('projects');
   document.addEventListener('click',event=>{const task=event.target.closest('[data-window-task]');if(task){toggleTask(task.dataset.windowTask);return;}const button=event.target.closest('[data-win-control]');if(!button)return;const id=button.closest('[data-window-id]').dataset.windowId;({minimize,maximize,close})[button.dataset.winControl]?.(id);});
@@ -112,8 +117,19 @@
       paint(w);
     }
   });
+  let desktopRestore=[];
+  function list(){return [...registry.values()].map(w=>({id:w.id,label:w.label,state:w.state,maximized:w.maximized}));}
+  function showDesktop(){desktopRestore=[...registry.values()].filter(w=>w.state==='open').map(w=>w.id);for(const id of desktopRestore)minimize(id);}
+  function restoreDesktop(){for(const id of desktopRestore)show(id);desktopRestore=[];}
+  function cycle(direction=1){const ids=[...registry.values()].filter(w=>w.state==='open').map(w=>w.id);if(ids.length)show(ids[(ids.indexOf(active)+direction+ids.length)%ids.length]);}
+  function arrange(mode){
+    const windows=[...registry.values()].filter(w=>w.state==='open'),n=windows.length;if(!n)return;
+    const vertical=mode==='vertical';let cols=1,rows=1;
+    if(mode!=='cascade'){if(vertical){cols=Math.min(n,Math.max(1,Math.floor(innerWidth/340)));rows=Math.ceil(n/cols);}else{rows=Math.min(n,Math.max(1,Math.floor(availableHeight()/260)));cols=Math.ceil(n/rows);}}
+    windows.forEach((w,i)=>{if(w.maximized)maximize(w.id);w.tiled=mode!=='cascade';const col=vertical?Math.floor(i/rows):i%cols,row=vertical?i%rows:Math.floor(i/cols);const r=w.tiled?{x:Math.floor(col*innerWidth/cols),y:Math.floor(row*availableHeight()/rows),w:Math.floor(innerWidth/cols),h:Math.floor(availableHeight()/rows)}:{x:36+i*26,y:24+i*26,w:Math.min(w.main?1100:650,innerWidth-60),h:Math.min(650,availableHeight()-60)};w.rect=bound(r,w);paint(w);});persist();
+  }
   window.TimWindows=Object.freeze({
-    openPanel, show, minimize, close, maximize, toggleTask, reset,
+    openPanel, show, minimize, close, maximize, toggleTask, reset, list, arrange, showDesktop, restoreDesktop, cycle,
     deactivate:()=>markActive(null), active:()=>active, workHeight:availableHeight
   });
 })();
