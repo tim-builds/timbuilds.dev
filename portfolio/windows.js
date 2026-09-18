@@ -20,7 +20,8 @@
   function paint(w){
     const el=w.el;el.classList.toggle('is-maximized',w.maximized);
     if(w.main&&compact()&&!w.maximized){for(const k of ['left','top','width','height'])el.style.removeProperty(k);return;}
-    const r=w.maximized?{x:0,y:0,w:innerWidth,h:availableHeight()}:compact()?{x:8,y:16,w:innerWidth-16,h:Math.min(w.rect.h,availableHeight()-24)}:bound(w.rect,w);
+    const usableWidth=Math.min(innerWidth,document.documentElement.clientWidth||innerWidth);
+    const r=w.maximized?{x:0,y:0,w:usableWidth,h:availableHeight()}:compact()?{x:8,y:16,w:usableWidth-16,h:Math.min(w.rect.h,availableHeight()-24)}:bound(w.rect,w);
     Object.assign(el.style,{left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px'});
   }
   function markActive(id){active=id;for(const [key,w] of registry){const yes=key===id&&w.state==='open';w.el.classList.toggle('is-focused',yes);w.task.classList.toggle('is-active',yes);w.task.setAttribute('aria-pressed',String(yes));}order.forEach((key,i)=>registry.get(key).el.style.zIndex=String(10+i));}

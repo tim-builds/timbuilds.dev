@@ -1,0 +1,161 @@
+{
+  "images": [
+    {
+      "width": 800,
+      "height": 600,
+      "id": "win2000-windows-2000",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%202000-Me.zip",
+      "version": "2000",
+      "label": "Windows 2000",
+      "sha256": "b18816e2b1710b7bc6bb379ed557da6743cbb84c3ecd98d9a6e8485a50104883",
+      "member": "Windows 2000-Me/Windows 2000.jpg",
+      "file": "win2000-windows-2000.jpg"
+    },
+    {
+      "width": 163,
+      "height": 293,
+      "id": "win2000-boiling-point",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%202000-Me.zip",
+      "version": "2000",
+      "label": "Boiling Point",
+      "sha256": "e69d7d76f3ded2dd9f16f751f1e83178a1781b8f824f4d71dab61b99b4904233",
+      "member": "Windows 2000-Me/Boiling Point.jpg",
+      "file": "win2000-boiling-point.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "win2000-chateau",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%202000-Me.zip",
+      "version": "2000",
+      "label": "Chateau",
+      "sha256": "e2360ad3afc68975822b8d4f3817ddb1e91336d06a2889730b64bcdea58df8bc",
+      "member": "Windows 2000-Me/Chateau.jpg",
+      "file": "win2000-chateau.jpg"
+    },
+    {
+      "width": 800,
+      "height": 527,
+      "id": "win2000-iceberg",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%202000-Me.zip",
+      "version": "2000",
+      "label": "Iceberg",
+      "sha256": "49ab53424cb16ece1db64e759d70b157b7962744ae734f3b7055d217c54ce88e",
+      "member": "Windows 2000-Me/Iceberg.jpg",
+      "file": "win2000-iceberg.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "win2000-paradise",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%202000-Me.zip",
+      "version": "2000",
+      "label": "Paradise",
+      "sha256": "ac68d6c27523be12ab64fe277345fd9118385d5af3133adc4c37abc07c2a793e",
+      "member": "Windows 2000-Me/Paradise.jpg",
+      "file": "win2000-paradise.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "win2000-gold-petals",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%202000-Me.zip",
+      "version": "2000",
+      "label": "Gold Petals",
+      "sha256": "e70f53bd2598d721a7c46f9da02528cecf980d3c3834dc101c2de98713c033ce",
+      "member": "Windows 2000-Me/Gold Petals.jpg",
+      "file": "win2000-gold-petals.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "winxp-bliss",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%20XP-Server%202003-Server%202003%20R2.zip",
+      "version": "xp",
+      "label": "Bliss",
+      "sha256": "aecf72dc2cb3efd15575f081af8907ff5138d5c342d76b23d3bdb5e4db567720",
+      "member": "Windows XP-Server 2003-Server 2003 R2/Bliss.jpg",
+      "file": "winxp-bliss.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "winxp-ascent",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%20XP-Server%202003-Server%202003%20R2.zip",
+      "version": "xp",
+      "label": "Ascent",
+      "sha256": "6b5e3866752b97f38b9868a81a21185a6fd7fa7711d74533aeacb45e33f0af47",
+      "member": "Windows XP-Server 2003-Server 2003 R2/Ascent.jpg",
+      "file": "winxp-ascent.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "winxp-autumn",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%20XP-Server%202003-Server%202003%20R2.zip",
+      "version": "xp",
+      "label": "Autumn",
+      "sha256": "1d9986cf6f049b3fb874d05dc143f666f256d687b17d0ab70e1bfd7bf519f708",
+      "member": "Windows XP-Server 2003-Server 2003 R2/Autumn.jpg",
+      "file": "winxp-autumn.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "winxp-azul",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%20XP-Server%202003-Server%202003%20R2.zip",
+      "version": "xp",
+      "label": "Azul",
+      "sha256": "73eace3d028b59df1e195c5c490130ce328fd6e818098184598ee7e6110792ea",
+      "member": "Windows XP-Server 2003-Server 2003 R2/Azul.jpg",
+      "file": "winxp-azul.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "winxp-crystal",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%20XP-Server%202003-Server%202003%20R2.zip",
+      "version": "xp",
+      "label": "Crystal",
+      "sha256": "8a4aa3b1764008de10d5d6073e44bea772c7848d549db0588320e926aedcb6f2",
+      "member": "Windows XP-Server 2003-Server 2003 R2/Crystal.jpg",
+      "file": "winxp-crystal.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "winxp-red-moon-desert",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%20XP-Server%202003-Server%202003%20R2.zip",
+      "version": "xp",
+      "label": "Red moon desert",
+      "sha256": "21ca374199995341dcca037bae1dc18eed8a09801afd3217121851e2b638df58",
+      "member": "Windows XP-Server 2003-Server 2003 R2/Red moon desert.jpg",
+      "file": "winxp-red-moon-desert.jpg"
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "id": "winxp-tulips",
+      "source": "https://archive.org/download/windows-wallpapers/Windows%20XP-Server%202003-Server%202003%20R2.zip",
+      "version": "xp",
+      "label": "Tulips",
+      "sha256": "9a6924e743e56d164c8a83ecfd2a3aa18cac81beda65c8e5a2f213855ef74b9a",
+      "member": "Windows XP-Server 2003-Server 2003 R2/Tulips.jpg",
+      "file": "winxp-tulips.jpg"
+    },
+    {
+      "id": "win98-clouds",
+      "label": "Clouds",
+      "version": "98",
+      "file": "win98-clouds.jpg",
+      "source": "https://98.js.org/images/clouds.jpg",
+      "sha256": "ff17fd0672d75581a457c859fad8ceb43d387eddd032ba5695f4f54cdd6665cf",
+      "note": "Archival Clouds image used by the 98.js Windows 98 recreation. Other Windows 98 choices reuse the inherited Windows/Plus! theme pictures already bundled and attributed in provenance.json.",
+      "width": 640,
+      "height": 480
+    }
+  ],
+  "retrieved": "2026-09-18T01:41:46.4219207Z",
+  "archive": "https://archive.org/details/windows-wallpapers",
+  "notice": "Archived Windows artwork; rights remain with Microsoft and the respective image creators. Files preserved without upscaling or modification."
+}

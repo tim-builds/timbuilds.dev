@@ -27,3 +27,13 @@ Notepad, Calculator, Paint, Minesweeper, clock/calendar, menus, shell folders, v
 Windows, Microsoft, Space Cadet and other product names are their respective owners' marks. This independent portfolio is not Microsoft software and is not affiliated with or endorsed by Microsoft, Maxis or Cinematronics.
 
 The bundled browser runtime also includes Emscripten and SDL components; their notices are included as vendor/pinball/EMSCRIPTEN-LICENSE.txt and vendor/pinball/SDL-LICENSE.txt.
+
+## Windows 98, Windows 2000 and Windows XP appearance
+
+The additional archived Windows 2000 and Windows XP images come from https://archive.org/details/windows-wallpapers, specifically the `Windows 2000-Me.zip` and `Windows XP-Server 2003-Server 2003 R2.zip` collections. Only selected image files are included, not operating-system executables. Source archive URLs, exact members, original dimensions and SHA-256 hashes are in `wallpapers/environment-provenance.json`.
+
+The Windows 2000 collection includes Windows 2000, Boiling Point, Chateau, Iceberg, Paradise and Gold Petals. The XP collection includes Bliss, Ascent, Autumn, Azul, Crystal, Red moon desert and Tulips. Most of these archive copies are 800 × 600; Iceberg is 800 × 527 and the Boiling Point texture is 163 × 293. They are unchanged archival copies, not 4K remasters. Small texture pictures are suitable for the Tile setting.
+
+The Windows 98 Clouds image is the archived image distributed by the 98.js recreation at https://98.js.org/images/clouds.jpg. Its source and hash are in the same environment provenance file. Five other choices in the Windows 98 view reuse the inherited Windows/Plus! theme pictures already recorded in `wallpapers/provenance.json`; they are labelled as shared classic themes rather than exclusive Windows 98 assets.
+
+Copyright in archived Windows artwork remains with Microsoft and the respective photographers/artists and rights holders. The images are not presented as public-domain, or as covered by the pinball engine’s MIT license. The site’s era-specific interface styles and desktop preview diagrams are CSS reimplementations, not extracted operating-system skins. No Windows font files are bundled.
