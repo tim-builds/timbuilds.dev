@@ -22,7 +22,7 @@
     window.TimVersion.sync();
   });
   A.register('run','Run','computer',(body)=>{
-    const commands={sol:'solitaire',solitaire:'solitaire',reversi:'reversi',minigolf:'minigolf',kolf:'minigolf',privacy:'document-privacy',winver:'versions',themes:'versions',notepad:'notepad',calc:'calculator',calculator:'calculator',mspaint:'paint',paint:'paint',winmine:'minesweeper',minesweeper:'minesweeper',pinball:'pinball',control:'settings',timedate:'datetime',explorer:'computer',projects:'projects',help:'help'};
+    const commands={browser:'browser',iexplore:'browser',taskmgr:'taskmanager',sol:'solitaire',solitaire:'solitaire',reversi:'reversi',minigolf:'minigolf',kolf:'minigolf',privacy:'document-privacy',winver:'versions',themes:'versions',notepad:'notepad',calc:'calculator',calculator:'calculator',mspaint:'paint',paint:'paint',winmine:'minesweeper',minesweeper:'minesweeper',pinball:'pinball',control:'settings',timedate:'datetime',explorer:'computer',projects:'projects',help:'help'};
     body.innerHTML='<div class="accessory-pad"><p>Type the name of a program to open it.</p><form id="run-form"><label for="run-command">Open:</label><input id="run-command" autocomplete="off" spellcheck="false" placeholder="notepad" maxlength="80"><p class="accessory-note">notepad · calc · mspaint · winmine · pinball · control</p><button class="bevel-button">OK</button></form><p role="status" id="run-status"></p></div>';
     body.querySelector('form').addEventListener('submit',e=>{
       e.preventDefault();const value=body.querySelector('input').value.trim().toLowerCase().replace(/\.exe$/,'');
@@ -66,5 +66,5 @@
   }
   renderStart();window.addEventListener('timbuilds-version',renderStart);
   const start=document.querySelector('#start-button');start.addEventListener('click',()=>{if(!document.querySelector('#start-menu').hidden){nav.querySelector('button')?.focus({preventScroll:true});}});
-  window.TimShell=Object.freeze({launch,closeMenu,beep,showMenu});
+  window.TimShell=Object.freeze({launch,closeMenu,beep,showMenu,contextAt:(x,y,target=document.querySelector(".desktop-dock"))=>{const items=contextItems(target);if(items)showMenu(items,x,y,target);}});
 })();

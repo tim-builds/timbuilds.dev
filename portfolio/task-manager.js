@@ -1,0 +1,62 @@
+/* Application list for the virtual desktop. */
+(() => {
+  'use strict';
+  const A = window.TimApps;
+  const W = window.TimWindows;
+  A.register('taskmanager', 'Task Manager', 'chart', (body) => {
+    let selected = null;
+    let visible = true;let signature="";
+    body.innerHTML = '<div class="taskmanager"><h2>Applications</h2><div class="taskmanager-list" role="listbox" aria-label="Open applications"></div><p class="taskmanager-status" role="status"></p><div class="app-menubar"></div><p class="accessory-note">Only programs in this web desktop are listed. Save unsaved work before ending a task.</p></div>';
+    const list = body.querySelector('.taskmanager-list');
+    const status = body.querySelector('.taskmanager-status');
+    const bar = body.querySelector('.app-menubar');
+    for (const [id, label] of [['switch','Switch To'],['end','End Task'],['new','New Task…']]) {
+      const button = document.createElement('button');
+      button.className = 'bevel-button';
+      button.dataset.taskCommand = id;
+      button.textContent = label;
+      bar.append(button);
+    }
+    function render() {
+      if (!visible) return;
+      const windows = W.list().filter(w => w.state !== 'closed');
+      if (!windows.some(w => w.id === selected)) selected = null;
+      const next=JSON.stringify([windows,W.active(),selected]);if(next===signature)return;signature=next;
+      list.replaceChildren();
+      for (const w of windows) {
+        const button = document.createElement('button');
+        button.dataset.taskId = w.id;
+        button.setAttribute('role', 'option');
+        button.setAttribute('aria-selected', String(w.id === selected));
+        const title = document.createElement('span');
+        const state = document.createElement('span');
+        title.textContent = w.label;
+        state.textContent = w.state === 'minimized' ? 'Minimised' : w.id === W.active() ? 'Active' : 'Running';
+        button.append(title, state); list.append(button);
+      }
+      status.textContent = windows.length + ' applications open';
+      body.querySelector('[data-task-command=switch]').disabled = !selected;
+      body.querySelector('[data-task-command=end]').disabled = !selected;
+    }
+    list.addEventListener('click', event => {
+      const button = event.target.closest('[data-task-id]');
+      if (!button) return;
+      selected = button.dataset.taskId; render();
+      list.querySelector('[data-task-id="' + selected + '"]')?.focus({preventScroll:true});
+    });
+    bar.addEventListener('click', event => {
+      const action = event.target.closest('[data-task-command]')?.dataset.taskCommand;
+      if (action === 'switch' && selected) W.show(selected);
+      if (action === 'end' && selected) { const id=selected; selected=null; W.close(id); render(); }
+      if (action === 'new') A.open('run');
+    });
+    const timer = setInterval(render, 1200);
+    window.addEventListener('timbuilds-active-window', render); render();
+    return {cleanup:()=>{clearInterval(timer);window.removeEventListener('timbuilds-active-window',render);},visibility:value=>{visible=value;render();}};
+  });
+  const button = document.createElement('button');
+  button.id='task-manager-button'; button.className='tray-icon'; button.dataset.appOpen='taskmanager';
+  button.title='Task Manager'; button.setAttribute('aria-label','Open Task Manager');
+  button.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="16" fill="#182727" stroke="#ddd"/><path d="M4 14h4l2-7 3 9 2-5h5" fill="none" stroke="#80e49b" stroke-width="2"/><path d="M8 22h8" stroke="currentColor" stroke-width="2"/></svg>';
+  document.querySelector('.clock-tray').before(button);
+})();

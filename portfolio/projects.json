@@ -15,7 +15,11 @@
     "preview": "openhoops",
     "url": "/openhoops/",
     "cta": "Project website",
-    "source": null
+    "source": null,
+    "image": "portfolio/media/openhoops.jpg",
+    "imageLabel": "App screenshots",
+    "imageAlt": "Actual OpenHoops map and venue screens in a two-phone composition.",
+    "imageNote": "Actual OpenHoops map and venue screens in a two-phone composition."
   },
   {
     "id": "letters-with-lola",
@@ -32,7 +36,11 @@
     "preview": "lola",
     "url": "https://letters-with-lola.vercel.app/",
     "cta": "Play the game",
-    "source": null
+    "source": null,
+    "image": "portfolio/media/lola.jpg",
+    "imageLabel": "Game screenshot",
+    "imageAlt": "Letters with Lola test game board with generic test players.",
+    "imageNote": "Letters with Lola test game board with generic test players."
   },
   {
     "id": "studio-siomai",
@@ -50,7 +58,11 @@
     "preview": "siomai",
     "url": "https://studio-siomai.vercel.app/",
     "cta": "Visit the demo",
-    "source": null
+    "source": null,
+    "image": "portfolio/media/siomai.jpg",
+    "imageLabel": "Website screenshot",
+    "imageAlt": "Studio Siomai public homepage.",
+    "imageNote": "Studio Siomai public homepage."
   },
   {
     "id": "solitaire",
@@ -68,7 +80,11 @@
     "preview": "solitaire",
     "url": "https://solitaire-mocha.vercel.app/",
     "cta": "Play solitaire",
-    "source": null
+    "source": null,
+    "image": "portfolio/media/solitaire.jpg",
+    "imageLabel": "Game screenshot",
+    "imageAlt": "Solitaire Clemulie public game table.",
+    "imageNote": "Solitaire Clemulie public game table."
   },
   {
     "id": "grit-athletics",
@@ -86,7 +102,11 @@
     "preview": "grit",
     "url": "https://grit-athletics.pages.dev/",
     "cta": "Visit the website",
-    "source": null
+    "source": null,
+    "image": "portfolio/media/grit.jpg",
+    "imageLabel": "Website screenshot",
+    "imageAlt": "Grit Athletics public coaching website concept.",
+    "imageNote": "Grit Athletics public coaching website concept."
   },
   {
     "id": "block-app",
@@ -103,7 +123,11 @@
     "preview": "blockapp",
     "url": null,
     "cta": null,
-    "source": null
+    "source": null,
+    "image": "portfolio/media/blockapp.jpg",
+    "imageLabel": "Native proof screen",
+    "imageAlt": "blockApp native blocking proof screen in an editorial composition.",
+    "imageNote": "blockApp native blocking proof screen in an editorial composition."
   },
   {
     "id": "tv-app",
@@ -120,7 +144,11 @@
     "preview": "tv",
     "url": null,
     "cta": null,
-    "source": null
+    "source": null,
+    "image": "portfolio/media/tv.jpg",
+    "imageLabel": "Native test screen",
+    "imageAlt": "TV player channel browser with a user-supplied test playlist.",
+    "imageNote": "TV player channel browser with a user-supplied test playlist."
   },
   {
     "id": "showtally",
@@ -137,7 +165,11 @@
     "preview": "showtally",
     "url": null,
     "cta": null,
-    "source": null
+    "source": null,
+    "image": "portfolio/media/showtally.jpg",
+    "imageLabel": "Prototype screenshot",
+    "imageAlt": "ShowTally extension panel using sample session figures from its store mockup.",
+    "imageNote": "ShowTally extension panel using sample session figures from its store mockup."
   },
   {
     "id": "north-of-the-6ix",
@@ -154,7 +186,11 @@
     "preview": "north",
     "url": null,
     "cta": null,
-    "source": null
+    "source": null,
+    "image": "portfolio/media/north.jpg",
+    "imageLabel": "Design study",
+    "imageAlt": "Black-and-gold basketball brand study; not a launched website or screenshot.",
+    "imageNote": "Black-and-gold basketball brand study; not a launched website or screenshot."
   },
   {
     "id": "ratings-aggregator",
@@ -171,7 +207,11 @@
     "preview": "ratings",
     "url": null,
     "cta": null,
-    "source": null
+    "source": null,
+    "image": "portfolio/media/ratings.jpg",
+    "imageLabel": "Prototype screenshot",
+    "imageAlt": "Ratings Explorer rendered from its source with clearly labelled sample data and no external API.",
+    "imageNote": "Ratings Explorer rendered from its source with clearly labelled sample data and no external API."
   },
   {
     "id": "lofi-demos",
@@ -188,7 +228,11 @@
     "preview": "lofi",
     "url": null,
     "cta": null,
-    "source": null
+    "source": null,
+    "image": "portfolio/media/lofi.jpg",
+    "imageLabel": "Original audio waveform",
+    "imageAlt": "Measured waveform of the original Harbor Lights composition, decoded locally without publishing the audio.",
+    "imageNote": "Measured waveform of the original Harbor Lights composition, decoded locally without publishing the audio."
   },
   {
     "id": "household-money",
@@ -205,7 +249,11 @@
     "preview": "money",
     "url": null,
     "cta": null,
-    "source": null
+    "source": null,
+    "image": "portfolio/media/money.jpg",
+    "imageLabel": "Concept illustration",
+    "imageAlt": "Household budgeting scenario illustration; no personal figures or real projections.",
+    "imageNote": "Household budgeting scenario illustration; no personal figures or real projections."
   },
   {
     "id": "shoe-ratings",
@@ -222,6 +270,10 @@
     "preview": "research",
     "url": "https://github.com/flushatoilet/Shoe-Rating-Aggregation",
     "cta": "View source",
-    "source": "https://github.com/flushatoilet/Shoe-Rating-Aggregation"
+    "source": "https://github.com/flushatoilet/Shoe-Rating-Aggregation",
+    "image": "portfolio/media/research.jpg",
+    "imageLabel": "Prototype screenshot",
+    "imageAlt": "Shoe Ratings rendered from its existing public source.",
+    "imageNote": "Shoe Ratings rendered from its existing public source."
   }
 ]

@@ -51,3 +51,7 @@ The Macintosh, Ubuntu GNOME 2 and KDE Plastik-style browser shells are independe
 ## Release 7 games and power sequences
 
 Solitaire, Reversi and Mini Golf are original browser implementations in this repository. Mini Golf uses nine original course layouts and canvas artwork, not Kolf or Microsoft Golf assets. Startup/shutdown graphics and sequences are CSS/HTML recreations of the selected desktop era; they are not recordings of the operating systems and do not boot or power off a real device. Existing wallpaper/game attribution remains unchanged.
+
+## Release 9 project visuals
+
+The public catalogue uses new 1200×700 captures/compositions of the user's projects. Live-site captures preserve their visible branding. Development/store fixtures are labelled as such, not represented as live users or current production data. North of the 6ix and Household Money use explicitly labelled design/concept studies; no personal financial amounts are disclosed. Lo-fi Lab uses an actual waveform of the user's original Harbor Lights composition, not the unrelated cover-track audio. Underlying screenshots may include map-provider attribution or existing project artwork; those attributions are preserved. Public output paths, labels, descriptions and SHA-256 hashes are recorded in media/provenance.json. Raw private source files and audio are not bundled.

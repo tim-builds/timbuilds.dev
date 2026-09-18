@@ -15,7 +15,7 @@
     // Theme-specific taskbar height can change the usable desktop bounds.
     window.dispatchEvent(new Event('resize'));
   }
-  const badge=document.createElement('button');badge.id='environment-button';badge.className='environment-button';badge.dataset.appOpen='versions';badge.setAttribute('aria-label','Change operating system');badge.innerHTML='<span data-os-short>2000</span>';
+  const badge=document.createElement('button');badge.id='environment-button';badge.className='environment-button';badge.dataset.appOpen='versions';badge.setAttribute('aria-label','Change operating system');badge.innerHTML='<svg aria-hidden="true"><use href="portfolio/icons.svg#computer"/></svg>';
   document.querySelector('.clock-tray').before(badge);
   const status=document.createElement('span');status.id='environment-status';status.className='sr-only';status.setAttribute('role','status');status.setAttribute('aria-live','polite');document.body.append(status);
   window.addEventListener('timbuilds-version',sync);

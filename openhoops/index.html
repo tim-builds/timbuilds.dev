@@ -1,38 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenHoops</title>
-<style>
-  :root { color-scheme: dark; }
-  body { margin: 0; background: #121316; color: #e8e9ec; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.6; }
-  main { max-width: 720px; margin: 0 auto; padding: 60px 22px; text-align: center; }
-  h1 { color: #FFC400; font-size: 2.4rem; margin-bottom: 6px; }
-  p { color: #A6A9B0; }
-  a { color: #FFD84D; }
-  .links { margin-top: 2em; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .links a { border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.05); border-radius: 999px; padding: 10px 22px; text-decoration: none; }
-  footer { margin-top: 3em; color: #71757e; font-size: 0.85rem; }
-  footer a { color: #A6A9B0; }
-</style>
+<meta name="description" content="OpenHoops helps you find basketball courts and the next run. Currently in Android internal testing.">
+<meta name="theme-color" content="#101513">
+<title>OpenHoops — Find your next run</title>
+<link rel="stylesheet" href="../portfolio/openhoops-site.css?v=9">
 </head>
 <body>
+<header class="site-header"><a class="wordmark" href="./" aria-label="OpenHoops home"><span>OPEN</span>HOOPS<i aria-hidden="true">●</i></a><nav aria-label="OpenHoops"><a href="#the-app">The app</a><a href="privacy.html">Privacy</a><a href="mailto:support@timbuilds.dev">Get in touch ↗</a></nav></header>
 <main>
-<h1>🏀 OpenHoops</h1>
-<p>Find basketball runs near you — see who's hooping right now at gyms
-and outdoor courts, check in with one tap (or none), and get alerted
-when your court fills up.</p>
-<div class="links">
-  <a href="privacy.html">Privacy Policy</a>
-  <a href="terms.html">Terms of Service</a>
-  <a href="delete-account.html">Delete Your Account</a>
-</div>
-<footer>
-  <!-- Email domain has NO hyphen (timbuilds.dev); the site domain KEEPS it
-       (tim-builds.dev). Deliberate — see the note in the root index.html. -->
-  An app by <a href="../">tim-builds</a> · <a href="mailto:support@timbuilds.dev">support@timbuilds.dev</a>
-</footer>
+<section class="hero" aria-labelledby="hero-title">
+ <div class="hero-copy"><p class="eyebrow"><span></span> BUILT FOR PICKUP BASKETBALL</p><h1 id="hero-title">Less guessing.<br>More <em>hooping.</em></h1><p class="lede">Find the basketball run before you leave the house. Explore courts, check in, and make the next game happen.</p><div class="hero-actions"><a class="primary" href="#the-app">Explore the app <span>↓</span></a><span class="release-status">Android<br><strong>Internal testing</strong></span></div><p class="release-note">A work in progress by Tim. No public app download is available here yet.</p></div>
+ <figure class="hero-phone"><img src="../portfolio/media/openhoops-map.png" width="1080" height="1920" alt="OpenHoops application map showing basketball courts around Toronto"><figcaption>Actual development capture · not live court activity</figcaption></figure>
+</section>
+<section class="features" id="the-app" aria-label="Inside OpenHoops">
+ <div class="section-heading"><span class="eyebrow">THE APP</span><h2>Know the court.<br>Find the people.</h2></div>
+ <div class="feature-grid"><article><span class="number">01</span><h3>Find your spot.</h3><p>Browse gyms, recreation centres and outdoor courts in one map.</p></article><article><span class="number">02</span><h3>Make your presence count.</h3><p>Check-ins help answer the question that matters: is anyone actually playing?</p></article><article><span class="number">03</span><h3>Plan the next run.</h3><p>Look at a venue, plan a visit, and turn a maybe into a game.</p></article></div>
+</section>
+<section class="venue-section"><img src="../portfolio/media/openhoops-venue.png" width="1080" height="1920" alt="OpenHoops venue details and planning controls in a development capture"><div><span class="eyebrow">FROM MAP TO COURT</span><h2>One place.<br>The next game.</h2><p>OpenHoops started with a question I ask before heading out: “Is it worth going right now?” This is the app I am building to answer it.</p><a href="mailto:support@timbuilds.dev">Questions or feedback? Say hello ↗</a></div></section>
 </main>
+<footer><div><a class="wordmark" href="./"><span>OPEN</span>HOOPS</a><p>Made by <a href="../">timBuilds</a> for people who play.</p></div><nav aria-label="Policies"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="delete-account.html">Delete Your Account</a><a href="mailto:support@timbuilds.dev">support@timbuilds.dev</a></nav></footer>
 </body>
 </html>

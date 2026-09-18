@@ -83,11 +83,35 @@
   window.addEventListener('resize',()=>{if(gesture)finish({type:'cancel'});layout();});
   function cancelTouch(){if(touch)clearTimeout(touch.timer);touch=null;}
   function beginTouch(){if(!touch)return;const t=touch;window.TimWindows.deactivate();const id=t.el?.dataset.shortcut;if(id&&!selected.has(id))selected=new Set([id]);paintSelection();const initial=new Set(selected),start=Object.fromEntries([...selected].map(id=>[id,{...positions[id]}]));if(!t.el)selectOnly(null);gesture={id:t.id,el:t.el,modifier:false,initial,start,x:t.x,y:t.y,moved:false};t.active=true;box.hidden=!!t.el;Object.assign(box.style,{left:t.x+'px',top:t.y+'px',width:'1px',height:'1px'});}
-  dock.addEventListener('touchstart',e=>{pointerType='touch';if(e.touches.length!==1){cancelTouch();finish({type:'cancel'});return;}const t=e.touches[0];touch={id:t.identifier+10000,el:e.target.closest('.desktop-shortcut'),x:t.clientX,y:t.clientY,active:false};touch.timer=setTimeout(beginTouch,350);},{passive:true});
-  dock.addEventListener('touchmove',e=>{if(!touch)return;const t=e.touches[0];if(e.touches.length!==1){cancelTouch();finish({type:'cancel'});return;}if(!touch.active){if(Math.hypot(t.clientX-touch.x,t.clientY-touch.y)>10)cancelTouch();return;}e.preventDefault();move({pointerId:touch.id,clientX:t.clientX,clientY:t.clientY});},{passive:false});
-  dock.addEventListener('touchend',e=>{if(!touch)return;if(touch.active){e.preventDefault();finish({type:'pointerup',pointerId:touch.id});suppressUntil=performance.now()+600;}else if(!touch.el)selectOnly(null);cancelTouch();},{passive:false});
-  dock.addEventListener('touchcancel',()=>{cancelTouch();finish({type:'cancel'});},{passive:true});
-  dock.addEventListener('contextmenu',e=>{if(pointerType==='touch'&&touch?.active)e.preventDefault();});
+  let multi=null;
+  const pair=points=>({x:(points[0].clientX+points[1].clientX)/2,y:(points[0].clientY+points[1].clientY)/2,d:Math.hypot(points[0].clientX-points[1].clientX,points[0].clientY-points[1].clientY)});
+  dock.addEventListener('touchstart',event=>{
+    pointerType='touch';
+    if(event.touches.length===2&&!event.target.closest('.desktop-shortcut')){cancelTouch();finish({type:'cancel'});const p=pair(event.touches);multi={...p,last:p,time:performance.now(),mode:'pending'};return;}
+    if(event.touches.length!==1){cancelTouch();finish({type:'cancel'});multi=null;return;}
+    if(multi)return;const t=event.touches[0];touch={id:t.identifier+10000,el:event.target.closest('.desktop-shortcut'),x:t.clientX,y:t.clientY,active:false};touch.timer=setTimeout(beginTouch,350);
+  },{passive:true});
+  dock.addEventListener('touchmove',event=>{
+    if(multi){
+      if(event.touches.length!==2||multi.mode==='pinch'||multi.mode==='done')return;const p=pair(event.touches),travel=Math.hypot(p.x-multi.x,p.y-multi.y);multi.last=p;
+      if(multi.mode==='pending'&&Math.abs(p.d-multi.d)>Math.max(18,multi.d*.18)){multi.mode='pinch';return;}
+      if(multi.mode==='pending'&&travel>8){multi.mode='select';window.TimWindows.deactivate();selectOnly(null);gesture={id:-9,el:null,modifier:false,initial:new Set(),start:{},x:multi.x,y:multi.y,moved:false};}
+      if(multi.mode==='select'){event.preventDefault();move({pointerId:-9,clientX:p.x,clientY:p.y});}return;
+    }
+    if(!touch)return;const t=event.touches[0];if(event.touches.length!==1){cancelTouch();finish({type:'cancel'});return;}
+    if(!touch.active){if(Math.hypot(t.clientX-touch.x,t.clientY-touch.y)>10)cancelTouch();return;}
+    event.preventDefault();move({pointerId:touch.id,clientX:t.clientX,clientY:t.clientY});
+  },{passive:false});
+  dock.addEventListener('touchend',event=>{
+    if(multi){const m=multi;if(m.mode==='select'){event.preventDefault();finish({type:'pointerup',pointerId:-9});m.mode='done';suppressUntil=performance.now()+600;}
+      else if(m.mode==='pending'&&event.touches.length<2){event.preventDefault();m.mode='done';if(performance.now()-m.time<650)window.TimShell.contextAt(m.x,m.y,dock);suppressUntil=performance.now()+600;}
+      if(!event.touches.length)multi=null;return;
+    }
+    if(!touch)return;if(touch.active){event.preventDefault();finish({type:'pointerup',pointerId:touch.id});suppressUntil=performance.now()+600;}else if(!touch.el)selectOnly(null);cancelTouch();
+  },{passive:false});
+  dock.addEventListener('touchcancel',()=>{cancelTouch();finish({type:'cancel'});multi=null;},{passive:true});
+  dock.addEventListener('contextmenu',event=>{if(pointerType==='touch'&&(touch?.active||multi))event.preventDefault();});
+
   window.addEventListener('timbuilds-session-reset',()=>{cancelTouch();finish({type:'cancel'});selectOnly(null);});
   window.TimDesktop=Object.freeze({
     open:()=>window.TimWindows.show('projects'), minimize:()=>window.TimWindows.minimize('projects'),

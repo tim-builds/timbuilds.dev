@@ -1,3 +1,4 @@
+import {checkRefinements} from './check-refinements.mjs';
 import {checkCleanDesktop} from './check-clean-desktop.mjs';
 import {checkShell} from './check-shell.mjs';
 import {checkClassic} from './check-classic.mjs';
@@ -23,9 +24,9 @@ const server=http.createServer((req,res)=>{
  let relative;
  try{relative=decodeURIComponent(new URL(req.url,'http://localhost').pathname);}catch{res.writeHead(400).end();return;}
  if(relative==='/')relative='/index.html';
- const file=path.resolve(root,'.'+relative);
+ let file=path.resolve(root,'.'+relative);
  if(!file.startsWith(root+path.sep)||relative.split('/').some(p=>p.startsWith('.'))){res.writeHead(403).end();return;}
- try{const content=fs.readFileSync(file);res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(content);}catch{res.writeHead(404).end('Not found');}
+ try{if(fs.statSync(file).isDirectory())file=path.join(file,"index.html");const content=fs.readFileSync(file);res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(content);}catch{res.writeHead(404).end('Not found');}
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const origin=process.env.PORTFOLIO_ORIGIN || `http://127.0.0.1:${server.address().port}`;
@@ -43,7 +44,7 @@ async function navigate(url){
  const expression='document.readyState === "complete" && !!document.querySelector("#project-data")'+(changed?' && window.__testNavigationToken !== '+JSON.stringify(token):'');
  await until(async()=>{try{return await evaluate(expression);}catch(error){if(/context.*destroyed|Cannot find context/i.test(error.message))return false;throw error;}},'new document page load');await sleep(180);
 }
-async function viewport(width,height=900){await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(120);await evaluate("new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))))");}
+async function viewport(width,height=900){await evaluate('document.activeElement?.blur()');await sleep(270);await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(120);await evaluate("new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))))");}
 async function screenshot(file,clip){const r=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false,...(clip?{clip}:{})});fs.writeFileSync(file,Buffer.from(r.data,'base64'));}
 try{
  const active=path.join(profile,'DevToolsActivePort');await until(()=>fs.existsSync(active),'Chrome startup');
@@ -90,6 +91,7 @@ try{
  await checkShell({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkClassic({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkImmersion({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
+ await checkRefinements({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await evaluate('localStorage.setItem("owner","true");localStorage.setItem("timbuilds.owner","true")');await navigate(origin);await click('[data-action="locked"]');await until(()=>evaluate('!!document.querySelector("#window-locked:not([hidden]) .access-terminal")'),'guest terminal after owner-key lookup');assert.ok(await evaluate('!!document.querySelector(".access-terminal")'));await click('#window-locked [data-win-control="close"]');pass('Spoofing an owner preference does not bypass encryption');
  const ownerFile=process.env.TIMBUILDS_OWNER_FILE||path.join(process.env.LOCALAPPDATA||path.join(os.homedir(),'.local','share'),'timbuilds-owner','catalogue.json');
  if(fs.existsSync(ownerFile)){

@@ -13,7 +13,7 @@ There are two repositories because the domain migration is unfinished:
 
 Do not change either domain's CNAME, DNS, mail settings or hosting settings for routine portfolio updates. Do not turn either site into a redirect as part of a portfolio edit. The existing migration procedure lives in OpenHoops' `docs/DOMAIN-MIGRATION.md`.
 
-The portfolio changes only the root page and its own `portfolio/` assets. Existing `openhoops/`, `.well-known/` and `legacy-stubs/` files continue to serve unchanged. In particular, password recovery, app links, privacy, terms and account deletion are separate from this portfolio.
+Portfolio work normally changes the root page and `portfolio/` assets. Release 9 additionally refreshes the user-requested `/openhoops/index.html` marketing landing page. Existing OpenHoops policy/authentication routes, `.well-known/` and `legacy-stubs/` remain unchanged; only the OpenHoops landing page is redesigned in release 9. In particular, password recovery, app links, privacy, terms and account deletion are separate from this portfolio.
 
 ## Edit the portfolio
 
@@ -23,7 +23,7 @@ The portfolio changes only the root page and its own `portfolio/` assets. Existi
 4. Check `node --check portfolio/site.js` and preview on a local static web server.
 5. Review and merge the change. Pages serves the committed files directly. Then synchronise through the existing second-repository process.
 
-Layout: `portfolio/template.html`. Styles: `portfolio/site.css`, `desktop.css`, `shell.css`, `wallpapers.css`, `breach.css`, `classic-apps.css` and `environments.css`. Catalogue interactions: `portfolio/site.js`. Window management, desktop selection, wallpapers and the access puzzle are separate small scripts. All pixel icons and project-sketch SVGs are original illustrations. The Windows 95 Plus! wallpaper archive and Open Cadet game have separate sources and notices in portfolio/THIRD-PARTY-NOTICES.md. Project illustrations are labelled and are not represented as app screenshots. The archived wallpapers include Microsoft artwork and branding; no proprietary icon pack or font file is bundled.
+Layout: `portfolio/template.html`. Styles: `portfolio/site.css`, `desktop.css`, `shell.css`, `wallpapers.css`, `breach.css`, `classic-apps.css` and `environments.css`. Catalogue interactions: `portfolio/site.js`. Window management, desktop selection, wallpapers and the access puzzle are separate small scripts. The pixel icons are original illustrations. Public project previews now use project-specific captures/compositions, with per-image labels and provenance; old illustration SVGs remain only as fallbacks for the encrypted catalogue. The Windows 95 Plus! wallpaper archive and Open Cadet game have separate sources and notices in portfolio/THIRD-PARTY-NOTICES.md. Public screenshots are labelled by source/state; design studies and the private-tool concept are explicitly distinguished from actual screenshots. The archived wallpapers include Microsoft artwork and branding; no proprietary icon pack or font file is bundled.
 
 ## Catalogue scope
 
@@ -125,8 +125,26 @@ Hosting has not changed. See HOSTING.md for the assessment and a migration check
 
 ## Minimal desktop and cascading menus (release 8)
 
-The home desktop contains only My Projects and Recycle Bin. All accessories, games, appearance settings, documents and profile/contact/source windows remain accessible through the launch menus or My Projects. OpenHoops Privacy.txt stays available inside My Projects and Start → Documents, not as a third desktop icon. The canonical privacy URL is unchanged.
+The home desktop contains only My Projects and Recycle Bin. All accessories, games, appearance settings, documents and profile/contact/source windows remain accessible through the launch menus or My Projects. OpenHoops Privacy.txt stays available through Start → Documents, not inside My Projects or as a third desktop icon. The canonical privacy URL is unchanged.
 
 Dragging My Projects onto Recycle Bin or pressing Delete while it is selected shows “you're naughty” and restores the icon positions. Normal dragging elsewhere still works. Empty Recycle Bin, from the bin window or icon context menu, shows the same message without deleting saved notes or any actual files.
 
 Start submenus are independent fixed-position panels. They open to the right when there is room, flip left near an edge, and use a bounded next-level overlay with Back on narrow phones. Mouse hover, clicking, arrow keys, Escape and touch selection are supported; closing Start or changing OS cancels open menus and pending timers. Phone title/content gestures and long-press selection remain available without the bottom-right Select icons/Arrange UI.
+
+## Mobile refinement and internal browser (release 9)
+
+Mobile uses one compact project-type selector instead of the full sidebar. Desktop filters retain their existing design. Documents and Games links no longer occupy the My Projects sidebar/footer; find those entries in the launcher menus. Header, menu and address controls are compact while text inputs retain a 16px font to avoid automatic mobile input zoom. All eight window resize handles are positioned independently of flex content, eliminating the former mobile footer gap, and all four edges/corners accept touch. Safe-area taskbar treatment fills the bottom edge. Wallpaper images use black letterboxing; original solid/pattern backgrounds are retained.
+
+The viewport meta uses interactive-widget=resizes-visual. viewport.js retains desktop geometry while a focused editable field (or an embedded browser frame) has a keyboard-sized visual viewport reduction. It does not read entered text. The normal browser can cover or pan part of the desktop to keep the input visible; the app window is not squeezed down. Real orientation/width changes still resize the layout. This is verified with simulated keyboard viewport changes, not every physical device/browser.
+
+Two-finger taps on empty wallpaper open the actual context menu. Parallel two-finger drags draw the selection marquee. A sufficiently early change in finger spacing is left to native pinch zoom. Existing one-finger long-press and ordinary content scrolling remain. Gesture recognition is scoped to the desktop, not document fields or embedded websites.
+
+Application menus now expose real commands: project selection/opening, filtering and card/list views, virtual-address focus/refresh, Notepad open/save/select/copy/wrap, Paint save/undo/redo, window size controls, Run, help and Task Manager. Unsupported context-dependent actions are disabled rather than silently pretending to run. Explorer path state remains on its folder when a child program is launched.
+
+Task Manager lists only the actual registered web applications and their running/minimised/active state. Switch To, End Task and New Task invoke real window lifecycle actions. It does not invent CPU/RAM values or claim access to the visitor's operating system. The tray has a Task Manager icon. The previous numeric OS-version badge (which could be mistaken for a year) is now a monitor icon with the selected OS in its tooltip. Date and time remain in the clock/calendar.
+
+Normal website links open Internet Browser inside the desktop, including a redesigned OpenHoops landing with actual app captures and an honest internal-testing status. Browser has address navigation, bounded in-memory history, Back/Forward/Reload/Home, favourites and a permanent external-tab option. Public HTTPS pages use sandboxed frames, not a server proxy. X-Frame-Options, frame-ancestors and same-origin restrictions are respected. Known non-embeddable GitHub/Solitaire and real account-reset/delete pages show an explicit external-tab fallback. Unknown sites may also refuse embedding; the UI does not claim it can read or control cross-origin internal navigation. Mail, downloads and modifier-clicks retain browser conventions. No entered URLs/history persist across closing the browser. No authentication, DNS or hosting changes.
+
+All thirteen public previews are 1200×700: actual public-site screenshots, reviewed native/store test captures, a source-rendered sample-data rankings page, the existing public shoe prototype, two labelled concept studies, and a waveform measured from the original Harbor Lights composition. Household financial data was not read or published. Raw private source checkouts, full original audio and review captures stay in ignored .qa/. See portfolio/media/provenance.json.
+
+Validation: tools/check-refinements.mjs tests the compact mobile header/filter/footer, focused-field viewport shrink, all touch edges, two-finger gestures, functional menus, Task Manager lifecycle, folder history, public media decoding, browser navigation, embedded OpenHoops policy links, known framing fallbacks, unsafe URL rejection and narrow layouts. tools/verify-media.mjs checks the 13 media hashes and metadata. Earlier OS, game, power, privacy and owner-access regressions remain in the full browser suite.
