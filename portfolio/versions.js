@@ -21,9 +21,10 @@
   function persist(){try{localStorage.setItem(key,JSON.stringify({version:current,desktops}));persistent=true;}catch{persistent=false;}}
   function apply(){
     const t=find(current),saved=desktops[current],p=papers.find(x=>x.id===saved.wallpaper),root=document.documentElement;
-    root.dataset.os=current;root.dataset.wallpaper=p.id;root.dataset.wallpaperPlacement=saved.placement;root.dataset.wallpaperKind=p.file?'image':p.kind;
+    root.dataset.os=current;root.dataset.family=t.family||"windows";root.dataset.wallpaper=p.id;root.dataset.wallpaperPlacement=saved.placement;root.dataset.wallpaperKind=p.file?'image':p.kind;
     for(const name of ['--wall-color','--wall-image','--wall-size','--wall-position'])root.style.removeProperty(name);
     if(p.file){root.style.setProperty('--wall-image',`url("${new URL("portfolio/wallpapers/"+p.file,document.baseURI).href}")`);root.style.setProperty('--wall-color',t.color);root.style.setProperty('--wall-size',({fit:'contain',fill:'cover',center:'auto',tile:'auto'})[saved.placement]);root.style.setProperty('--wall-position',saved.placement==='tile'?'0 0':'center');}
+    else if(p.pattern){root.style.setProperty('--wall-color',p.color);root.style.setProperty('--wall-image',p.pattern);root.style.setProperty('--wall-size',p.size);root.style.setProperty('--wall-position','0 0');}
     else if(p.id==='win2000-blue'){root.style.setProperty('--wall-color','#3a6ea5');root.style.setProperty('--wall-image','none');}
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content',t.color);
   }
@@ -31,7 +32,7 @@
   function wallpaper(id){if(!allowed(papers.find(p=>p.id===id),current))return false;desktops[current].wallpaper=id;apply();persist();window.dispatchEvent(new Event('timbuilds-wallpaper'));return true;}
   function placement(value){if(!placements.includes(value))return false;desktops[current].placement=value;apply();persist();window.dispatchEvent(new Event('timbuilds-wallpaper'));return true;}
   function reset(){desktops[current]={wallpaper:find(current).wallpaper,placement:find(current).placement};apply();persist();window.dispatchEvent(new Event('timbuilds-wallpaper'));}
-  function selector(){return `<fieldset class="version-selector"><legend>Windows version</legend><div class="version-options">${themes.map(t=>`<button type="button" data-version="${t.id}" class="version-option" aria-pressed="${t.id===current}"><span class="version-mini" data-preview-os="${t.id}" aria-hidden="true"><i></i><b></b></span><strong>${t.name}</strong><small>${t.id==='2000'?'Default · ':''}${t.edition}</small></button>`).join('')}</div></fieldset>`;}
+  function selector(){const button=t=>`<button type="button" data-version="${t.id}" class="version-option" aria-pressed="${t.id===current}"><span class="version-mini" data-preview-os="${t.id}" aria-hidden="true"><i></i><b></b></span><strong>${t.name}</strong><small>${t.id==='2000'?'Default · ':''}${t.edition}</small></button>`;return '<fieldset class="version-selector"><legend>Operating system</legend>'+[['windows','Windows'],['mac','Classic Macintosh'],['linux','Linux desktops']].map(([family,label])=>'<h3 class="version-family-label">'+label+'</h3><div class="version-options">'+themes.filter(t=>(t.family||'windows')===family).map(button).join('')+'</div>').join('')+'</fieldset>';}
   function sync(){
     const t=find(current);document.querySelectorAll('[data-version]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.version===current)));
     document.querySelectorAll('[data-os-name]').forEach(el=>el.textContent=t.name);
@@ -39,8 +40,8 @@
     document.querySelectorAll('[data-os-year]').forEach(el=>el.textContent=t.year);
     document.querySelectorAll('[data-os-short]').forEach(el=>el.textContent=t.short);
     document.querySelectorAll('[data-os-description]').forEach(el=>el.textContent=t.description);
-    const brand=document.querySelector('.start-brand');if(brand)brand.innerHTML=`<strong>Windows</strong><span>${t.id==='xp'?'xp':t.short}</span>${t.id==='2000'?'<small>Professional</small>':''}`;
-    const badge=document.querySelector('#environment-button');if(badge)badge.title=`${t.name} — switch Windows version`;
+    const brand=document.querySelector('.start-brand');if(brand&&t.family!=="mac"&&t.family!=="linux")brand.innerHTML=`<strong>Windows</strong><span>${t.id==='xp'?'xp':t.short}</span>${t.id==='2000'?'<small>Professional</small>':''}`;
+    const badge=document.querySelector('#environment-button');if(badge)badge.title=`${t.name} — switch operating system`;
     const label=document.querySelector('#version-storage-status');if(label)label.textContent=persistent?'Your version and its wallpaper choices are remembered separately in this browser.':'Browser storage is unavailable. Your choices apply for this visit.';
   }
   document.addEventListener('click',e=>{const b=e.target.closest('[data-version]');if(!b)return;set(b.dataset.version);sync();});

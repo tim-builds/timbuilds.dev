@@ -37,3 +37,13 @@ The Windows 2000 collection includes Windows 2000, Boiling Point, Chateau, Icebe
 The Windows 98 Clouds image is the archived image distributed by the 98.js recreation at https://98.js.org/images/clouds.jpg. Its source and hash are in the same environment provenance file. Five other choices in the Windows 98 view reuse the inherited Windows/Plus! theme pictures already recorded in `wallpapers/provenance.json`; they are labelled as shared classic themes rather than exclusive Windows 98 assets.
 
 Copyright in archived Windows artwork remains with Microsoft and the respective photographers/artists and rights holders. The images are not presented as public-domain, or as covered by the pinball engine’s MIT license. The site’s era-specific interface styles and desktop preview diagrams are CSS reimplementations, not extracted operating-system skins. No Windows font files are bundled.
+
+## Classic Macintosh and Linux desktops
+
+The System 7 and Mac OS 9 window treatments, menu bars and three grey/monochrome desktop patterns are CSS re-creations. They do not include Apple operating-system executables or font files. The three Mac OS 9 pictures are unmodified 2560 × 1920 exports served by Stephen Hackett's 512 Pixels Mac OS 9 archive/remaster project, not represented as untouched original system files. Original artwork belongs to Apple and its respective creators. Archive: https://512pixels.net/projects/mac-os-9-5k-wallpapers/ . Individual source URLs and hashes are in `wallpapers/platform-provenance.json`.
+
+Ubuntu Lucid Lynx, Bosque TK and Warm Lights were extracted unchanged from the official Ubuntu `ubuntu-wallpapers_0.31.3.tar.gz` source package. The package licenses its images under Creative Commons Attribution 2.0. Its copyright/author notice and licence text are preserved in `wallpapers/licenses/ubuntu-copyright.txt` and `ubuntu-authors.txt`. Source: https://old-releases.ubuntu.com/ubuntu/pool/main/u/ubuntu-wallpapers/ubuntu-wallpapers_0.31.3.tar.gz .
+
+KDE Default Blue (Qwertz), Blue Bend (Everaldo Coelho), and Triple Gears (Jörg Gastner) were extracted unchanged from the official KDE 3.5.10 source archive. The corresponding upstream CREDITS allow commercial and noncommercial use, distribution and modification; that notice is included in `wallpapers/licenses/kde-credits.txt`. Source: https://download.kde.org/Attic/3.5.10/src/kdebase-3.5.10.tar.bz2 .
+
+The Macintosh, Ubuntu GNOME 2 and KDE Plastik-style browser shells are independently implemented CSS and JavaScript, not an emulated or installed operating system. Applications remain the existing timBuilds web accessories. No Apple, Canonical or KDE affiliation/endorsement is implied. Runtime wallpaper requests stay on this site's own origin; source URLs are provenance only.

@@ -2,17 +2,19 @@
 (() => {
   'use strict';
   const dock=document.querySelector('.desktop-dock'), icons=[...dock.querySelectorAll('.desktop-shortcut')];
-  const compact=()=>innerWidth<=820, left=12, top=12, cellW=104, cellH=96;
+  const compact=()=>innerWidth<=820, left=12, cellW=104, cellH=96;
   const clamp=(v,a,b)=>Math.max(a,Math.min(Math.max(a,b),v));
+  let top=12;
   let positions={}, selected=new Set(), gesture=null, suppressUntil=0, pointerType='mouse';
   const box=document.createElement('div');box.id='desktop-selection';box.hidden=true;box.setAttribute('aria-hidden','true');document.body.appendChild(box);
   const status=document.createElement('span');status.className='sr-only';status.setAttribute('role','status');dock.appendChild(status);dock.tabIndex=0;
   icons.forEach((el,i)=>{el.dataset.shortcut=el.dataset.shortcut||['projects','about','contact','github','display'][i];el.draggable=false;el.title='Double-click to open · drag to move · Ctrl-click to select more';});
   try{const saved=JSON.parse(localStorage.getItem('timbuilds.desktop.v3')||'null');if(saved?.positions&&typeof saved.positions==='object'&&!Array.isArray(saved.positions))positions=saved.positions;else{const previous=JSON.parse(localStorage.getItem('timbuilds.desktop.v2')||'{}');for(const [id,p] of Object.entries(previous?.positions||{}))positions[id]={x:p.x,y:p.y-54};}}catch{}
-  const workHeight=()=>window.TimWindows.workHeight();
+  const workHeight=()=>window.TimWindows.workBottom();
   function persist(){try{localStorage.setItem('timbuilds.desktop.v3',JSON.stringify({positions}));}catch{}}
   function paintSelection(){icons.forEach(el=>el.classList.toggle('is-selected',selected.has(el.dataset.shortcut)));status.textContent=selected.size?`${selected.size} desktop item${selected.size===1?'':'s'} selected`:'';}
   function layout(priority=[]){
+    top=window.TimWindows.workTop()+12;
     if(compact()){icons.forEach(el=>{el.style.left='';el.style.top='';});return;}
     const rows=Math.max(1,Math.floor((workHeight()-top)/cellH)),cols=Math.max(1,Math.floor((innerWidth-left)/cellW));
     const used=new Set(), ordered=[...icons].sort((a,b)=>Number(priority.includes(b.dataset.shortcut))-Number(priority.includes(a.dataset.shortcut)));

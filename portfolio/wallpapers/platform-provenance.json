@@ -1,0 +1,111 @@
+{
+    "retrieved":  "2026-09-18T02:31:52.442Z",
+    "images":  [
+                   {
+                       "id":  "mac9-background",
+                       "label":  "Mac OS Background",
+                       "file":  "mac9-mac-os-background.jpg",
+                       "source":  "https://media.512pixels.net/wp-content/uploads/2020/11/Mac-OS-Background-scaled.jpg",
+                       "note":  "512 Pixels archive/remastered export, not an untouched Apple system file. Used without further resizing.",
+                       "author":  "Apple artwork; archive by Stephen Hackett / 512 Pixels",
+                       "sha256":  "69cb60bf9a3c03f1df1e3ac7d504ce0f438bf2266c78d5e2dddb2666df0a20fc",
+                       "width":  2560,
+                       "height":  1920
+                   },
+                   {
+                       "id":  "mac9-quantum-foam",
+                       "label":  "Quantum Foam",
+                       "file":  "mac9-quantum-foam.jpg",
+                       "source":  "https://media.512pixels.net/wp-content/uploads/2020/11/Quantum-Foam-scaled.jpg",
+                       "note":  "512 Pixels archive/remastered export, not an untouched Apple system file. Used without further resizing.",
+                       "author":  "Apple artwork; archive by Stephen Hackett / 512 Pixels",
+                       "sha256":  "bec12bcb0a63e6815d4cf56ef42d24262d41110a6bdc65ec6c89bc102486cf2c",
+                       "width":  2560,
+                       "height":  1920
+                   },
+                   {
+                       "id":  "mac9-strawberry-parabola",
+                       "label":  "Strawberry Parabola",
+                       "file":  "mac9-strawberry-parabola.jpg",
+                       "source":  "https://media.512pixels.net/wp-content/uploads/2020/11/Strawberry-Parabola-scaled.jpg",
+                       "note":  "512 Pixels archive/remastered export, not an untouched Apple system file. Used without further resizing.",
+                       "author":  "Apple artwork; archive by Stephen Hackett / 512 Pixels",
+                       "sha256":  "7c62927639359c6f795a02f762971215f29f6e18598b2e64591ff05a383d4287",
+                       "width":  2560,
+                       "height":  1920
+                   },
+                   {
+                       "id":  "ubuntu-lucid",
+                       "label":  "Lucid Lynx",
+                       "file":  "ubuntu-lucid.png",
+                       "source":  "https://old-releases.ubuntu.com/ubuntu/pool/main/u/ubuntu-wallpapers/ubuntu-wallpapers_0.31.3.tar.gz",
+                       "member":  "warty-final-ubuntu.png",
+                       "author":  "Ubuntu/Canonical and contributing photographers; see bundled upstream copyright/AUTHORS",
+                       "license":  "CC BY 2.0 (upstream package copyright)",
+                       "sha256":  "5540950cc8439f0d1d380bc867464d0d3db5f419fde87f773a221b4f4a87736c",
+                       "width":  1680,
+                       "height":  1050
+                   },
+                   {
+                       "id":  "ubuntu-forest",
+                       "label":  "Bosque TK",
+                       "file":  "ubuntu-forest.jpg",
+                       "source":  "https://old-releases.ubuntu.com/ubuntu/pool/main/u/ubuntu-wallpapers/ubuntu-wallpapers_0.31.3.tar.gz",
+                       "member":  "BosqueTK.jpg",
+                       "author":  "Ubuntu/Canonical and contributing photographers; see bundled upstream copyright/AUTHORS",
+                       "license":  "CC BY 2.0 (upstream package copyright)",
+                       "sha256":  "40ebc18f665b97f13d62880467d72bd80378e91e997abe9a4bd8794b8d628bbf",
+                       "width":  1920,
+                       "height":  1200
+                   },
+                   {
+                       "id":  "ubuntu-warm-lights",
+                       "label":  "Warm Lights",
+                       "file":  "ubuntu-warm-lights.jpg",
+                       "source":  "https://old-releases.ubuntu.com/ubuntu/pool/main/u/ubuntu-wallpapers/ubuntu-wallpapers_0.31.3.tar.gz",
+                       "member":  "Warmlights.jpg",
+                       "author":  "Ubuntu/Canonical and contributing photographers; see bundled upstream copyright/AUTHORS",
+                       "license":  "CC BY 2.0 (upstream package copyright)",
+                       "sha256":  "17a644ad6041275f38e85462a0d73ef4c2d9d20ec0b191d9a17f968ec0fc297c",
+                       "width":  1920,
+                       "height":  1280
+                   },
+                   {
+                       "id":  "kde-blue",
+                       "label":  "KDE Default Blue",
+                       "file":  "kde-blue.jpg",
+                       "source":  "https://download.kde.org/Attic/3.5.10/src/kdebase-3.5.10.tar.bz2",
+                       "member":  "pics/wallpapers/default_blue.jpg",
+                       "author":  "Qwertz",
+                       "license":  "Free for commercial/noncommercial use, distribution and modification, per upstream CREDITS",
+                       "sha256":  "50977d2dfdd4d2c55225316a7078965045621073b408fbda06336b734ffbd07b",
+                       "width":  1024,
+                       "height":  768
+                   },
+                   {
+                       "id":  "kde-blue-bend",
+                       "label":  "Blue Bend",
+                       "file":  "kde-blue-bend.jpg",
+                       "source":  "https://download.kde.org/Attic/3.5.10/src/kdebase-3.5.10.tar.bz2",
+                       "member":  "pics/wallpapers/blue-bend.jpg",
+                       "author":  "Everaldo Coelho",
+                       "license":  "Free for commercial/noncommercial use, distribution and modification, per upstream CREDITS",
+                       "sha256":  "d259a5bbe886f664edeeb178200ce3141aa58306091cd961cab63586be1fad8c",
+                       "width":  1280,
+                       "height":  1024
+                   },
+                   {
+                       "id":  "kde-triple-gears",
+                       "label":  "Triple Gears",
+                       "file":  "kde-triple-gears.jpg",
+                       "source":  "https://download.kde.org/Attic/3.5.10/src/kdebase-3.5.10.tar.bz2",
+                       "member":  "pics/wallpapers/triplegears.jpg",
+                       "author":  "Jörg Gastner",
+                       "license":  "Free for commercial/noncommercial use, distribution and modification, per upstream CREDITS",
+                       "sha256":  "30abb97e1c4532936f2d8cc02c3b4f0a511adcbb02982c0d7b5697c79514384c",
+                       "width":  1280,
+                       "height":  1024
+                   }
+               ],
+    "patterns":  "Three CSS re-creations of period desktop patterns; not original Apple image files."
+}

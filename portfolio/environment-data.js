@@ -1,4 +1,4 @@
-/* Curated theme metadata. Only local, allowlisted wallpaper assets. */
+/* Curated, local-only desktop metadata. */
 window.TimEnvironmentData = {
   "themes": [
     {
@@ -10,7 +10,8 @@ window.TimEnvironmentData = {
       "description": "Flat navy title bars, square bevels and the original grey desktop controls.",
       "wallpaper": "win95-wi",
       "placement": "fit",
-      "color": "#008080"
+      "color": "#008080",
+      "family": "windows"
     },
     {
       "id": "98",
@@ -21,7 +22,8 @@ window.TimEnvironmentData = {
       "description": "Blue-gradient title bars, classic cascading menus and a cloud-filled desktop.",
       "wallpaper": "win98-clouds",
       "placement": "fill",
-      "color": "#008080"
+      "color": "#008080",
+      "family": "windows"
     },
     {
       "id": "2000",
@@ -32,7 +34,8 @@ window.TimEnvironmentData = {
       "description": "Understated professional grey, blue-gradient chrome and the Windows 2000 background.",
       "wallpaper": "win2000-windows-2000",
       "placement": "fill",
-      "color": "#3a6ea5"
+      "color": "#3a6ea5",
+      "family": "windows"
     },
     {
       "id": "xp",
@@ -43,7 +46,56 @@ window.TimEnvironmentData = {
       "description": "Rounded blue windows, the green Start button, a two-column Start menu and Bliss.",
       "wallpaper": "winxp-bliss",
       "placement": "fill",
-      "color": "#245edb"
+      "color": "#245edb",
+      "family": "windows"
+    },
+    {
+      "id": "system7",
+      "name": "System 7",
+      "short": "7",
+      "year": "1991",
+      "family": "mac",
+      "edition": "Classic Macintosh",
+      "description": "Monochrome striped title bars, a global menu bar, left-hand close boxes and a dithered grey desktop.",
+      "wallpaper": "mac7-grey",
+      "placement": "tile",
+      "color": "#aaa"
+    },
+    {
+      "id": "mac9",
+      "name": "Mac OS 9",
+      "short": "OS 9",
+      "year": "1999",
+      "family": "mac",
+      "edition": "Platinum Macintosh",
+      "description": "Platinum windows, a Finder-style global menu bar and the Mac OS desktop-picture collection.",
+      "wallpaper": "mac9-background",
+      "placement": "fill",
+      "color": "#b3b3da"
+    },
+    {
+      "id": "ubuntu",
+      "name": "Ubuntu 10.04",
+      "short": "Ubuntu",
+      "year": "2010",
+      "family": "linux",
+      "edition": "GNOME 2 · Ambiance",
+      "description": "Warm charcoal title bars, left-side controls, Applications/Places/System menus and the Lucid Lynx wallpaper.",
+      "wallpaper": "ubuntu-lucid",
+      "placement": "fill",
+      "color": "#3c2337"
+    },
+    {
+      "id": "kde",
+      "name": "KDE 3.5",
+      "short": "KDE",
+      "year": "2005",
+      "family": "linux",
+      "edition": "Linux · Plastik",
+      "description": "Blue Plastik-style windows, a K menu, a silver task panel and original KDE wallpaper artwork.",
+      "wallpaper": "kde-blue",
+      "placement": "fill",
+      "color": "#4875a5"
     }
   ],
   "wallpapers": [
@@ -393,6 +445,123 @@ window.TimEnvironmentData = {
       "id": "graphite",
       "label": "Graphite",
       "kind": "creative"
+    },
+    {
+      "id": "mac9-background",
+      "label": "Mac OS Background",
+      "file": "mac9-mac-os-background.jpg",
+      "kind": "archive",
+      "versions": [
+        "mac9"
+      ]
+    },
+    {
+      "id": "mac9-quantum-foam",
+      "label": "Quantum Foam",
+      "file": "mac9-quantum-foam.jpg",
+      "kind": "archive",
+      "versions": [
+        "mac9"
+      ]
+    },
+    {
+      "id": "mac9-strawberry-parabola",
+      "label": "Strawberry Parabola",
+      "file": "mac9-strawberry-parabola.jpg",
+      "kind": "archive",
+      "versions": [
+        "mac9"
+      ]
+    },
+    {
+      "id": "ubuntu-lucid",
+      "label": "Lucid Lynx",
+      "file": "ubuntu-lucid.png",
+      "kind": "archive",
+      "versions": [
+        "ubuntu"
+      ]
+    },
+    {
+      "id": "ubuntu-forest",
+      "label": "Bosque TK",
+      "file": "ubuntu-forest.jpg",
+      "kind": "archive",
+      "versions": [
+        "ubuntu"
+      ]
+    },
+    {
+      "id": "ubuntu-warm-lights",
+      "label": "Warm Lights",
+      "file": "ubuntu-warm-lights.jpg",
+      "kind": "archive",
+      "versions": [
+        "ubuntu"
+      ]
+    },
+    {
+      "id": "kde-blue",
+      "label": "KDE Default Blue",
+      "file": "kde-blue.jpg",
+      "kind": "archive",
+      "versions": [
+        "kde"
+      ]
+    },
+    {
+      "id": "kde-blue-bend",
+      "label": "Blue Bend",
+      "file": "kde-blue-bend.jpg",
+      "kind": "archive",
+      "versions": [
+        "kde"
+      ]
+    },
+    {
+      "id": "kde-triple-gears",
+      "label": "Triple Gears",
+      "file": "kde-triple-gears.jpg",
+      "kind": "archive",
+      "versions": [
+        "kde"
+      ]
+    },
+    {
+      "id": "mac7-grey",
+      "label": "Macintosh grey (recreated pattern)",
+      "kind": "pattern",
+      "versions": [
+        "system7",
+        "mac9"
+      ],
+      "pattern": "repeating-conic-gradient(#777 0 25%,#ccc 0 50%)",
+      "color": "#aaa",
+      "size": "2px 2px"
+    },
+    {
+      "id": "mac7-checker",
+      "label": "Black & white (recreated pattern)",
+      "kind": "pattern",
+      "versions": [
+        "system7",
+        "mac9"
+      ],
+      "pattern": "repeating-conic-gradient(#000 0 25%,#fff 0 50%)",
+      "color": "#fff",
+      "size": "4px 4px"
+    },
+    {
+      "id": "mac7-paper",
+      "label": "Desktop paper (recreated pattern)",
+      "kind": "pattern",
+      "versions": [
+        "system7",
+        "mac9"
+      ],
+      "pattern": "repeating-linear-gradient(45deg,#bbb 0 1px,#ddd 1px 3px)",
+      "color": "#ccc",
+      "size": "4px 4px"
     }
   ]
 };
