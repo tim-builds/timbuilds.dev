@@ -1,3 +1,4 @@
+import {checkFinish} from './check-finish.mjs';
 import {checkProjectSites} from './check-project-sites.mjs';
 import {checkRefinements} from './check-refinements.mjs';
 import {checkCleanDesktop} from './check-clean-desktop.mjs';
@@ -94,6 +95,7 @@ try{
  await checkImmersion({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkRefinements({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkProjectSites({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
+ await checkFinish({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await evaluate('localStorage.setItem("owner","true");localStorage.setItem("timbuilds.owner","true")');await navigate(origin);await click('[data-action="locked"]');await until(()=>evaluate('!!document.querySelector("#window-locked:not([hidden]) .access-terminal")'),'guest terminal after owner-key lookup');assert.ok(await evaluate('!!document.querySelector(".access-terminal")'));await click('#window-locked [data-win-control="close"]');pass('Spoofing an owner preference does not bypass encryption');
  const ownerFile=process.env.TIMBUILDS_OWNER_FILE||path.join(process.env.LOCALAPPDATA||path.join(os.homedir(),'.local','share'),'timbuilds-owner','catalogue.json');
  if(fs.existsSync(ownerFile)){

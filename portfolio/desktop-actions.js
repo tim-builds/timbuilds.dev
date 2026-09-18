@@ -6,7 +6,7 @@
   dialog.setAttribute('role','alertdialog');
   dialog.setAttribute('aria-labelledby','recycle-warning-heading');
   dialog.setAttribute('aria-describedby','recycle-warning-copy');
-  dialog.innerHTML='<div class="titlebar"><div class="window-title"><span id="recycle-warning-title">Cannot move folder</span></div><div class="window-controls"><button type="button" class="warning-close" aria-label="Close message">×</button></div></div><div class="warning-body"><span class="warning-symbol" aria-hidden="true">×</span><div><h2 id="recycle-warning-heading">Hey!</h2><p id="recycle-warning-copy"></p></div></div><div class="warning-footer"><button type="button" class="bevel-button warning-ok">OK</button></div>';
+  dialog.innerHTML='<div class="titlebar"><div class="window-title"><span id="recycle-warning-title">Cannot move folder</span></div><div class="window-controls"><button type="button" class="warning-close" aria-label="Close message">×</button></div></div><div class="warning-body"><span class="warning-symbol" aria-hidden="true">×</span><div><h2 id="recycle-warning-heading">Hey! Nice try.</h2><p id="recycle-warning-copy"></p></div></div><div class="warning-footer"><button type="button" class="bevel-button warning-ok">OK</button></div>';
   document.body.append(dialog);let previous=null;
   function dismiss(){if(dialog.open)dialog.close();}
   function warn(reason='move'){

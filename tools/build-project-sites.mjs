@@ -47,7 +47,7 @@ for(const s of sites){
 <section class="product-next" aria-labelledby="next-heading"><div><p class="site-eyebrow">${s.launchUrl?'READY WHEN YOU ARE':'THE PROJECT TODAY'}</p><h2 id="next-heading">${s.launchUrl?'Shall we play?':escape(p.status)}</h2><p>${escape(s.availability)}</p></div>${cta}</section>
 ${related?`<aside class="related-projects" aria-label="More projects"><h2>More from the collection</h2>${related}</aside>`:''}
 </main>
-<footer class="product-footer"><a href="/">A project by timBuilds</a><span>Made for real people.</span><a href="mailto:support@timbuilds.dev">support@timbuilds.dev</a></footer>
+<footer class="product-footer"><a href="/">A project by timBuilds</a><a href="mailto:support@timbuilds.dev">support@timbuilds.dev</a></footer>
 </body>
 </html>
 `;

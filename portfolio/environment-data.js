@@ -31,8 +31,8 @@ window.TimEnvironmentData = {
       "short": "2000",
       "year": "2000",
       "edition": "Professional style",
-      "description": "Understated professional grey, blue-gradient chrome and the Windows 2000 background.",
-      "wallpaper": "win2000-windows-2000",
+      "description": "Professional grey windows, blue-gradient title bars and the Paradise wallpaper.",
+      "wallpaper": "win2000-paradise",
       "placement": "fill",
       "color": "#3a6ea5",
       "family": "windows"

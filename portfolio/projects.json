@@ -37,10 +37,10 @@
     "url": "/projects/letters-with-lola/",
     "cta": "Project website",
     "source": null,
-    "image": "portfolio/media/lola.jpg",
+    "image": "portfolio/media/lola-board.jpg",
     "imageLabel": "Game screenshot",
-    "imageAlt": "Letters with Lola test game board with generic test players.",
-    "imageNote": "Letters with Lola test game board with generic test players."
+    "imageAlt": "Complete Letters with Lola test-game screen, proportionally fitted without cropping or rotation.",
+    "imageNote": "Complete Letters with Lola test-game screen, proportionally fitted without cropping or rotation."
   },
   {
     "id": "studio-siomai",
@@ -81,10 +81,10 @@
     "url": "/projects/solitaire/",
     "cta": "Project website",
     "source": null,
-    "image": "portfolio/media/solitaire.jpg",
+    "image": "portfolio/media/solitaire-felt.jpg",
     "imageLabel": "Game screenshot",
-    "imageAlt": "Solitaire Clemulie public game table.",
-    "imageNote": "Solitaire Clemulie public game table."
+    "imageAlt": "Actual Solitaire Clemulie game with its built-in Felt theme. Complete board and toolbar; fresh anonymous session.",
+    "imageNote": "Actual Solitaire Clemulie game with its built-in Felt theme. Complete board and toolbar; fresh anonymous session."
   },
   {
     "id": "grit-athletics",
@@ -124,10 +124,10 @@
     "url": "/projects/block-app/",
     "cta": "Project website",
     "source": null,
-    "image": "portfolio/media/blockapp.jpg",
+    "image": "portfolio/media/blockapp-native.jpg",
     "imageLabel": "Native proof screen",
-    "imageAlt": "blockApp native blocking proof screen in an editorial composition.",
-    "imageNote": "blockApp native blocking proof screen in an editorial composition."
+    "imageAlt": "Complete blockApp native development screen, proportionally fitted without cropping.",
+    "imageNote": "Complete blockApp native development screen, proportionally fitted without cropping."
   },
   {
     "id": "tv-app",
@@ -145,10 +145,10 @@
     "url": "/projects/tv-app/",
     "cta": "Project website",
     "source": null,
-    "image": "portfolio/media/tv.jpg",
+    "image": "portfolio/media/tv-native.jpg",
     "imageLabel": "Native test screen",
-    "imageAlt": "TV player channel browser with a user-supplied test playlist.",
-    "imageNote": "TV player channel browser with a user-supplied test playlist."
+    "imageAlt": "Complete native tvapp development capture with its user-supplied test playlist; no channels are provided.",
+    "imageNote": "Complete native tvapp development capture with its user-supplied test playlist; no channels are provided."
   },
   {
     "id": "showtally",
