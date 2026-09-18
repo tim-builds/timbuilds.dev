@@ -32,7 +32,7 @@
   dock.addEventListener('pointerdown',event=>{
     pointerType=event.pointerType||'mouse';if(pointerType==='touch'||event.button!==0||document.querySelector('dialog[open]'))return;
     const el=event.target.closest('.desktop-shortcut'), modifier=event.ctrlKey||event.metaKey||event.shiftKey;
-    window.TimWindows.deactivate();
+    window.TimDragFeedback.cancel();window.TimWindows.deactivate();
     if(el){const id=el.dataset.shortcut;if(modifier){if(selected.has(id))selected.delete(id);else selected.add(id);}else if(!selected.has(id))selected=new Set([id]);paintSelection();el.focus({preventScroll:true});}
     const initial=new Set(selected),start=Object.fromEntries([...selected].map(id=>[id,{...positions[id]}]));
     if(!el&&!modifier)selectOnly(null);if(!el)dock.focus({preventScroll:true});
@@ -40,10 +40,12 @@
   });
   function move(event){
     if(!gesture||gesture.id!==event.pointerId)return;if(event.pointerType==='mouse'&&event.buttons===0){finish({type:'cancel'});return;}const g=gesture,dx=event.clientX-g.x,dy=event.clientY-g.y;
-    if(!g.moved&&Math.hypot(dx,dy)<5)return;g.moved=true;g.lastX=event.clientX;g.lastY=event.clientY;document.documentElement.classList.add('desktop-dragging');
+    if(!g.moved&&Math.hypot(dx,dy)<5)return;if(!g.moved&&g.el)window.TimDragFeedback.begin(Object.keys(g.start));g.moved=true;g.lastX=event.clientX;g.lastY=event.clientY;document.documentElement.classList.add('desktop-dragging');
     if(g.el){const group=Object.values(g.start);if(!group.length)return;
       const mx=clamp(dx,left-Math.min(...group.map(p=>p.x)),innerWidth-(compact()?78:98)-Math.max(...group.map(p=>p.x))),my=clamp(dy,top-Math.min(...group.map(p=>p.y)),workHeight()-82-Math.max(...group.map(p=>p.y)));
-      for(const el of icons){const p=g.start[el.dataset.shortcut];if(!p)continue;positions[el.dataset.shortcut]={x:p.x+mx,y:p.y+my};el.style.left=p.x+mx+'px';el.style.top=p.y+my+'px';}
+      g.preview=Object.fromEntries(Object.entries(g.start).map(([id,p])=>[id,{x:p.x+mx,y:p.y+my}]));
+      const bin=icons.find(el=>el.dataset.shortcut==='recycle'),r=bin.getBoundingClientRect();
+      const over=g.start.projects&&!g.start.recycle&&event.clientX>=r.left&&event.clientX<=r.right&&event.clientY>=r.top&&event.clientY<=r.bottom;window.TimDragFeedback.move(mx,my,over);
     }else{
       const x=Math.min(g.x,event.clientX),y=Math.min(g.y,event.clientY),w=Math.abs(dx),h=Math.abs(dy);
       Object.assign(box.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});box.hidden=false;
@@ -55,13 +57,14 @@
   document.addEventListener('pointermove',move);
   function finish(event){
     if(!gesture||(event.pointerId!==undefined&&event.pointerId!==gesture.id))return;const g=gesture;gesture=null;const bin=icons.find(el=>el.dataset.shortcut==='recycle'),r=bin?.getBoundingClientRect();const badDrop=event.type==='pointerup'&&g.moved&&g.start.projects&&!g.start.recycle&&r&&g.lastX>=r.left&&g.lastX<=r.right&&g.lastY>=r.top&&g.lastY<=r.bottom;
+    if(!badDrop&&event.type==='pointerup'&&g.preview)Object.assign(positions,g.preview);
     if(badDrop||event.type!=='pointerup'){for(const [id,p] of Object.entries(g.start))positions[id]=p;selected=g.initial;}
     else if(g.el&&!g.moved&&!g.modifier)selected=new Set([g.el.dataset.shortcut]);
-    if(g.moved)suppressUntil=performance.now()+300;box.hidden=true;document.documentElement.classList.remove('desktop-dragging');layout([...selected]);paintSelection();persist();if(badDrop)window.dispatchEvent(new Event("timbuilds-naughty"));
+    if(g.moved)suppressUntil=performance.now()+300;box.hidden=true;document.documentElement.classList.remove('desktop-dragging');layout([...selected]);paintSelection();persist();if(badDrop)window.TimDragFeedback.reject(()=>window.TimDesktopActions.warn('move'));else window.TimDragFeedback.cancel();
   }
   document.addEventListener('pointerup',finish);document.addEventListener('pointercancel',finish);
   dock.addEventListener('lostpointercapture',event=>{if(event.pointerType==='mouse'&&(event.buttons&1))return;finish(event);});
-  window.addEventListener('blur',()=>{cancelTouch();finish({type:'cancel'});});
+  window.addEventListener('blur',()=>{cancelTouch();finish({type:'cancel'});window.TimDragFeedback.cancel();multi=null;});
   document.addEventListener('click',event=>{
     const el=event.target.closest('.desktop-shortcut');if(!el)return;
     if(performance.now()<suppressUntil){event.preventDefault();event.stopImmediatePropagation();return;}
@@ -71,8 +74,8 @@
   dock.addEventListener('keydown',event=>{
 
     if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='a'){event.preventDefault();selected=new Set(icons.map(el=>el.dataset.shortcut));paintSelection();return;}
-    if(event.key==='Delete'&&selected.has('projects')){event.preventDefault();window.dispatchEvent(new Event('timbuilds-naughty'));return;}
-    if(event.key==='Escape'){finish({type:'cancel'});selectOnly(null);return;}
+    if(event.key==='Delete'&&selected.has('projects')){event.preventDefault();window.TimDesktopActions.warn('move');return;}
+    if(event.key==='Escape'){window.TimDragFeedback.cancel();finish({type:'cancel'});selectOnly(null);return;}
     const el=event.target.closest('.desktop-shortcut');
     if(!el&&event.key==='Enter'){event.preventDefault();icons.filter(el=>selected.has(el.dataset.shortcut)).forEach(activate);return;}
     if(!el||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;
@@ -82,37 +85,31 @@
   });
   window.addEventListener('resize',()=>{if(gesture)finish({type:'cancel'});layout();});
   function cancelTouch(){if(touch)clearTimeout(touch.timer);touch=null;}
-  function beginTouch(){if(!touch)return;const t=touch;window.TimWindows.deactivate();const id=t.el?.dataset.shortcut;if(id&&!selected.has(id))selected=new Set([id]);paintSelection();const initial=new Set(selected),start=Object.fromEntries([...selected].map(id=>[id,{...positions[id]}]));if(!t.el)selectOnly(null);gesture={id:t.id,el:t.el,modifier:false,initial,start,x:t.x,y:t.y,moved:false};t.active=true;box.hidden=!!t.el;Object.assign(box.style,{left:t.x+'px',top:t.y+'px',width:'1px',height:'1px'});}
+  function beginTouch(){if(!touch)return;window.TimDragFeedback.cancel();const t=touch;window.TimWindows.deactivate();const id=t.el?.dataset.shortcut;if(id&&!selected.has(id))selected=new Set([id]);paintSelection();const initial=new Set(selected),start=Object.fromEntries([...selected].map(id=>[id,{...positions[id]}]));if(!t.el)selectOnly(null);gesture={id:t.id,el:t.el,modifier:false,initial,start,x:t.x,y:t.y,moved:false};t.active=true;box.hidden=!!t.el;Object.assign(box.style,{left:t.x+'px',top:t.y+'px',width:'1px',height:'1px'});}
   let multi=null;
-  const pair=points=>({x:(points[0].clientX+points[1].clientX)/2,y:(points[0].clientY+points[1].clientY)/2,d:Math.hypot(points[0].clientX-points[1].clientX,points[0].clientY-points[1].clientY)});
   dock.addEventListener('touchstart',event=>{
     pointerType='touch';
-    if(event.touches.length===2&&!event.target.closest('.desktop-shortcut')){cancelTouch();finish({type:'cancel'});const p=pair(event.touches);multi={...p,last:p,time:performance.now(),mode:'pending'};return;}
+    if(event.touches.length===2&&!event.target.closest('.desktop-shortcut')){
+      cancelTouch();finish({type:'cancel'});const [a,b]=event.touches;
+      multi={x:(a.clientX+b.clientX)/2,y:(a.clientY+b.clientY)/2,points:[...event.touches].map(t=>({id:t.identifier,x:t.clientX,y:t.clientY})),time:performance.now(),moved:false};return;
+    }
     if(event.touches.length!==1){cancelTouch();finish({type:'cancel'});multi=null;return;}
     if(multi)return;const t=event.touches[0];touch={id:t.identifier+10000,el:event.target.closest('.desktop-shortcut'),x:t.clientX,y:t.clientY,active:false};touch.timer=setTimeout(beginTouch,350);
   },{passive:true});
   dock.addEventListener('touchmove',event=>{
-    if(multi){
-      if(event.touches.length!==2||multi.mode==='pinch'||multi.mode==='done')return;const p=pair(event.touches),travel=Math.hypot(p.x-multi.x,p.y-multi.y);multi.last=p;
-      if(multi.mode==='pending'&&Math.abs(p.d-multi.d)>Math.max(18,multi.d*.18)){multi.mode='pinch';return;}
-      if(multi.mode==='pending'&&travel>8){multi.mode='select';window.TimWindows.deactivate();selectOnly(null);gesture={id:-9,el:null,modifier:false,initial:new Set(),start:{},x:multi.x,y:multi.y,moved:false};}
-      if(multi.mode==='select'){event.preventDefault();move({pointerId:-9,clientX:p.x,clientY:p.y});}return;
-    }
-    if(!touch)return;const t=event.touches[0];if(event.touches.length!==1){cancelTouch();finish({type:'cancel'});return;}
+    if(multi){for(const t of event.touches){const p=multi.points.find(p=>p.id===t.identifier);if(!p||Math.hypot(t.clientX-p.x,t.clientY-p.y)>9)multi.moved=true;}return;}
+    if(!touch)return;if(event.touches.length!==1){cancelTouch();finish({type:'cancel'});return;}const t=event.touches[0];
     if(!touch.active){if(Math.hypot(t.clientX-touch.x,t.clientY-touch.y)>10)cancelTouch();return;}
     event.preventDefault();move({pointerId:touch.id,clientX:t.clientX,clientY:t.clientY});
   },{passive:false});
   dock.addEventListener('touchend',event=>{
-    if(multi){const m=multi;if(m.mode==='select'){event.preventDefault();finish({type:'pointerup',pointerId:-9});m.mode='done';suppressUntil=performance.now()+600;}
-      else if(m.mode==='pending'&&event.touches.length<2){event.preventDefault();m.mode='done';if(performance.now()-m.time<650)window.TimShell.contextAt(m.x,m.y,dock);suppressUntil=performance.now()+600;}
-      if(!event.touches.length)multi=null;return;
-    }
+    if(multi){if(event.touches.length)return;const m=multi;multi=null;if(!m.moved&&performance.now()-m.time<600){event.preventDefault();window.TimShell.contextAt(m.x,m.y,dock);suppressUntil=performance.now()+600;}return;}
     if(!touch)return;if(touch.active){event.preventDefault();finish({type:'pointerup',pointerId:touch.id});suppressUntil=performance.now()+600;}else if(!touch.el)selectOnly(null);cancelTouch();
   },{passive:false});
   dock.addEventListener('touchcancel',()=>{cancelTouch();finish({type:'cancel'});multi=null;},{passive:true});
   dock.addEventListener('contextmenu',event=>{if(pointerType==='touch'&&(touch?.active||multi))event.preventDefault();});
 
-  window.addEventListener('timbuilds-session-reset',()=>{cancelTouch();finish({type:'cancel'});selectOnly(null);});
+  window.addEventListener('timbuilds-session-reset',()=>{cancelTouch();finish({type:'cancel'});window.TimDragFeedback.cancel();multi=null;selectOnly(null);});
   window.TimDesktop=Object.freeze({
     open:()=>window.TimWindows.show('projects'), minimize:()=>window.TimWindows.minimize('projects'),
     close:()=>window.TimWindows.close('projects'), maximize:()=>window.TimWindows.maximize('projects'),

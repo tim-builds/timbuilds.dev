@@ -5,9 +5,10 @@
     {
       "project": "openhoops",
       "image": "portfolio/media/openhoops.jpg",
-      "label": "App screenshots",
-      "description": "Actual OpenHoops map and venue screens in a two-phone composition.",
-      "sha256": "fb1244fd3a1dc489bc17afe1a08e945794268876260a4014f252c8535432d829"
+      "label": "Website + app capture",
+      "description": "Actual openHoops website and development app capture; not live court activity.",
+      "sha256": "a35711f47b5bfeea28a290bc5e18b78750ce7e655f846b519d910c7563411f05",
+      "capture": "Updated project website rendered in Chrome at 1200 x 700; underlying app captures are unchanged."
     },
     {
       "project": "letters-with-lola",

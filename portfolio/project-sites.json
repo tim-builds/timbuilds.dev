@@ -1,0 +1,246 @@
+[
+  {
+    "project": "letters-with-lola",
+    "theme": "lola",
+    "eyebrow": "A WORD GAME FOR PEOPLE YOU KNOW",
+    "headline": "A little wordplay.\nA little closer.",
+    "intro": "A shared table, a handful of letters, and a reason to spend a little time together. Made for my family. Ready for yours.",
+    "launchUrl": "https://letters-with-lola.vercel.app/",
+    "launchLabel": "Play Letters with Lola",
+    "availability": "Available to play in your browser. The game opens in a new tab.",
+    "storyTitle": "It started with Lola.",
+    "story": "I made this for my grandma and sister: a familiar word-tile game they could share, even when they were in different places. The point is not another app to keep up with. It is another way to stay in touch.",
+    "features": [
+      [
+        "A shared table",
+        "Build words across the board and play with someone you know."
+      ],
+      [
+        "At home on your screen",
+        "Open the game on a phone, tablet, or computer."
+      ],
+      [
+        "Made for family",
+        "A personal project, built around the people who will actually use it."
+      ]
+    ]
+  },
+  {
+    "project": "solitaire",
+    "theme": "solitaire",
+    "eyebrow": "KLONDIKE, WITH A PERSONAL TOUCH",
+    "headline": "A familiar game.\nYour own quiet moment.",
+    "intro": "Good cards. Comfortable controls. A table that feels like home. Solitaire Clemulie is the game I made for my grandma.",
+    "launchUrl": "https://solitaire-mocha.vercel.app/",
+    "launchLabel": "Play Solitaire Clemulie",
+    "availability": "Available to play in your browser. The game opens in a new tab.",
+    "storyTitle": "Named for my grandma. Built for another hand.",
+    "story": "The details matter when you play every day: the feel of moving a card, the space around the controls, the familiar rhythm of Klondike. That is where I have put the care.",
+    "features": [
+      [
+        "Classic Klondike",
+        "A familiar card game, without turning it into something else."
+      ],
+      [
+        "A comfortable table",
+        "Designed around readable cards and satisfying movement."
+      ],
+      [
+        "Installable and offline-first",
+        "Built as a progressive web app for returning to the game."
+      ]
+    ]
+  },
+  {
+    "project": "block-app",
+    "theme": "focus",
+    "eyebrow": "ANDROID · IN DEVELOPMENT",
+    "headline": "Give your time\na little more intention.",
+    "intro": "An app-blocking project built around the schedule you choose, not another feed asking for your attention.",
+    "availability": "In development. There is no public app download yet.",
+    "storyTitle": "The schedule should do the remembering.",
+    "story": "blockApp explores dependable blocking and clear escape controls. The aim is a tool that supports a decision you have already made about your day.",
+    "features": [
+      [
+        "A saved daily schedule",
+        "Set the structure for your day rather than deciding again every time."
+      ],
+      [
+        "Clear controls",
+        "Blocking and escape controls are being developed together."
+      ],
+      [
+        "Native Android work",
+        "Built in Kotlin, with the native behaviour still being tested."
+      ]
+    ]
+  },
+  {
+    "project": "tv-app",
+    "theme": "cinema",
+    "eyebrow": "GOOGLE TV + ANDROID · IN DEVELOPMENT",
+    "headline": "Start with\n“What should I watch?”",
+    "intro": "A remote-friendly player for your own playlists and programme guides. A better way to browse, without supplying the channels.",
+    "availability": "In development. No public download, TV channels, or subscriptions are offered here.",
+    "storyTitle": "Built for the other screen.",
+    "story": "tvapp is a player-interface project for Google TV and Android. It starts with the experience of sitting back with a remote and finding something worth watching.",
+    "features": [
+      [
+        "Remote-friendly browsing",
+        "A layout designed for directional controls and a television screen."
+      ],
+      [
+        "Your own playlists",
+        "The player works toward supporting user-supplied playlists and guides."
+      ],
+      [
+        "A work in progress",
+        "The screenshot shows a native development build and test content."
+      ]
+    ]
+  },
+  {
+    "project": "showtally",
+    "theme": "studio",
+    "eyebrow": "BROWSER EXTENSION · PROTOTYPE",
+    "headline": "Keep the session\nin view.",
+    "intro": "An observational dashboard concept for Whatnot sellers: totals, buyer activity, estimated fees, and exports in one useful place.",
+    "availability": "Prototype. There is no public extension install link yet.",
+    "storyTitle": "Useful information. Not an autopilot.",
+    "story": "ShowTally is designed to observe a live selling session, not bid or post on anyone’s behalf. The project explores what a seller needs to see while the session is moving.",
+    "features": [
+      [
+        "Session totals",
+        "A concise view of activity during a selling session."
+      ],
+      [
+        "Estimated fees",
+        "A place to understand the working numbers, using sample data here."
+      ],
+      [
+        "CSV exports",
+        "A prototype workflow for taking the session figures with you."
+      ]
+    ]
+  },
+  {
+    "project": "north-of-the-6ix",
+    "theme": "court",
+    "eyebrow": "WEBSITE DESIGN STUDY",
+    "headline": "A home-court\nadvantage.",
+    "intro": "A black-and-gold direction for a basketball coaching website in Barrie. Programme information, made easy to find.",
+    "availability": "Design concept only. This is not a live coaching or booking service.",
+    "storyTitle": "Let the coaching lead.",
+    "story": "The concept gives the coaching programme room to speak for itself: clear programme cards and a mobile-friendly layout. This page documents the design direction, not a launched client website.",
+    "features": [
+      [
+        "Programme-first",
+        "A concept that puts training information ahead of visual clutter."
+      ],
+      [
+        "Built for mobile",
+        "A direction designed around someone looking for a programme on a phone."
+      ],
+      [
+        "Clearly a concept",
+        "The visual is a design study, not a screenshot of a launched service."
+      ]
+    ]
+  },
+  {
+    "project": "ratings-aggregator",
+    "theme": "studio",
+    "eyebrow": "DIRECTORY INTERFACE · IN DEVELOPMENT",
+    "headline": "A clearer way\nto compare nearby.",
+    "intro": "A working-title exploration of local rankings, bringing review volume and average rating into one browsing experience.",
+    "availability": "In development. Not a launched directory; the prototype uses sample data.",
+    "storyTitle": "Look beyond a single number.",
+    "story": "Ratings Explorer investigates a useful way to compare local categories in Barrie and Ottawa–Gatineau. The current interface is an Astro prototype, not a live source of business rankings.",
+    "features": [
+      [
+        "Local categories",
+        "A focused view of places around you."
+      ],
+      [
+        "More context",
+        "Exploring how volume and average rating can work together."
+      ],
+      [
+        "Sample-data prototype",
+        "The screenshot was rendered locally without an external ratings API."
+      ]
+    ]
+  },
+  {
+    "project": "lofi-demos",
+    "theme": "audio",
+    "eyebrow": "CREATIVE CODING · ORIGINAL AUDIO",
+    "headline": "Music, one\nsynthesized note at a time.",
+    "intro": "Lo-fi experiments made with Node.js: an original composition, instrument studies, and another way to use code as a creative tool.",
+    "availability": "Creative experiment. Audio is not published on this page.",
+    "storyTitle": "A different kind of building.",
+    "story": "Harbor Lights began as an original composition in code. This project collects that experiment alongside instrument studies. The pictured waveform was measured from the original audio, not drawn as decoration.",
+    "features": [
+      [
+        "Original composition",
+        "Harbor Lights is part of this collection of experiments."
+      ],
+      [
+        "Instrument studies",
+        "Explorations of the sounds that form the music."
+      ],
+      [
+        "Code as a medium",
+        "Written in Node.js, with audio synthesis at the centre."
+      ]
+    ]
+  },
+  {
+    "project": "household-money",
+    "theme": "focus",
+    "eyebrow": "PRIVATE TOOL · PUBLIC OVERVIEW",
+    "headline": "Make the what-ifs\neasier to see.",
+    "intro": "A private household budgeting and scenario-planning project. A way to reason about shared bills and changes to a plan.",
+    "availability": "Private tool. No public app, personal financial figures, or financial advice are provided here.",
+    "storyTitle": "A private workspace for better questions.",
+    "story": "This page is an overview of the idea. It does not expose the working dashboard, household information, or personal projections. The image is explicitly a concept illustration.",
+    "features": [
+      [
+        "Shared household questions",
+        "A dashboard concept for bills and a financial plan."
+      ],
+      [
+        "Scenario thinking",
+        "Exploring how a changed assumption affects the picture."
+      ],
+      [
+        "Private by design",
+        "Only a high-level project description appears in this portfolio."
+      ]
+    ]
+  },
+  {
+    "project": "shoe-ratings",
+    "theme": "studio",
+    "eyebrow": "EARLY WEB EXPERIMENT",
+    "headline": "A small experiment\nin comparison.",
+    "intro": "One of the early projects in this collection: a single-page exploration of aggregating shoe ratings.",
+    "availability": "Research and web experiment. Public source is available; there is no separate app release.",
+    "storyTitle": "Small projects are part of the process.",
+    "story": "Shoe Ratings belongs to the earlier experiments that helped start this portfolio. It is kept here as a record of learning by building, not presented as a current product-rating authority.",
+    "features": [
+      [
+        "One focused page",
+        "An early HTML-based interface."
+      ],
+      [
+        "A comparison experiment",
+        "A study of how collected ratings could be presented."
+      ],
+      [
+        "Open source reference",
+        "The original public repository can be explored separately."
+      ]
+    ]
+  }
+]

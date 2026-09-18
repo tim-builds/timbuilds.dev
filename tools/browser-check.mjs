@@ -1,3 +1,4 @@
+import {checkProjectSites} from './check-project-sites.mjs';
 import {checkRefinements} from './check-refinements.mjs';
 import {checkCleanDesktop} from './check-clean-desktop.mjs';
 import {checkShell} from './check-shell.mjs';
@@ -19,7 +20,7 @@ const chrome=process.env.PORTFOLIO_CHROME || (process.platform==='win32'?'C:\\Pr
 assert.ok(fs.existsSync(chrome),'Set PORTFOLIO_CHROME to an installed Chrome/Chromium executable.');
 const output=path.join(root,'.qa');fs.mkdirSync(output,{recursive:true});
 const profile=fs.mkdtempSync(path.join(os.tmpdir(),'timbuilds-browser-'));
-const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.json':'application/json','.png':'image/png','.wasm':'application/wasm'};
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.wasm':'application/wasm'};
 const server=http.createServer((req,res)=>{
  let relative;
  try{relative=decodeURIComponent(new URL(req.url,'http://localhost').pathname);}catch{res.writeHead(400).end();return;}
@@ -61,7 +62,7 @@ try{
  await click('[data-view="list"]');assert.ok(await evaluate('document.querySelector("#project-grid").classList.contains("is-list")'));await click('[data-view="grid"]');pass('Grid and list views');
  await click('.project-card h3 [data-project="letters-with-lola"]');assert.equal(await evaluate('location.hash'),'#project-letters-with-lola');assert.ok(await evaluate('document.querySelector("#detail-dialog").open'));
  await evaluate('history.back()');await until(()=>evaluate('!document.querySelector("#detail-dialog").open'),'Back closes project dialog');pass('Project URL state and browser Back');
- await navigate(origin+'/#project-openhoops');assert.ok(await evaluate('document.querySelector("#detail-dialog").open'));assert.ok((await evaluate('document.querySelector("#dialog-title").textContent')).includes('OpenHoops'));await click('.dialog-close');pass('Direct project link opens and closes');
+ await navigate(origin+'/#project-openhoops');assert.ok(await evaluate('document.querySelector("#detail-dialog").open'));assert.ok((await evaluate('document.querySelector("#dialog-title").textContent')).includes('openHoops'));await click('.dialog-close');pass('Direct project link opens and closes');
  for(const id of JSON.parse(fs.readFileSync(path.join(root,'portfolio/projects.json'),'utf8')).map(p=>p.id)){
   await click(`.project-card h3 [data-project="${id}"]`);await until(()=>evaluate('document.querySelector(".project-detail-preview").complete && document.querySelector(".project-detail-preview").naturalWidth>0'),'project image');await click('.dialog-close');
  }pass('All project dialogs and local artwork');
@@ -92,6 +93,7 @@ try{
  await checkClassic({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkImmersion({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkRefinements({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
+ await checkProjectSites({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await evaluate('localStorage.setItem("owner","true");localStorage.setItem("timbuilds.owner","true")');await navigate(origin);await click('[data-action="locked"]');await until(()=>evaluate('!!document.querySelector("#window-locked:not([hidden]) .access-terminal")'),'guest terminal after owner-key lookup');assert.ok(await evaluate('!!document.querySelector(".access-terminal")'));await click('#window-locked [data-win-control="close"]');pass('Spoofing an owner preference does not bypass encryption');
  const ownerFile=process.env.TIMBUILDS_OWNER_FILE||path.join(process.env.LOCALAPPDATA||path.join(os.homedir(),'.local','share'),'timbuilds-owner','catalogue.json');
  if(fs.existsSync(ownerFile)){
@@ -115,7 +117,7 @@ try{
  assert.deepEqual(errors,[]);pass('No runtime JavaScript errors');
  fs.writeFileSync(path.join(output,'browser-checks.json'),JSON.stringify({checks,origin,browser:'installed Chrome, separate disposable profile',timestamp:new Date().toISOString(),limits:'Not a physical-phone or formal accessibility certification.'},null,2));
  console.log(`PASS: ${checks.length} browser check groups. Screenshots in .qa/.`);
-}catch(error){try{console.error("Viewport diagnostic",await evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll("body *")].filter(e=>e.getBoundingClientRect().right>innerWidth+.5&&e.getBoundingClientRect().width>0).slice(0,18).map(e=>({tag:e.tagName,id:e.id,classes:String(e.className),right:e.getBoundingClientRect().right,width:e.getBoundingClientRect().width}))})'));}catch{}console.error(error);process.exitCode=1;}
+}catch(error){try{await screenshot(path.join(output,"failure.png"));console.error("Viewport diagnostic",await evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll("body *")].filter(e=>e.getBoundingClientRect().right>innerWidth+.5&&e.getBoundingClientRect().width>0).slice(0,18).map(e=>({tag:e.tagName,id:e.id,classes:String(e.className),right:e.getBoundingClientRect().right,width:e.getBoundingClientRect().width}))})'));}catch{}console.error(error);process.exitCode=1;}
 finally{
  if(ws&&ws.readyState===WebSocket.OPEN){try{await send('Browser.close');}catch{}ws.close();}
  server.close();await sleep(700);if(browser.exitCode===null)browser.kill();
