@@ -121,4 +121,4 @@ Verification adds deterministic Solitaire/Reversi/golf logic checks, real Chrome
 
 ## Portability
 
-Hosting has not changed. See HOSTING.md for the assessment and a migration checklist. node tools/export-site.mjs --check reports the static payload size. Without --check it copies only the public site trees into an ignored .qa/portable-site-* folder; it does not deploy anything, copy Git history, include the private owner recovery file, or change a domain.
+Hosting has not changed. See HOSTING.md for the assessment and a migration checklist, including the real Supabase password-reset page under /openhoops/reset.html and GitHub Pages guidance against sensitive/password transactions. The retro desktop alone fits static hosting; that separate authentication flow is a concrete reason to evaluate another host. node tools/export-site.mjs --check reports the static payload size. Without --check it copies only the public site trees into an ignored .qa/portable-site-* folder; it does not deploy anything, copy Git history, include the private owner recovery file, or change a domain.
