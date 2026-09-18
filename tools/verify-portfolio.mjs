@@ -26,5 +26,5 @@ assert.ok(html.includes('openhoops/privacy.html'));
 assert.ok(html.includes('openhoops/terms.html'));
 assert.ok(html.includes('support@timbuilds.dev'));
 assert.ok(!/gh[pousr]_[A-Za-z0-9]{20,}|sk_live_[A-Za-z0-9]+|service_role/.test(html),'No credential-shaped content');
-assert.equal((html.match(/<h1\b/g)||[]).length,2,'Visible welcome and hidden minimised state');
+assert.equal((html.match(/<h1\b/g)||[]).length,1,'One explorer heading; no faux README section');
 console.log(`PASS: ${data.length} complete, unique projects; local assets; links; metadata; credential-shaped-content check.`);

@@ -1,0 +1,42 @@
+/* Navigable virtual folders; paths never access the visitor's filesystem. */
+(() => {
+  'use strict';
+  const A=window.TimApps,W=window.TimWindows;
+  const categories=['All projects','Apps','Games','Websites','Tools','Experiments','Locked'];
+  const folders={computer:['projects','accessories','games','documents','settings','recycle'],accessories:['notepad','calculator','paint'],games:['solitaire','minesweeper','pinball','reversi','minigolf'],documents:['document-privacy','document-terms'],settings:['versions','datetime','volume','system','screensaver']};
+  const names={computer:'My Computer',accessories:'Accessories',games:'Games',documents:'Documents',settings:'Control Panel'};
+  function pathFor(id){return id==='computer'?'C:\\':id==='projects'?'C:\\Tim\\Projects\\All projects':id.startsWith('project:')?'C:\\Tim\\Projects\\'+id.slice(8):'C:\\'+(names[id]||id);}
+  function resolve(raw){
+    if(typeof raw!=='string'||raw.length>260||/[<>"\0]/.test(raw)||/^(?:https?|javascript|file|data):/i.test(raw))return null;
+    let path=raw.trim().replace(/\\/g,'/').replace(/^Macintosh HD:/i,'/').replace(/:/g,'/').replace(/^C\//i,'/').replace(/^\/?home\/tim\//i,'/Tim/').replace(/\/+/g,'/').replace(/^\/|\/$/g,'').toLowerCase();
+    if(path.split('/').some(p=>p==='..'))return null;
+    if(['','computer','my computer','macintosh hd'].includes(path))return 'computer';
+    if(['projects','tim/projects','tim/projects/all projects'].includes(path))return 'projects';
+    if(path.startsWith('tim/projects/')){const c=categories.find(c=>c.toLowerCase()===path.slice(13));return c?'project:'+c:null;}
+    const folder=Object.keys(names).find(k=>[k,names[k].toLowerCase(),'windows/'+k,'applications/'+k].includes(path));if(folder)return folder;
+    if(['privacy','openhoops privacy.txt','documents/openhoops privacy.txt','openhoops/privacy.html'].includes(path))return 'document-privacy';
+    if(['terms','openhoops terms.txt','documents/openhoops terms.txt','openhoops/terms.html'].includes(path))return 'document-terms';
+    const base=path.split('/').at(-1).replace(/\.exe$/,'');return A.list().some(a=>a.id===base)?base:null;
+  }
+  function route(id){if(id==='projects')window.TimCatalogue.browse('All projects');else if(id.startsWith('project:'))window.TimCatalogue.browse(id.slice(8));else if(id==='document-privacy')window.TimDocuments.open('privacy');else if(id==='document-terms')window.TimDocuments.open('terms');else A.open(id);}
+  function toolbar(){return '<form class="explorer-navigation"><button type="button" data-nav="back" aria-label="Back" title="Back">←</button><button type="button" data-nav="forward" aria-label="Forward" title="Forward">→</button><button type="button" data-nav="up" aria-label="Up one folder" title="Up">↑</button><label>Address<input class="explorer-path" spellcheck="false" autocomplete="off" aria-label="Folder address" maxlength="260"></label><button type="submit" aria-label="Go to address">↵</button></form><p class="explorer-error" role="status" hidden></p>';}
+  function attach(form,initial,onNavigate){
+    const state={stack:[initial],index:0,now:initial};const input=form.querySelector('input'),error=form.nextElementSibling;
+    function paint(){input.value=pathFor(state.now);form.querySelector('[data-nav=back]').disabled=state.index===0;form.querySelector('[data-nav=forward]').disabled=state.index===state.stack.length-1;}
+    function go(id,push=true){state.now=id;if(push&&state.stack[state.index]!==id){state.stack=state.stack.slice(0,state.index+1);state.stack.push(id);state.index++;}error.hidden=true;onNavigate(id);paint();}
+    form.addEventListener('submit',e=>{e.preventDefault();const id=resolve(input.value);if(!id){error.textContent='Folder not found. Try C:\\Tim\\Projects, C:\\Games or C:\\Documents.';error.hidden=false;input.setAttribute('aria-invalid','true');return;}input.removeAttribute('aria-invalid');go(id);});
+    form.addEventListener('click',e=>{const direction=e.target.closest('[data-nav]')?.dataset.nav;if(direction==='up')go(state.now.startsWith('project:')?'projects':'computer');if(direction==='back'&&state.index>0)go(state.stack[--state.index],false);if(direction==='forward'&&state.index<state.stack.length-1)go(state.stack[++state.index],false);});
+    input.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();paint();error.hidden=true;input.removeAttribute('aria-invalid');}});input.addEventListener('focus',()=>input.select());paint();return {go,paint,state};
+  }
+  for(const [id,label] of Object.entries(names))A.register(id,label,id==='computer'?'computer':'folder',(body)=>{
+    let browser;body.innerHTML=toolbar()+'<div class="program-grid"></div>';const grid=body.querySelector('.program-grid');
+    function render(next){if(!folders[next]){route(next);return;}grid.replaceChildren();const list=A.list();for(const key of folders[next]){const app=list.find(a=>a.id===key);const title=key==='projects'?'My Projects':app?.label||names[key]||key;const b=document.createElement('button');b.className='program-icon';b.dataset.entry=key;b.innerHTML='<svg aria-hidden="true"><use href="portfolio/icons.svg#'+(app?.icon||'folder')+'"/></svg>';const text=document.createElement('span');text.textContent=title;b.append(text);grid.append(b);}}
+    browser=attach(body.querySelector('form'),id,render);render(id);grid.addEventListener('click',e=>{const item=e.target.closest('[data-entry]');if(!item)return;const next=item.dataset.entry;if(folders[next])browser.go(next);else route(next);});
+  });
+  const old=document.querySelector('#portfolio-window .addressbar');old.innerHTML=toolbar();const form=old.querySelector('form');form.querySelector('input').id='address-text';
+  let internal=false;const main=attach(form,'projects',id=>{internal=true;route(id);internal=false;});
+  window.addEventListener('timbuilds-folder',e=>{if(internal)return;const id=e.detail==='All projects'?'projects':'project:'+e.detail;main.state.now=id;if(main.state.stack[main.state.index]!==id){main.state.stack=main.state.stack.slice(0,main.state.index+1);main.state.stack.push(id);main.state.index++;}main.paint();});
+  window.addEventListener('timbuilds-session-reset',()=>{main.state.stack=['projects'];main.state.index=0;main.state.now='projects';main.paint();});
+  document.addEventListener('keydown',e=>{if((e.altKey&&e.key.toLowerCase()==='d')||((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='l'&&e.target.closest('[data-window-id]'))){const win=e.target.closest('[data-window-id]'),address=win?.querySelector('.explorer-path');if(address){e.preventDefault();address.focus();address.select();}}});
+  window.TimExplorer=Object.freeze({resolve,route,pathFor});
+})();

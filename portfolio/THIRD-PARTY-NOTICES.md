@@ -47,3 +47,7 @@ Ubuntu Lucid Lynx, Bosque TK and Warm Lights were extracted unchanged from the o
 KDE Default Blue (Qwertz), Blue Bend (Everaldo Coelho), and Triple Gears (Jörg Gastner) were extracted unchanged from the official KDE 3.5.10 source archive. The corresponding upstream CREDITS allow commercial and noncommercial use, distribution and modification; that notice is included in `wallpapers/licenses/kde-credits.txt`. Source: https://download.kde.org/Attic/3.5.10/src/kdebase-3.5.10.tar.bz2 .
 
 The Macintosh, Ubuntu GNOME 2 and KDE Plastik-style browser shells are independently implemented CSS and JavaScript, not an emulated or installed operating system. Applications remain the existing timBuilds web accessories. No Apple, Canonical or KDE affiliation/endorsement is implied. Runtime wallpaper requests stay on this site's own origin; source URLs are provenance only.
+
+## Release 7 games and power sequences
+
+Solitaire, Reversi and Mini Golf are original browser implementations in this repository. Mini Golf uses nine original course layouts and canvas artwork, not Kolf or Microsoft Golf assets. Startup/shutdown graphics and sequences are CSS/HTML recreations of the selected desktop era; they are not recordings of the operating systems and do not boot or power off a real device. Existing wallpaper/game attribution remains unchanged.

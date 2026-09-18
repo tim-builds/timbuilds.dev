@@ -120,5 +120,6 @@
     },options);
     showStage();
   }
+  window.addEventListener('timbuilds-session-reset',()=>{destroy();depth=0;attempts=0;solved=false;entry=[];try{seed=crypto.getRandomValues(new Uint32Array(1))[0];sessionStorage.removeItem(storage);}catch{}});
   window.TimBreach=Object.freeze({mount,destroy,visibility:visible=>{if(!visible)stopPlayback();}});
 })();

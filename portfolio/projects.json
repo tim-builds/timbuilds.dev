@@ -71,24 +71,6 @@
     "source": null
   },
   {
-    "id": "cham-care",
-    "title": "ChamCare Dental",
-    "category": "Websites",
-    "status": "Interactive demo",
-    "summary": "A calmer, more human dental website concept.",
-    "detail": "A complete interactive dental website mockup, shaped by the clinic’s storefront branding. Includes care pages, first-visit guidance, searchable questions and a sample appointment flow. Requests are demonstrations, not real bookings.",
-    "stack": [
-      "HTML / CSS",
-      "JavaScript",
-      "Static site"
-    ],
-    "icon": "tooth",
-    "preview": "chamcare",
-    "url": "https://cham-care.vercel.app/",
-    "cta": "Visit the demo",
-    "source": null
-  },
-  {
     "id": "grit-athletics",
     "title": "Grit Athletics",
     "category": "Websites",
