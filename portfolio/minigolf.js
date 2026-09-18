@@ -37,7 +37,7 @@
       canvas.dataset.hole=game.index;canvas.dataset.strokes=game.strokes;canvas.dataset.sunk=game.sunk;
     }
     function tick(now){if(closed||!visible)return;const moving=game.moving;game.step(last?Math.min(2,(now-last)/16.667):1);last=now;paint();if(moving&&!game.moving){if(game.sunk)scores[game.index]=game.strokes;update();}frame=requestAnimationFrame(tick);}
-    const point=e=>{const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*720/r.width,y:(e.clientY-r.top)*420/r.height};};
+    const point=e=>{const r=canvas.getBoundingClientRect(),scale=Math.min(r.width/720,r.height/420),left=r.left+(r.width-720*scale)/2,top=r.top+(r.height-420*scale)/2;return {x:(e.clientX-left)/scale,y:(e.clientY-top)/scale};};
     function shoot(direction,strength){if(game.shoot(direction,strength)){aim=null;update();}}
     canvas.addEventListener('pointerdown',e=>{if(e.button!==0||game.moving||game.sunk)return;const p=point(e);if(Math.hypot(p.x-game.x,p.y-game.y)>32){status.textContent='Start your drag on the white ball, or use the Putt controls.';return;}e.preventDefault();aim={...p,id:e.pointerId};canvas.setPointerCapture(e.pointerId);});
     canvas.addEventListener('pointermove',e=>{if(aim&&aim.id===e.pointerId)Object.assign(aim,point(e));});
