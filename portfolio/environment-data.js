@@ -106,7 +106,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win95-pc",
@@ -115,7 +117,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win95-dv",
@@ -124,7 +128,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win95-wh",
@@ -133,7 +139,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win95-my",
@@ -142,7 +150,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win95-na",
@@ -151,7 +161,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win95-sc",
@@ -160,7 +172,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win95-sp",
@@ -169,7 +183,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win95-sx",
@@ -178,7 +194,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win95-mo",
@@ -187,7 +205,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win95-tr",
@@ -196,7 +216,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win95-wi",
@@ -205,7 +227,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "95"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win98-clouds",
@@ -214,7 +238,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "98"
-      ]
+      ],
+      "width": 640,
+      "height": 480
     },
     {
       "id": "win98-wi",
@@ -223,7 +249,9 @@ window.TimEnvironmentData = {
       "kind": "shared",
       "versions": [
         "98"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win98-wh",
@@ -232,7 +260,9 @@ window.TimEnvironmentData = {
       "kind": "shared",
       "versions": [
         "98"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win98-na",
@@ -241,7 +271,9 @@ window.TimEnvironmentData = {
       "kind": "shared",
       "versions": [
         "98"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win98-sc",
@@ -250,7 +282,9 @@ window.TimEnvironmentData = {
       "kind": "shared",
       "versions": [
         "98"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win98-dv",
@@ -259,7 +293,9 @@ window.TimEnvironmentData = {
       "kind": "shared",
       "versions": [
         "98"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "win2000-windows-2000",
@@ -268,7 +304,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "2000"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win2000-boiling-point",
@@ -277,7 +315,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "2000"
-      ]
+      ],
+      "width": 163,
+      "height": 293
     },
     {
       "id": "win2000-chateau",
@@ -286,7 +326,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "2000"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win2000-iceberg",
@@ -295,7 +337,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "2000"
-      ]
+      ],
+      "width": 800,
+      "height": 527
     },
     {
       "id": "win2000-paradise",
@@ -304,7 +348,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "2000"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win2000-gold-petals",
@@ -313,16 +359,33 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "2000"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "winxp-bliss",
-      "label": "Bliss",
+      "label": "Bliss — high resolution",
+      "file": "winxp-bliss-hd.jpg",
+      "kind": "remaster",
+      "versions": [
+        "xp"
+      ],
+      "thumbnail": "winxp-bliss-thumb.jpg",
+      "note": "Microsoft Design re-creation; not the original XP photograph.",
+      "width": 4089,
+      "height": 2726
+    },
+    {
+      "id": "winxp-bliss-original",
+      "label": "Bliss (original XP image)",
       "file": "winxp-bliss.jpg",
       "kind": "archive",
       "versions": [
         "xp"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "winxp-ascent",
@@ -331,7 +394,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "xp"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "winxp-autumn",
@@ -340,7 +405,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "xp"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "winxp-azul",
@@ -349,7 +416,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "xp"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "winxp-crystal",
@@ -358,7 +427,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "xp"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "winxp-red-moon-desert",
@@ -367,7 +438,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "xp"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "winxp-tulips",
@@ -376,7 +449,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "xp"
-      ]
+      ],
+      "width": 800,
+      "height": 600
     },
     {
       "id": "win2000-blue",
@@ -453,7 +528,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "mac9"
-      ]
+      ],
+      "width": 2560,
+      "height": 1920
     },
     {
       "id": "mac9-quantum-foam",
@@ -462,7 +539,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "mac9"
-      ]
+      ],
+      "width": 2560,
+      "height": 1920
     },
     {
       "id": "mac9-strawberry-parabola",
@@ -471,7 +550,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "mac9"
-      ]
+      ],
+      "width": 2560,
+      "height": 1920
     },
     {
       "id": "ubuntu-lucid",
@@ -480,7 +561,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "ubuntu"
-      ]
+      ],
+      "width": 1680,
+      "height": 1050
     },
     {
       "id": "ubuntu-forest",
@@ -489,7 +572,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "ubuntu"
-      ]
+      ],
+      "width": 1920,
+      "height": 1200
     },
     {
       "id": "ubuntu-warm-lights",
@@ -498,7 +583,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "ubuntu"
-      ]
+      ],
+      "width": 1920,
+      "height": 1280
     },
     {
       "id": "kde-blue",
@@ -507,7 +594,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "kde"
-      ]
+      ],
+      "width": 1024,
+      "height": 768
     },
     {
       "id": "kde-blue-bend",
@@ -516,7 +605,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "kde"
-      ]
+      ],
+      "width": 1280,
+      "height": 1024
     },
     {
       "id": "kde-triple-gears",
@@ -525,7 +616,9 @@ window.TimEnvironmentData = {
       "kind": "archive",
       "versions": [
         "kde"
-      ]
+      ],
+      "width": 1280,
+      "height": 1024
     },
     {
       "id": "mac7-grey",

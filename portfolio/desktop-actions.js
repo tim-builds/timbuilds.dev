@@ -10,6 +10,7 @@
   document.body.append(dialog);let previous=null;
   function dismiss(){if(dialog.open)dialog.close();}
   function warn(reason='move'){
+    if(reason==='move'){window.TimBSOD.open('projects');return;}
     previous=document.activeElement;
     dialog.dataset.reason=reason;
     const title=dialog.querySelector('#recycle-warning-title');

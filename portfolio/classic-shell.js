@@ -7,7 +7,7 @@
     if(id==='projects')W.show('projects');
     else document.querySelector(`[data-dialog="${id}"]`)?.click();
   }
-  const icon=id=>`<svg aria-hidden="true"><use href="portfolio/icons.svg#${id}"/></svg>`;
+  const icon=id=>`<svg aria-hidden="true"><use href="portfolio/icons.svg?v=12#${id}"/></svg>`;
   const appButton=(id,label,glyph)=>`<button class="program-icon" data-app-open="${id}">${icon(glyph)}<span>${label}</span></button>`;
   const categories={accessories:['notepad','calculator','paint'],games:['minesweeper','pinball'],settings:['versions','datetime','volume','system']};
   for(const [id,label] of [['accessories','Accessories'],['games','Games'],['computer','My Computer'],['settings','Control Panel']]) {
@@ -57,7 +57,7 @@
   }
   document.addEventListener('contextmenu',e=>{if(e.shiftKey||e.defaultPrevented||e.target.closest('input,textarea,canvas,dialog[open],.mine-board'))return;const items=contextItems(e.target);if(!items)return;e.preventDefault();showMenu(items,e.clientX,e.clientY,e.target.closest('button,[tabindex]')||document.querySelector('.desktop-dock'));});
   document.addEventListener('keydown',e=>{if(e.key==='ContextMenu'||e.shiftKey&&e.key==='F10'){const items=contextItems(e.target);if(items){e.preventDefault();const r=e.target.getBoundingClientRect();showMenu(items,r.left+10,r.bottom,e.target);}}if(e.ctrlKey&&e.key==='Escape'){e.preventDefault();document.querySelector('#start-button').click();}if(e.altKey&&e.key==='F6'){e.preventDefault();W.cycle(e.shiftKey?-1:1);}});
-  document.addEventListener('click',e=>{if(e.target.closest('.clock-tray'))launch('datetime');const emblem=e.target.closest('[data-window-id] > .titlebar .window-title > svg');if(emblem){const r=emblem.getBoundingClientRect();showMenu(contextItems(emblem),r.left,r.bottom,emblem.closest('.titlebar'));}});
+  document.addEventListener('click',e=>{const emblem=e.target.closest('[data-window-id] > .titlebar .window-title > svg');if(emblem){const r=emblem.getBoundingClientRect();showMenu(contextItems(emblem),r.left,r.bottom,emblem.closest('.titlebar'));}});
   function menuButton(label,app,glyph){return `<button data-app-open="${app}">${icon(glyph)}<span>${label}</span></button>`;}
   const nav=document.querySelector('#start-menu > nav');
   function renderStart(){nav.innerHTML=window.TimStartMenu();

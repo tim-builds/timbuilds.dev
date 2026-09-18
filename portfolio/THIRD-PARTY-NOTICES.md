@@ -63,3 +63,7 @@ The new project websites reuse the public project assets with their existing sou
 ## Release 11 preview corrections
 
 Solitaire Clemulie is freshly captured using the live game’s selectable Felt theme in an anonymous disposable browser, without modifying the game. The existing verified Lola/blockApp/tvapp development captures are fitted without distortion. Updated filenames, descriptions and SHA-256 hashes are recorded in media/provenance.json. Native source captures, private files, wallpaper artwork and third-party game assets remain unchanged. Window/navigation glyphs are original SVG paths.
+
+## High-resolution Bliss re-creation
+
+The XP default uses Microsoft Design’s separately published Bliss re-creation, not an upscaled claim about the original Charles O’Rear photograph. Source: https://microsoft.design/wallpapers/ (Microsoft Nostalgic Scenes), archive https://microsoft.design/wp-content/uploads/2025/08/microsoft_nostalgic.zip, member Microsoft_Nostalgic_Windows_Wallpaper_4k.jpg. The local full wallpaper retains all 4089 × 2726 source pixels and is JPEG-recompressed at quality 90; a 300 × 200 thumbnail is supplied for the picker. Source and derived hashes are recorded in wallpapers/environment-provenance.json. Copyright remains with Microsoft and the respective creators. The original 800 × 600 XP archive file remains selectable separately. No external image request is made at runtime.

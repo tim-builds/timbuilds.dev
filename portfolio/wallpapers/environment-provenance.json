@@ -69,7 +69,7 @@
     {
       "width": 800,
       "height": 600,
-      "id": "winxp-bliss",
+      "id": "winxp-bliss-original",
       "source": "https://archive.org/download/windows-wallpapers/Windows%20XP-Server%202003-Server%202003%20R2.zip",
       "version": "xp",
       "label": "Bliss",
@@ -153,9 +153,31 @@
       "note": "Archival Clouds image used by the 98.js Windows 98 recreation. Other Windows 98 choices reuse the inherited Windows/Plus! theme pictures already bundled and attributed in provenance.json.",
       "width": 640,
       "height": 480
+    },
+    {
+      "id": "winxp-bliss",
+      "file": "winxp-bliss-hd.jpg",
+      "width": 4089,
+      "height": 2726,
+      "source": "https://microsoft.design/wp-content/uploads/2025/08/microsoft_nostalgic.zip",
+      "member": "Microsoft_Nostalgic_Windows_Wallpaper_4k.jpg",
+      "sourceSha256": "8f9a38bfc0f5670eb8d92e92539719c1086abee4313930f4ad1fd1e7ad6d305e",
+      "sha256": "93704629a762592344f87c8db342778b566876b58e62f961bb58d0c07716a193",
+      "note": "Microsoft Design Bliss re-creation. JPEG recompressed at quality 90; thumbnail resized. Full wallpaper retains 4089 x 2726 source pixels."
+    },
+    {
+      "id": "winxp-bliss-thumbnail",
+      "file": "winxp-bliss-thumb.jpg",
+      "width": 300,
+      "height": 200,
+      "source": "https://microsoft.design/wp-content/uploads/2025/08/microsoft_nostalgic.zip",
+      "member": "Microsoft_Nostalgic_Windows_Wallpaper_4k.jpg",
+      "sourceSha256": "8f9a38bfc0f5670eb8d92e92539719c1086abee4313930f4ad1fd1e7ad6d305e",
+      "sha256": "e00a9972714a6505f4025bb7772f47362c66c4673d2045e70ed759f5a0523ddd",
+      "note": "Microsoft Design Bliss re-creation. JPEG recompressed at quality 90; thumbnail resized. Full wallpaper retains 4089 x 2726 source pixels."
     }
   ],
   "retrieved": "2026-09-18T01:41:46.4219207Z",
   "archive": "https://archive.org/details/windows-wallpapers",
-  "notice": "Archived Windows artwork; rights remain with Microsoft and the respective image creators. Files preserved without upscaling or modification."
+  "notice": "Windows artwork remains owned by Microsoft and its creators. Original archive files remain unchanged. The separately labelled Microsoft Design re-creation is recompressed for the web; its thumbnail is resized."
 }

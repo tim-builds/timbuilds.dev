@@ -42,7 +42,7 @@
     document.querySelectorAll('[data-os-short]').forEach(el=>el.textContent=t.short);
     document.querySelectorAll('[data-os-description]').forEach(el=>el.textContent=t.description);
     const brand=document.querySelector('.start-brand');if(brand&&t.family!=="mac"&&t.family!=="linux")brand.innerHTML=`<strong>Windows</strong><span>${t.id==='xp'?'xp':t.short}</span>${t.id==='2000'?'<small>Professional</small>':''}`;
-    const badge=document.querySelector('#environment-button');if(badge)badge.title=`${t.name} — switch operating system`;
+    document.querySelectorAll('.environment-year').forEach(badge=>{badge.title=`${t.name} (${t.year}) — change operating system`;badge.setAttribute('aria-label',`${t.year}, ${t.name} — change operating system`);});
     const label=document.querySelector('#version-storage-status');if(label)label.textContent=persistent?'Your version and its wallpaper choices are remembered separately in this browser.':'Browser storage is unavailable. Your choices apply for this visit.';
   }
   document.addEventListener('click',e=>{const b=e.target.closest('[data-version]');if(!b)return;set(b.dataset.version);sync();});
