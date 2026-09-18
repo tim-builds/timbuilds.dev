@@ -1,3 +1,4 @@
+import {checkCleanDesktop} from './check-clean-desktop.mjs';
 import {checkShell} from './check-shell.mjs';
 import {checkClassic} from './check-classic.mjs';
 import {checkEnvironments} from './check-environments.mjs';
@@ -63,7 +64,7 @@ try{
  for(const id of JSON.parse(fs.readFileSync(path.join(root,'portfolio/projects.json'),'utf8')).map(p=>p.id)){
   await click(`.project-card h3 [data-project="${id}"]`);await until(()=>evaluate('document.querySelector(".project-detail-preview").complete && document.querySelector(".project-detail-preview").naturalWidth>0'),'project image');await click('.dialog-close');
  }pass('All project dialogs and local artwork');
- await click('.desktop-shortcut[data-dialog="display"]');await click('.wallpaper-option[data-wallpaper="night"]');await click('#window-display [data-win-control="close"]');await navigate(origin);assert.equal(await evaluate('document.documentElement.dataset.wallpaper'),'night');await click('.desktop-shortcut[data-dialog="display"]');await click('.wallpaper-option[data-wallpaper="teal"]');await click('#window-display [data-win-control="close"]');pass('Wallpaper persists across a real page load');
+ await click('[data-dialog="display"]');await click('.wallpaper-option[data-wallpaper="night"]');await click('#window-display [data-win-control="close"]');await navigate(origin);assert.equal(await evaluate('document.documentElement.dataset.wallpaper'),'night');await click('[data-dialog="display"]');await click('.wallpaper-option[data-wallpaper="teal"]');await click('#window-display [data-win-control="close"]');pass('Wallpaper persists across a real page load');
  await click('#start-button');assert.equal(await evaluate('document.querySelector("#start-menu").hidden'),false);await click('#start-button');
  await click('[data-action="minimize"]');assert.ok(await evaluate('document.querySelector("#portfolio-window").hidden'));await click('.task-button');assert.equal(await evaluate('document.querySelector("#portfolio-window").hidden'),false);pass('Start menu and minimise/restore');
  for(const width of [320,390,600,768,1024,1440,1920,2560,3440]){await viewport(width);assert.equal(await evaluate('document.documentElement.scrollWidth > innerWidth'),false,`horizontal overflow at ${width}`);}pass('Responsive widths 320–3440 px');
@@ -72,7 +73,7 @@ try{
  if(process.argv.includes('--capture-social')){await evaluate('window.TimVersion.reset()');await viewport(1280,720);await evaluate('window.scrollTo(0,0)');await screenshot(path.join(root,'portfolio/social.png'),{x:0,y:0,width:1280,height:672,scale:.9375});pass('Social preview generated from this actual website');}
  const box=selector=>evaluate(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height};})()`);
  let mouseHeld=false;async function mouse(x,y,type='mouseMoved',count=1){if(type==='mousePressed')mouseHeld=true;if(type==='mouseReleased')mouseHeld=false;await send('Input.dispatchMouseEvent',{type,x,y,button:type==='mouseMoved'?'none':'left',buttons:mouseHeld?1:0,clickCount:type==='mouseMoved'?0:count});}
- async function drag(selector,dx,dy){const r=await box(selector),x=r.x+r.w/2,y=r.y+r.h/2;await mouse(x,y);await mouse(x,y,'mousePressed');for(let i=1;i<=5;i++){await mouse(x+dx*i/5,y+dy*i/5);await sleep(25);}await mouse(x+dx,y+dy,'mouseReleased');await sleep(350);}
+ async function drag(selector,dx,dy){const r=await box(selector),x=r.x+r.w/2,y=r.y+r.h/2;await mouse(x,y);await mouse(x,y,'mousePressed');await sleep(60);for(let i=1;i<=5;i++){await mouse(x+dx*i/5,y+dy*i/5);await sleep(35);}await sleep(40);await mouse(x+dx,y+dy,'mouseReleased');await sleep(350);}
  await viewport(1440,1000);await evaluate('window.TimDesktop.resetWindow();window.TimDesktop.arrange()');
  const before=await box('#portfolio-window');await drag('#portfolio-window > .titlebar',-40,10);const moved=await box('#portfolio-window');assert.equal(Math.round(moved.x),Math.round(before.x-40));assert.equal(Math.round(moved.y),Math.round(before.y+10));pass('Real pointer drag moves the main window');
  await drag('.resize-se',-160,-120);const resized=await box('#portfolio-window');assert.equal(Math.round(resized.w),Math.round(moved.w-160));assert.equal(Math.round(resized.h),Math.round(moved.h-120));pass('Corner drag resizes the project window');
@@ -85,6 +86,7 @@ try{
  await viewport(1440,1000);await evaluate('window.TimDesktop.resetWindow();document.querySelector(".workspace").scrollTop=200');const scroll=await evaluate('document.querySelector(".workspace").scrollTop');await click('[data-category="Websites"]');assert.equal(await evaluate('document.querySelector(".workspace").scrollTop'),scroll);assert.equal(await evaluate('window.scrollY'),0);await click('[data-category="All projects"]');pass('Filtering preserves explorer scroll position and never scrolls the desktop');
  await checkEnvironments({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass});
  await checkPlatforms({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
+ await checkCleanDesktop({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkShell({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkClassic({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkImmersion({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
