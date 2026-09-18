@@ -184,3 +184,7 @@ Dragging My Projects into the Recycle Bin, or opening Locked as a guest, enters 
 Tray apps now share the window-task open/focus/minimise/restore behavior. Task Manager uses one green performance-monitor icon. A separate underlined OS-era year and chevron after the live time opens the environment picker. XP uses the labelled 4089 × 2726 Microsoft Design Bliss re-creation, with the original archive still available; Display reports each image’s source resolution and offers a no-enlargement option.
 
 The browser suite includes tools/check-recovery.mjs for keyboard containment, preserved work, both entrances, all eight skins at 320/390/1440 pixels, real tray clicks, and the decoded high-resolution asset.
+
+### Inline recovery feedback
+
+The recovery form uses one fixed-size primary button: Verify response, Incorrect — try again, then Correct — continue. The accepted state keeps the same button enabled while freezing the solved inputs. Continuing moves focus into the next challenge, including the non-text mini-games. Only the upper-right Return to desktop control remains; Escape still exits. Browser checks cover the same mouse/touch target, keyboard submission, all nine challenge types and the single exit.

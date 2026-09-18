@@ -5,7 +5,7 @@
   dialog.id = 'bsod-dialog';
   dialog.setAttribute('aria-labelledby', 'bsod-title');
   dialog.setAttribute('aria-describedby', 'bsod-description');
-  dialog.innerHTML = '<header class="bsod-toolbar"><span class="bsod-brand" aria-hidden="true">Windows</span><button type="button" data-bsod-action="desktop">[Esc] Return to desktop</button></header><div class="bsod-scroll"><section class="bsod-report"><h1 id="bsod-title" tabindex="-1">A problem has been detected.</h1><p id="bsod-description"></p><p class="bsod-stop" id="bsod-stop"></p><p>If this is the first time you have seen this Stop error, return to the desktop. If curiosity persists, attempt recovery below.</p><p>Your windows and files have been preserved. No restart is required.</p><details class="bsod-dump"><summary>Technical information / inspect memory dump</summary><pre id="bsod-dump"></pre><button type="button" data-bsod-action="check">[F5] Retry system check</button><p id="bsod-check" role="status">Recovery driver loaded. Awaiting operator input.</p></details></section><section class="bsod-recovery" aria-label="Recovery challenges"></section><footer class="bsod-footer">System halted. Operator still in control. <button type="button" data-bsod-action="desktop">Return to desktop</button></footer></div>';
+  dialog.innerHTML = '<header class="bsod-toolbar"><span class="bsod-brand" aria-hidden="true">Windows</span><button type="button" data-bsod-action="desktop">[Esc] Return to desktop</button></header><div class="bsod-scroll"><section class="bsod-report"><h1 id="bsod-title" tabindex="-1">A problem has been detected.</h1><p id="bsod-description"></p><p class="bsod-stop" id="bsod-stop"></p><p>If this is the first time you have seen this Stop error, return to the desktop. If curiosity persists, attempt recovery below.</p><p>Your windows and files have been preserved. No restart is required.</p><details class="bsod-dump"><summary>Technical information / inspect memory dump</summary><pre id="bsod-dump"></pre><button type="button" data-bsod-action="check">[F5] Retry system check</button><p id="bsod-check" role="status">Recovery driver loaded. Awaiting operator input.</p></details></section><section class="bsod-recovery" aria-label="Recovery challenges"></section><footer class="bsod-footer">System halted. Operator still in control.</footer></div>';
   document.body.append(dialog);
   let previous = null, previousWindow = null, checks = 0, mounted = false;
   const messages = ['Checking project integrity... PASSED. Deleting the portfolio is still not a supported feature.', 'Loading curiosity.sys... FAILED SUCCESSFULLY. Please complete another recovery challenge.', 'Memory dump complete. Found: 640 KB of ambition, one stubborn folder, zero deleted files.'];
@@ -40,7 +40,7 @@
     dialog.querySelector('#bsod-check').textContent = 'Recovery driver loaded. Awaiting operator input.';
     document.documentElement.classList.add('bsod-active');
     dialog.showModal(); mounted = true; fitViewport();
-    window.TimBreach.mount(dialog.querySelector('.bsod-recovery'), {focus:false, onDisconnect:close});
+    window.TimBreach.mount(dialog.querySelector('.bsod-recovery'), {focus:false});
     dialog.querySelector('.bsod-scroll').scrollTop = 0;
     dialog.querySelector('#bsod-title').focus({preventScroll:true});
   }

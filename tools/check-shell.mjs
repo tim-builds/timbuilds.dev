@@ -24,19 +24,20 @@ export async function checkShell({evaluate,send,click,box,mouse,drag,viewport,na
   await evaluate('sessionStorage.setItem("timbuilds.access-progress.v3",JSON.stringify({depth:0,seed:123456}))');await navigate(origin+'/?shell-test=3');await click('[data-action="locked"]');await until(()=>evaluate('!!document.querySelector(".access-terminal")'),'access terminal');await sleep(150);
   assert.equal(await evaluate('document.querySelector(".access-terminal").dataset.depth'),'0');
   assert.equal(await evaluate('/just a game|fictional|for fun|unwinnable/i.test(document.querySelector(".access-terminal").textContent)'),false);
-  await evaluate('document.querySelector("#access-response").value="deliberately-wrong";document.querySelector("#access-form").requestSubmit()');assert.equal(await evaluate('document.querySelector("#access-accepted").hidden'),true);pass('Guest enters an immersive access terminal; incorrect first-stage responses are rejected');
+  await evaluate('document.querySelector("#access-response").value="deliberately-wrong";document.querySelector("#access-form").requestSubmit()');assert.equal(await evaluate('document.querySelector(".access-verify").dataset.state'),'rejected');pass('Guest enters an immersive access terminal; incorrect first-stage responses are rejected');
   const networkStart=requests.length;
   function route(stage){const queue=[{x:0,y:0,path:[]}],seen=new Set(['0,0']);while(queue.length){const current=queue.shift();if(current.x===stage.size-1&&current.y===stage.size-1)return current.path;for(const [name,dx,dy] of [['right',1,0],['down',0,1],['left',-1,0],['up',0,-1]]){const x=current.x+dx,y=current.y+dy,key=x+','+y;if(x<0||y<0||x>=stage.size||y>=stage.size||stage.cells[y][x]||seen.has(key))continue;seen.add(key);queue.push({x,y,path:[...current.path,name]});}}throw new Error('Unreachable maze');}
   for(let n=0;n<24;n++){
+    await evaluate('window.__currentVerifyButton=document.querySelector(".access-verify")');
     const stage=await evaluate(`window.TimChallengeRules.makeStage(${n},123456)`);
     assert.equal(await evaluate('Number(document.querySelector(".access-terminal").dataset.depth)'),n);
     assert.ok((await evaluate('document.querySelector("#access-hint").textContent')).length>20);
     if(n===3)await screenshot(path.join(output,'access-captcha.png'));if(n===4)await screenshot(path.join(output,'access-tiles.png'));if(n===6)await screenshot(path.join(output,'access-maze.png'));
     if(stage.type==='tiles'){
-      const wrong=stage.tiles.findIndex(t=>!t.correct);await click(`[data-tile="${wrong}"]`);await evaluate('document.querySelector("#access-form").requestSubmit()');assert.equal(await evaluate('document.querySelector("#access-accepted").hidden'),true);await click(`[data-tile="${wrong}"]`);
+      const wrong=stage.tiles.findIndex(t=>!t.correct);await click(`[data-tile="${wrong}"]`);await evaluate('document.querySelector("#access-form").requestSubmit()');assert.equal(await evaluate('document.querySelector(".access-verify").dataset.state'),'rejected');await click(`[data-tile="${wrong}"]`);
       for(const [i,tile] of stage.tiles.entries())if(tile.correct)await click(`[data-tile="${i}"]`);await evaluate('document.querySelector("#access-form").requestSubmit()');
     }else if(stage.type==='memory'){
-      await click('[data-access-action="replay"]');await sleep(80);await click('#bsod-dialog [data-bsod-action="desktop"]');await sleep(80);await click('[data-action="locked"]');await until(()=>evaluate('!!document.querySelector(".access-terminal")'),'resumed recovery');assert.equal(await evaluate('document.querySelectorAll(".sequence-pad:disabled").length'),0);
+      await click('[data-access-action="replay"]');await sleep(80);await click('#bsod-dialog [data-bsod-action="desktop"]');await sleep(80);await click('[data-action="locked"]');await until(()=>evaluate('!!document.querySelector(".access-terminal")'),'resumed recovery');await evaluate('window.__currentVerifyButton=document.querySelector(".access-verify")');assert.equal(await evaluate('document.querySelectorAll(".sequence-pad:disabled").length'),0);
       for(const pad of stage.sequence)await click(`[data-pad="${pad}"]`);
     }else if(stage.type==='maze'){
       for(const direction of route(stage))await click(`[data-move="${direction}"]`);
@@ -45,8 +46,8 @@ export async function checkShell({evaluate,send,click,box,mouse,drag,viewport,na
     }else{
       await evaluate(`document.querySelector('#access-response').value=${JSON.stringify(stage.answer)};document.querySelector('#access-response').dispatchEvent(new Event('input'));document.querySelector('#access-form').requestSubmit();`);
     }
-    assert.equal(await evaluate('document.querySelector("#access-accepted").hidden'),false,`Layer ${n+1} accepts its correct solution`);
-    await click('[data-access-action="next"]');
+    assert.equal(await evaluate('document.querySelector(".access-verify").dataset.state'),'accepted',`Layer ${n+1} accepts its correct solution`);
+    assert.equal(await evaluate('window.__currentVerifyButton===document.querySelector(".access-verify")&&!document.querySelector(".access-verify").disabled'),true);await click('.access-verify');assert.equal(await evaluate('document.querySelector("#bsod-dialog").contains(document.activeElement)'),true);
   }
   assert.equal(await evaluate('document.querySelectorAll(".locked-project").length'),0);assert.equal(requests.length,networkStart,'Challenge responses and mini-games make no network requests');
   assert.equal(await evaluate('Number(document.querySelector(".access-terminal").dataset.depth)'),24);pass('Twenty-four solvable layers cover all nine types, then continue procedurally without unlocking owner data');
