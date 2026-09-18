@@ -59,3 +59,7 @@ The public catalogue uses new 1200×700 captures/compositions of the user's proj
 ## Release 10 information pages
 
 The new project websites reuse the public project assets with their existing source labels. The openHoops preview is refreshed from the actual updated project website with an unchanged development app capture; its hash and description are in media/provenance.json. Project websites contain no copied game runtime. Letters with Lola and Solitaire Clemulie launch their existing externally hosted games through explicit new-tab links. The protected-file alert graphic and drag-return UI are original CSS/HTML recreations, not bundled operating-system artwork or audio.
+
+## Release 11 preview corrections
+
+Solitaire Clemulie is freshly captured using the live game’s selectable Felt theme in an anonymous disposable browser, without modifying the game. The existing verified Lola/blockApp/tvapp development captures are fitted without distortion. Updated filenames, descriptions and SHA-256 hashes are recorded in media/provenance.json. Native source captures, private files, wallpaper artwork and third-party game assets remain unchanged. Window/navigation glyphs are original SVG paths.

@@ -1,6 +1,6 @@
 {
   "prepared": "2026-09-18",
-  "note": "User-owned project screenshots and original design studies. Raw private sources and financial information were not published. Source captures may show earlier development builds; sample states are explicitly labelled.",
+  "note": "User-owned project screenshots and labelled original design studies. September 18 polish: complete source frames are fitted without distortion, and Solitaire is freshly captured in its own Felt theme. No private account, raw source, audio or financial data is published.",
   "items": [
     {
       "project": "openhoops",
@@ -12,10 +12,10 @@
     },
     {
       "project": "letters-with-lola",
-      "image": "portfolio/media/lola.jpg",
+      "image": "portfolio/media/lola-board.jpg",
       "label": "Game screenshot",
-      "description": "Letters with Lola test game board with generic test players.",
-      "sha256": "85a78855b08cb7c6caa0a32237b37279a05592ec25dda091397e4b6d81a3f754"
+      "description": "Complete Letters with Lola test-game screen, proportionally fitted without cropping or rotation.",
+      "sha256": "37403d32df48e9530f8b313caa451d40721f8891409fcad1fc581c94ffbaf8e3"
     },
     {
       "project": "studio-siomai",
@@ -26,10 +26,10 @@
     },
     {
       "project": "solitaire",
-      "image": "portfolio/media/solitaire.jpg",
+      "image": "portfolio/media/solitaire-felt.jpg",
       "label": "Game screenshot",
-      "description": "Solitaire Clemulie public game table.",
-      "sha256": "a69bdf571e0ab29f6fd8b21a7e321f570bbd185bda9523327266873b920cfc9f"
+      "description": "Actual Solitaire Clemulie game with its built-in Felt theme. Complete board and toolbar; fresh anonymous session.",
+      "sha256": "b5700baf4ba10398759113bc72c380b38dfb944c43f7ad2d14486a37e89f5a45"
     },
     {
       "project": "grit-athletics",
@@ -40,17 +40,17 @@
     },
     {
       "project": "block-app",
-      "image": "portfolio/media/blockapp.jpg",
+      "image": "portfolio/media/blockapp-native.jpg",
       "label": "Native proof screen",
-      "description": "blockApp native blocking proof screen in an editorial composition.",
-      "sha256": "babfd0e3e8ee957f8035df6f1df2553ee28f34a18eefb7ef99ddd6eeb52dfbb0"
+      "description": "Complete blockApp native development screen, proportionally fitted without cropping.",
+      "sha256": "791313594e60e67c1b8c1b6909669ccaa0e2acc1157776f403bb9108982412b4"
     },
     {
       "project": "tv-app",
-      "image": "portfolio/media/tv.jpg",
+      "image": "portfolio/media/tv-native.jpg",
       "label": "Native test screen",
-      "description": "TV player channel browser with a user-supplied test playlist.",
-      "sha256": "34ba21fdccdd8c8199d096534a6f3b8292594d4e10efbf7aa38b017b6a426a89"
+      "description": "Complete native tvapp development capture with its user-supplied test playlist; no channels are provided.",
+      "sha256": "b9c590c6b7ceee33c558ed599f7a3e9ecea97778db05007f75b4dab3b4250937"
     },
     {
       "project": "showtally",

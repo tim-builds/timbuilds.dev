@@ -5,20 +5,21 @@
   const data=freeze(window.TimEnvironmentData),themes=data.themes,papers=data.wallpapers;
   const key='timbuilds.environment.v1',placements=['fit','fill','center','tile'];
   const find=id=>themes.find(t=>t.id===id),allowed=(p,id)=>p&&(p.kind==='creative'||p.versions?.includes(id));
-  let current='2000',persistent=true;const desktops={};
+  let current='2000',persistent=true,migratedDefault=false;const desktops={};
   for(const t of themes)desktops[t.id]={wallpaper:t.wallpaper,placement:t.placement};
   try {
     const raw=JSON.parse(localStorage.getItem(key)||'null');
     if(raw&&typeof raw==='object'){
       if(find(raw.version))current=raw.version;
       for(const t of themes){const saved=raw.desktops?.[t.id];if(saved&&allowed(papers.find(p=>p.id===saved.wallpaper),t.id))desktops[t.id].wallpaper=saved.wallpaper;if(saved&&placements.includes(saved.placement))desktops[t.id].placement=saved.placement;}
+      if(raw.defaultsRevision!==2&&desktops['2000'].wallpaper==='win2000-windows-2000'){desktops['2000'].wallpaper='win2000-paradise';migratedDefault=true;}
     } else {
       const old=localStorage.getItem('timbuilds.wallpaper.v1'),placement=localStorage.getItem('timbuilds.wallpaper-placement.v1');
       if(allowed(papers.find(p=>p.id===old),'95'))desktops['95'].wallpaper=old;
       if(placements.includes(placement))desktops['95'].placement=placement;
     }
   } catch { /* Invalid or unavailable storage falls back to Windows 2000. */ }
-  function persist(){try{localStorage.setItem(key,JSON.stringify({version:current,desktops}));persistent=true;}catch{persistent=false;}}
+  function persist(){try{localStorage.setItem(key,JSON.stringify({version:current,desktops,defaultsRevision:2}));persistent=true;}catch{persistent=false;}}
   function apply(){
     const t=find(current),saved=desktops[current],p=papers.find(x=>x.id===saved.wallpaper),root=document.documentElement;
     root.dataset.os=current;root.dataset.family=t.family||"windows";root.dataset.wallpaper=p.id;root.dataset.wallpaperPlacement=saved.placement;root.dataset.wallpaperKind=p.file?'image':p.kind;
@@ -48,5 +49,5 @@
   document.addEventListener('DOMContentLoaded',sync);
   window.addEventListener('timbuilds-version',sync);
   window.TimVersion=Object.freeze({themes,current:()=>current,info:()=>find(current),selection:()=>({...desktops[current]}),options:()=>papers.filter(p=>allowed(p,current)),set,wallpaper,placement,reset,selector,sync,storageKey:key});
-  apply();
+  apply();if(migratedDefault)persist();
 })();
