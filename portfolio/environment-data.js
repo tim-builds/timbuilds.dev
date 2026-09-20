@@ -21,7 +21,7 @@ window.TimEnvironmentData = {
       "edition": "Second Edition style",
       "description": "Blue-gradient title bars, classic cascading menus and a cloud-filled desktop.",
       "wallpaper": "win98-clouds",
-      "placement": "fill",
+      "placement": "fit",
       "color": "#008080",
       "family": "windows"
     },
@@ -33,7 +33,7 @@ window.TimEnvironmentData = {
       "edition": "Professional style",
       "description": "Professional grey windows, blue-gradient title bars and the Paradise wallpaper.",
       "wallpaper": "win2000-paradise",
-      "placement": "fill",
+      "placement": "fit",
       "color": "#3a6ea5",
       "family": "windows"
     },
@@ -45,7 +45,7 @@ window.TimEnvironmentData = {
       "edition": "Luna Blue style",
       "description": "Rounded blue windows, the green Start button, a two-column Start menu and Bliss.",
       "wallpaper": "winxp-bliss",
-      "placement": "fill",
+      "placement": "fit",
       "color": "#245edb",
       "family": "windows"
     },
@@ -70,7 +70,7 @@ window.TimEnvironmentData = {
       "edition": "Platinum Macintosh",
       "description": "Platinum windows, a Finder-style global menu bar and the Mac OS desktop-picture collection.",
       "wallpaper": "mac9-background",
-      "placement": "fill",
+      "placement": "fit",
       "color": "#b3b3da"
     },
     {
@@ -82,7 +82,7 @@ window.TimEnvironmentData = {
       "edition": "GNOME 2 · Ambiance",
       "description": "Warm charcoal title bars, left-side controls, Applications/Places/System menus and the Lucid Lynx wallpaper.",
       "wallpaper": "ubuntu-lucid",
-      "placement": "fill",
+      "placement": "fit",
       "color": "#3c2337"
     },
     {
@@ -94,7 +94,7 @@ window.TimEnvironmentData = {
       "edition": "Linux · Plastik",
       "description": "Blue Plastik-style windows, a K menu, a silver task panel and original KDE wallpaper artwork.",
       "wallpaper": "kde-blue",
-      "placement": "fill",
+      "placement": "fit",
       "color": "#4875a5"
     }
   ],
