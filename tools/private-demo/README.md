@@ -18,7 +18,7 @@ The active copy on Playground is `C:/Users/flushatoilet/Desktop/dev/lanes/site-p
 
 The Internet-facing instance uses a verified official `cloudflared` binary through a Cloudflare Quick Tunnel. This is **not Cloudflare Access**, email OTP, a Cloudflare Pages deployment, or a permanent custom domain. Quick Tunnels have no uptime guarantee. The machine must remain awake, online, and running both gateway and tunnel. Closing the shell that launched these detached processes does not intentionally stop them; restarting/sleeping the machine interrupts access. A new tunnel normally has a new URL.
 
-The owner can use **Start > Programs > Candystand (Private)**, then choose Billiards or Miniature Golf. This folder is the last item below the public games in the private desktop only. Rotate the phone sideways and use Fullscreen. Touchpad mode supports slide-to-aim, Tap to click, and Hold / move / Release to drag; Direct touch is also available. Pause, Restart and Lock are provided. Lock revokes the current browser session and its game capabilities, but another separately signed-in browser has its own session.
+The owner can use **Start > Programs > Candystand (Private)**, then choose Billiards or Miniature Golf. This folder is the last item below the public games in the private desktop only. Rotate the phone sideways and use Fullscreen. Touchpad mode uses the entire black stage, including the margins above, below and beside the game. Slide anywhere to move the mouse-arrow pointer; a brief tap clicks at its current position. A drag or cancelled/long contact does not become a tap. Hold / move / Release remains available for game drags, with Direct touch as an alternative. Pause, Restart and Lock are provided. Lock revokes the current browser session and its game capabilities, but another separately signed-in browser has its own session.
 
 ## Start and stop
 
@@ -32,7 +32,7 @@ No scheduled service or automatic PC-restart recovery is installed. No firewall 
 
 ## Verification
 
-`node tools/private-demo/auth.test.mjs` exercises 61 checks: anonymous file denial, HTTPS/Host restrictions, login CSRF, secure-cookie flags, scoped opaque-frame capabilities, bad paths, expiry, logout revocation and rate limits.
+`node tools/private-demo/auth.test.mjs` exercises 63 checks: anonymous file denial, HTTPS/Host restrictions, login CSRF, secure-cookie flags, scoped opaque-frame capabilities, bad paths, expiry, logout revocation and rate limits.
 
 `node tools/private-demo/https.test.mjs <private-config.json>` starts an independent loopback-only HTTPS fixture with a freshly generated **test-only** password and self-signed local certificate. It requires Chrome and OpenSSL. It uses the production gateway implementation, exercises the browser login/cookie/frame flow, and never uses the live owner password. Ports 8808 and 8810 must be free. It closes its own fixture and disposable browser. Certificate trust is relaxed only in that disposable test browser, not on the user's actual browser or system.
 
@@ -43,3 +43,8 @@ The live owner's automated sign-in was blocked by the execution tool. Therefore 
 ## Permanent upgrade
 
 After the owner authorizes Cloudflare, prefer a separate stable demo hostname with Access allowing only the owner's exact email via one-time PIN. Protect every route/asset and close any alternate origin or preview bypass before attaching a public-site launcher. Authentication must be set up before a private build is uploaded. The public-site migration and original-asset permission decisions remain separate scopes.
+## Phone-control follow-up
+
+The shared desktop now starts in XP with My Projects maximized, fits the complete wallpaper above the taskbar, and omits the Task Manager tray shortcut (the app remains in Tools/Control Panel). Legacy stock defaults upgrade once; later explicit theme/placement choices are retained.
+
+Run `node tools/private-demo/touchpad.test.mjs` for isolated gesture tests. The HTTPS browser fixture also exercises real emulated touch drags from both black margins, one tap/one click, the arrow pointer, Hold cancellation, fullscreen/rotation and retained game identity for each game. These are automated browser tests, not a physical-phone certification or complete-game fidelity test. The gateway authentication module is unchanged by these controls.

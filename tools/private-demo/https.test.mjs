@@ -1,3 +1,4 @@
+import {checkTouchpad} from './touchpad.browser.mjs';
 /** Local-only HTTPS integration test; credentials are generated for this fixture only. */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -27,6 +28,8 @@ try{
  await b.send('Page.navigate',{url:origin});await b.until(()=>b.evaluate('!!document.querySelector("#password")'),'local fixture login');
  await b.evaluate(`document.querySelector('#password').value=${JSON.stringify(password)};true`);await b.click('button[type="submit"]');
  await b.until(()=>b.evaluate('!!window.TimClassicLab'),'authenticated desktop',30000);
+ await b.evaluate('(()=>{const original=window.TimDemoTouchpad.mount;window.TimDemoTouchpad={mount:opts=>original({...opts,tap:()=>{window.__tapProof=(window.__tapProof||0)+1;opts.tap();}})};return true;})()');
+ assert.equal(await b.evaluate('window.TimVersion.current()'),'xp');assert.equal(await b.evaluate('window.TimWindows.list().find(w=>w.id==="projects").maximized'),true);assert.equal(await b.evaluate('!!document.querySelector("#task-manager-button")'),false);assert.equal(await b.evaluate('window.TimVersion.selection().placement'),'fit');
  console.log('PASS real login form, Secure cookie, HTTPS proxy and private desktop (local fixture).');
  for(const id of ['billiards','golf']){
   await b.evaluate(`window.TimApps.open('lab-${id}');true`);
@@ -34,6 +37,7 @@ try{
   await sleep(1200);await b.click(`#window-lab-${id} [data-classic-expand]`);await sleep(400);
   assert.equal(await b.evaluate(`document.querySelector('#window-lab-${id} iframe').getAttribute('sandbox')`),'allow-scripts');
   await b.screenshot(path.join(dir,id+'.png'));console.log('PASS',id,'game and emulator load through session-bound capability path in opaque iframe.');
+  await checkTouchpad(b,dir,id);
   if(await b.evaluate('!!document.fullscreenElement'))await b.evaluate('document.exitFullscreen()');
   await b.evaluate(`window.TimWindows.close('lab-${id}');true`);
  }

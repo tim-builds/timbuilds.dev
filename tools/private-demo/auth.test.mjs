@@ -13,7 +13,7 @@ async function req(url='/',{method='GET',headers={},body=''}={}){
 const expect=(v,s,msg)=>{assert.equal(v,s,msg);checks++;};
 expect((await req('/')).status,200,'only login form is public');
 expect((await req('/')).headers['referrer-policy'],'same-origin','preserve same-origin form Origin; never accept null origins');
-for(const p of ['/__classic__/config.json','/__classic__/frame.html?game=golf','/__classic__/frame.js','/__classic__/engine/dirplayer-polyfill.js','/__classic__/game/billiards/csplmain.dcr','/__classic__/game/golf/csmgholes.cct','/.git/config','/.qa/private-demo/config.json','/portfolio/desktop.js']){
+for(const p of ['/__classic__/config.json','/__classic__/touchpad.js','/__classic__/frame.html?game=golf','/__classic__/frame.js','/__classic__/engine/dirplayer-polyfill.js','/__classic__/game/billiards/csplmain.dcr','/__classic__/game/golf/csmgholes.cct','/.git/config','/.qa/private-demo/config.json','/portfolio/desktop.js']){
  const r=await req(p);expect(r.status,401,p+' unauthenticated');expect(r.access,null,'no authorized access');
 }
 for(const h of [{host:'attacker.example'},{'x-forwarded-proto':'http'},{'x-forwarded-proto':''},{host:'attacker.example','x-forwarded-host':'owner.example'},{host:'owner.example:80'}])expect((await req('/',{headers:h})).status,403,'untrusted origin transport denied');

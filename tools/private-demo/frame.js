@@ -19,10 +19,10 @@
 (()=>{
  let down=false;
  window.addEventListener('message',e=>{
-  const d=e.data;if(e.source!==parent||e.origin!==document.body?.dataset.parentOrigin||d?.type!=='classic-demo-pointer'||!['move','down','up'].includes(d.action)||!Number.isFinite(d.x)||!Number.isFinite(d.y)||d.x<0||d.x>640||d.y<0||d.y>420)return;
-  if(d.action==='down')down=true;if(d.action==='up')down=false;
+  const d=e.data;if(e.source!==parent||e.origin!==document.body?.dataset.parentOrigin||d?.type!=='classic-demo-pointer'||!['move','down','up','cancel'].includes(d.action)||!Number.isFinite(d.x)||!Number.isFinite(d.y)||d.x<0||d.x>640||d.y<0||d.y>420)return;
+  if(d.action==='down')down=true;if(d.action==='up'||d.action==='cancel')down=false;
   const target=document.elementFromPoint(d.x,d.y);if(!target)return;
-  const type={move:'move',down:'down',up:'up'}[d.action],init={bubbles:true,cancelable:true,clientX:d.x,clientY:d.y,button:d.action==='move'?-1:0,buttons:down?1:0};
+  const type={move:'move',down:'down',up:'up',cancel:'up'}[d.action],init={bubbles:true,cancelable:true,clientX:d.x,clientY:d.y,button:d.action==='move'?-1:0,buttons:down?1:0};
   target.dispatchEvent(new PointerEvent('pointer'+type,{...init,pointerId:1,pointerType:'mouse',isPrimary:true}));
   target.dispatchEvent(new MouseEvent('mouse'+type,{...init,button:0}));
   if(d.action==='up')target.dispatchEvent(new MouseEvent('click',{...init,button:0}));

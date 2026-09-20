@@ -59,13 +59,13 @@ const server=http.createServer(async(req,res)=>{
    send(fs.readFileSync(file),file,{'Access-Control-Allow-Origin':'null'});return;
   }
   if(name==='/__classic__/frame.js'){send(fs.readFileSync(path.join(here,'frame.js')),name,{'Access-Control-Allow-Origin':'null'});return;}
-  if(name==='/__classic__/host.js'){send(fs.readFileSync(path.join(here,'host.js')),name);return;}
+  if(['/__classic__/host.js','/__classic__/touchpad.js'].includes(name)){send(fs.readFileSync(path.join(here,path.basename(name))),name);return;}
   if(name!=='/'&&!/^\/(portfolio|projects|openhoops|\.well-known|legacy-stubs)\//.test(name)){res.writeHead(404).end();return;}
   let file=path.join(site,name==='/'?'index.html':name);if(fs.statSync(file).isDirectory())file=path.join(file,'index.html');file=fs.realpathSync(file);
   if(!file.startsWith(site+path.sep)){res.writeHead(403).end();return;}
   let bytes=fs.readFileSync(file);
   if(name==='/'){
-   bytes=bytes.toString('utf8').replace('</body>','<script defer src="/__classic__/host.js"></script></body>');
+   bytes=bytes.toString('utf8').replace('</body>','<script defer src="/__classic__/touchpad.js"></script><script defer src="/__classic__/host.js"></script></body>');
    res.setHeader('Content-Security-Policy',`default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; worker-src 'self' blob:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'`);
   }
   send(bytes,file);
