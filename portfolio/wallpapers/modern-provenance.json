@@ -1,0 +1,84 @@
+{
+    "images":  [
+                   {
+                       "source":  "https://archive.org/download/windows-wallpapers/Windows%20Vista-Server%202008.zip",
+                       "sourceWidth":  800,
+                       "derivation":  "Unmodified archive image",
+                       "sourceSha256":  "6fad9408071cc950185c5631e11ab5ca31e59651d0a069e093036074268791e0",
+                       "sourceHeight":  600,
+                       "creator":  "Microsoft and respective artists",
+                       "sha256":  "6fad9408071cc950185c5631e11ab5ca31e59651d0a069e093036074268791e0",
+                       "width":  800,
+                       "height":  600,
+                       "member":  "Windows Vista-Server 2008/img24 (6000).jpg",
+                       "file":  "winvista-aurora.jpg"
+                   },
+                   {
+                       "source":  "https://archive.org/download/windows-wallpapers/Windows%20Vista-Server%202008.zip",
+                       "sourceWidth":  800,
+                       "derivation":  "Unmodified archive image",
+                       "sourceSha256":  "6d9574021d887b2952d1edd6ddf211caf14b811729bb6c994123475acdf5af98",
+                       "sourceHeight":  600,
+                       "creator":  "Microsoft and respective artists",
+                       "sha256":  "6d9574021d887b2952d1edd6ddf211caf14b811729bb6c994123475acdf5af98",
+                       "width":  800,
+                       "height":  600,
+                       "member":  "Windows Vista-Server 2008/img25 (6000).jpg",
+                       "file":  "winvista-warm.jpg"
+                   },
+                   {
+                       "source":  "https://archive.org/details/windows-wallpapers",
+                       "sourceWidth":  800,
+                       "derivation":  "Unmodified archive image",
+                       "sourceSha256":  "8bd8455d8882fed5d4ded68b3f6ba2083bc83d5c6c4824191c03e57de49d0cd5",
+                       "sourceHeight":  500,
+                       "creator":  "Microsoft and respective artists",
+                       "sha256":  "8bd8455d8882fed5d4ded68b3f6ba2083bc83d5c6c4824191c03e57de49d0cd5",
+                       "width":  800,
+                       "height":  500,
+                       "member":  "Windows 10-Server 2016-Server 2019-Server 2022/img0 (Dark).jpg",
+                       "file":  "win10-hero.jpg"
+                   },
+                   {
+                       "source":  "https://archive.org/details/windows-wallpapers",
+                       "sourceWidth":  800,
+                       "derivation":  "Unmodified archive image",
+                       "sourceSha256":  "0dbb0c3b5a6cfafa18bf26678882604fb29c43cde04d1430164a494b6bb91440",
+                       "sourceHeight":  500,
+                       "creator":  "Microsoft and respective artists",
+                       "sha256":  "0dbb0c3b5a6cfafa18bf26678882604fb29c43cde04d1430164a494b6bb91440",
+                       "width":  800,
+                       "height":  500,
+                       "member":  "Windows 10-Server 2016-Server 2019-Server 2022/img0 (Light).jpg",
+                       "file":  "win10-light.jpg"
+                   },
+                   {
+                       "source":  "Windows 11 bundled wallpaper: Windows/Web/Wallpaper/Windows/img0.jpg",
+                       "sourceWidth":  3840,
+                       "derivation":  "Resized proportionally to 2560 pixels wide; JPEG quality 90",
+                       "sourceSha256":  "a37491a5e479e191cfe547b484426037455ce8aacff7ab15f91925330c24864f",
+                       "sourceHeight":  2400,
+                       "creator":  "Microsoft and respective artists",
+                       "sha256":  "6f6932fbdc1970946d787086f80b0fac68f74ee64b1808c561f144ea498e5472",
+                       "width":  2560,
+                       "height":  1600,
+                       "member":  "img0.jpg",
+                       "file":  "win11-bloom.jpg"
+                   },
+                   {
+                       "source":  "Windows 11 bundled wallpaper: Windows/Web/Wallpaper/Windows/img19.jpg",
+                       "sourceWidth":  3840,
+                       "derivation":  "Resized proportionally to 2560 pixels wide; JPEG quality 90",
+                       "sourceSha256":  "d54262032574b15ccf541e40fa13475ffb39d8682c19383e917f3ed5e8bbca71",
+                       "sourceHeight":  2400,
+                       "creator":  "Microsoft and respective artists",
+                       "sha256":  "2409f7c19454c0ec8ad0232f31edf009841a0a7acb7ff9e18f9c16fc3c225149",
+                       "width":  2560,
+                       "height":  1600,
+                       "member":  "img19.jpg",
+                       "file":  "win11-bloom-dark.jpg"
+                   }
+               ],
+    "retrieved":  "2026-09-20T16:25:22.3369700Z",
+    "note":  "Artwork remains copyright of its respective rights holders. CSS shell recreations are not operating-system software. No font files are bundled."
+}

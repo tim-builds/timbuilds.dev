@@ -3,7 +3,7 @@
   'use strict';
   const V=window.TimVersion,A=window.TimApps;
   A.register('versions','Operating System','computer',body=>{
-    body.innerHTML=`<div class="accessory-pad environment-properties"><div class="classic-tabs"><span class="selected">Appearance</span></div><h2>Choose your desktop</h2><p>One portfolio. Eight familiar desktops.</p>${V.selector()}<section class="environment-current"><strong data-os-name></strong><span data-os-edition></span><p data-os-description></p></section><div class="detail-actions"><button class="bevel-button" data-dialog="display">Change wallpaper…</button><button class="bevel-button" data-action="close-dialog">OK</button></div><p class="accessory-note" id="version-storage-status"></p><p class="accessory-note">Switching keeps your windows, notes, games and owner access in place. This changes the website’s appearance, not your computer’s operating system.</p></div>`;
+    body.innerHTML=`<div class="accessory-pad environment-properties"><div class="classic-tabs"><span class="selected">Appearance</span></div><h2>Choose your desktop</h2><p>One portfolio. ${V.themes.length} familiar desktops.</p>${V.selector()}<section class="environment-current"><strong data-os-name></strong><span data-os-edition></span><p data-os-description></p></section><div class="detail-actions"><button class="bevel-button" data-dialog="display">Change wallpaper…</button><button class="bevel-button" data-action="close-dialog">OK</button></div><p class="accessory-note" id="version-storage-status"></p><p class="accessory-note">Switching keeps your windows, notes, games and owner access in place. This changes the website’s appearance, not your computer’s operating system.</p></div>`;
     V.sync();
   });
   function sync(){
