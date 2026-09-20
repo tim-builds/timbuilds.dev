@@ -48,3 +48,11 @@ After the owner authorizes Cloudflare, prefer a separate stable demo hostname wi
 The shared desktop now starts in XP with My Projects maximized, fits the complete wallpaper above the taskbar, and omits the Task Manager tray shortcut (the app remains in Tools/Control Panel). Legacy stock defaults upgrade once; later explicit theme/placement choices are retained.
 
 Run `node tools/private-demo/touchpad.test.mjs` for isolated gesture tests. The HTTPS browser fixture also exercises real emulated touch drags from both black margins, one tap/one click, the arrow pointer, Hold cancellation, fullscreen/rotation and retained game identity for each game. These are automated browser tests, not a physical-phone certification or complete-game fidelity test. The gateway authentication module is unchanged by these controls.
+
+## Finger-held mouse input
+
+In touchpad mode, a short tap clicks at the cursor. Rest one finger for 350 ms to press the mouse button down; the pointer turns pale yellow while held. Drag with that same finger still down, then lift to release. Moving more than 8 CSS pixels before the hold threshold remains cursor-only tracking rather than an unintended press. The full game stage and black margins use the same behavior. The explicit Hold button remains a separate optional latch.
+
+Pointer cancellation, capture loss, blur, pause, mode switch, minimization, restart and close clear the gesture/timer and release held input. A held release never invokes the short-tap callback. Authentication and the opaque-frame protocol are unchanged.
+
+Verification: `node tools/private-demo/touchpad.test.mjs` covers 19 deterministic gesture scenarios; `node tools/private-demo/frame-input.test.mjs` verifies actual mouse event buttons/down/up/cancel behavior and origin checks. The local HTTPS fixture drives real browser touch contacts through both games, checks down before lift, dragging while held, lift/cancel release and pause cleanup. This is emulated touch in a disposable browser, not physical-phone certification.

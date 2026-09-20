@@ -28,7 +28,7 @@ try{
  await b.send('Page.navigate',{url:origin});await b.until(()=>b.evaluate('!!document.querySelector("#password")'),'local fixture login');
  await b.evaluate(`document.querySelector('#password').value=${JSON.stringify(password)};true`);await b.click('button[type="submit"]');
  await b.until(()=>b.evaluate('!!window.TimClassicLab'),'authenticated desktop',30000);
- await b.evaluate('(()=>{const original=window.TimDemoTouchpad.mount;window.TimDemoTouchpad={mount:opts=>original({...opts,tap:()=>{window.__tapProof=(window.__tapProof||0)+1;opts.tap();}})};return true;})()');
+ await b.evaluate('(()=>{const original=window.TimDemoTouchpad.mount;window.TimDemoTouchpad={mount:opts=>original({...opts,tap:()=>{window.__tapProof=(window.__tapProof||0)+1;opts.tap();},press:()=>{const held=opts.press();if(held)(window.__gestureProof||=[]).push("down");return held;},release:cancelled=>{(window.__gestureProof||=[]).push(cancelled?"cancel-up":"up");opts.release(cancelled);}})};return true;})()');
  assert.equal(await b.evaluate('window.TimVersion.current()'),'xp');assert.equal(await b.evaluate('window.TimWindows.list().find(w=>w.id==="projects").maximized'),true);assert.equal(await b.evaluate('!!document.querySelector("#task-manager-button")'),false);assert.equal(await b.evaluate('window.TimVersion.selection().placement'),'fit');
  console.log('PASS real login form, Secure cookie, HTTPS proxy and private desktop (local fixture).');
  for(const id of ['billiards','golf']){

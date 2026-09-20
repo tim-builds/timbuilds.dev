@@ -23,6 +23,33 @@ export async function checkTouchpad(b,dir,id){
  assert.deepEqual((await metrics()).cursor,before,'tapping black margin clicks at existing cursor, not at finger');
  if(id==='billiards')await b.until(()=>b.evaluate(`Number(document.querySelector('${win}').dataset.classicFrame)>=30`),'black-margin tap chooses billiards table');
  await b.screenshot(path.join(dir,id+'-full-margin-touchpad.png'));
+ // Actual browser touch contacts, not just toolbar commands or synthetic clicks.
+ await b.evaluate('window.__gestureProof=[];true');
+ let holdPoint={x:m.stage.x+100,y:m.stage.y+25};
+ await touch('touchStart',holdPoint.x,holdPoint.y);await sleep(120);
+ assert.equal(await b.evaluate(`document.querySelector('${win}').dataset.classicMouseHeld`),'false','short contact not prematurely held');
+ await sleep(320);assert.equal(await b.evaluate(`document.querySelector('${win}').dataset.classicMouseHeld`),'true','stationary finger triggers mouse down before release');
+ assert.deepEqual(await b.evaluate('window.__gestureProof'),['down']);
+ const heldCursor=(await metrics()).cursor;
+ await touch('touchMove',holdPoint.x+25,holdPoint.y+15);await sleep(700);
+ assert.equal(await b.evaluate(`document.querySelector('${win}').dataset.classicMouseHeld`),'true','moving finger keeps mouse down');
+ assert.ok((await metrics()).cursor.x>heldCursor.x+20);
+ assert.deepEqual(await b.evaluate('window.__gestureProof'),['down'],'no repeating presses during hold');
+ await b.screenshot(path.join(dir,id+'-finger-held.png'));
+ await touch('touchEnd');await sleep(120);
+ assert.equal(await b.evaluate(`document.querySelector('${win}').dataset.classicMouseHeld`),'false','finger lift releases mouse');
+ assert.deepEqual(await b.evaluate('window.__gestureProof'),['down','up']);
+ assert.equal(await b.evaluate('window.__tapProof'),1,'hold release does not create another tap');
+ m=await metrics();await touch('touchStart',m.stage.x+100,m.stage.bottom-25);await sleep(430);await touch('touchCancel');await sleep(100);
+ assert.equal(await b.evaluate(`document.querySelector('${win}').dataset.classicMouseHeld`),'false');
+ assert.deepEqual(await b.evaluate('window.__gestureProof'),['down','up','down','cancel-up']);
+ // Pausing while a contact is held must not leave a stuck button or a delayed press.
+ await touch('touchStart',m.stage.x+90,m.stage.y+20);await sleep(430);
+ await b.evaluate(`document.querySelector('${win} [data-classic-pause]').click();true`);await touch('touchEnd');await sleep(400);
+ assert.equal(await b.evaluate(`document.querySelector('${win}').dataset.classicMouseHeld`),'false');
+ await b.evaluate(`document.querySelector('${win} [data-classic-pause]').click();true`);
+ assert.equal(await b.evaluate('window.__tapProof'),1);
+ console.log('PASS',id,'real 350ms finger hold, sustained down during drag, lift-to-release, yellow pointer feedback, cancel and pause cleanup.');
  await b.click(win+' [data-classic-hold]');assert.equal(await b.evaluate(`document.querySelector('${win} [data-classic-hold]').textContent`),'Release');
  await touch('touchStart',m.stage.x+100,m.stage.y+20);await touch('touchCancel');await sleep(100);
  assert.equal(await b.evaluate(`document.querySelector('${win} [data-classic-hold]').textContent`),'Hold','cancel releases held mouse');assert.equal(await b.evaluate('window.__tapProof'),1,'cancel does not click');
