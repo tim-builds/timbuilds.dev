@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-os="2000" data-wallpaper="win2000-paradise" data-wallpaper-kind="image" data-wallpaper-placement="fill">
+<html lang="en" data-os="xp" data-wallpaper="winxp-bliss" data-wallpaper-kind="image" data-wallpaper-placement="fit">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-visual, viewport-fit=cover">
@@ -15,8 +15,8 @@
   <link rel="canonical" href="https://timbuilds.dev/">
   <link rel="icon" href="portfolio/favicon.svg" type="image/svg+xml">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'none'">
-  <script src="portfolio/environment-data.js?v=12"></script>
-  <script src="portfolio/versions.js?v=12"></script>
+  <script src="portfolio/environment-data.js?v=15"></script>
+  <script src="portfolio/versions.js?v=15"></script>
   <link rel="stylesheet" href="portfolio/site.css?v=12">
   <link rel="stylesheet" href="portfolio/desktop.css?v=12">
   <link rel="stylesheet" href="portfolio/shell.css?v=12">
@@ -33,16 +33,17 @@
   <link rel="stylesheet" href="portfolio/interaction-polish.css?v=12">
   <link rel="stylesheet" href="portfolio/browser.css?v=12">
   <link rel="stylesheet" href="portfolio/finish.css?v=12">
-  <link rel="stylesheet" href="portfolio/recovery.css?v=13">
+  <link rel="stylesheet" href="portfolio/recovery.css?v=15">
   <link rel="stylesheet" href="portfolio/pinball-layout.css?v=14">
+  <link rel="stylesheet" href="portfolio/desktop-defaults.css?v=15">
   <meta name="referrer" content="no-referrer">
   <script src="portfolio/locked.js?v=12" defer></script>
   <script src="portfolio/challenge-rules.js?v=12" defer></script>
   <script src="portfolio/breach.js?v=13" defer></script>
-  <script src="portfolio/wallpapers.js?v=12" defer></script>
+  <script src="portfolio/wallpapers.js?v=15" defer></script>
   <script src="portfolio/viewport.js?v=12" defer></script>
   <script src="portfolio/window-chrome.js?v=12" defer></script>
-  <script src="portfolio/windows.js?v=14" defer></script>
+  <script src="portfolio/windows.js?v=15" defer></script>
   <script src="portfolio/desktop-drag.js?v=12" defer></script>
   <script src="portfolio/desktop.js?v=12" defer></script>
   <script src="portfolio/site.js?v=12" defer></script>
@@ -67,10 +68,11 @@
   <script src="portfolio/desktop-actions.js?v=12" defer></script>
   <script src="portfolio/project-destinations.js?v=12" defer></script>
   <script src="portfolio/browser.js?v=12" defer></script>
-  <script src="portfolio/task-manager.js?v=12" defer></script>
+  <script src="portfolio/task-manager.js?v=15" defer></script>
   <script src="portfolio/window-menus.js?v=14" defer></script>
 </head>
 <body>
+  <div id="desktop-wallpaper" aria-hidden="true"></div>
   <a href="#projects" class="skip-link">Skip to projects</a>
   <nav class="desktop-dock" aria-label="Desktop shortcuts">
     <button class="desktop-shortcut" data-shortcut="projects" data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><span>My Projects</span></button>

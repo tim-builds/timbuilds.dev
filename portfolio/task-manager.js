@@ -54,9 +54,5 @@
     window.addEventListener('timbuilds-active-window', render); render();
     return {cleanup:()=>{clearInterval(timer);window.removeEventListener('timbuilds-active-window',render);},visibility:value=>{visible=value;render();}};
   });
-  const button = document.createElement('button');
-  button.id='task-manager-button'; button.className='tray-icon'; button.dataset.appOpen='taskmanager';
-  button.title='Task Manager'; button.setAttribute('aria-label','Open Task Manager');
-  button.innerHTML='<svg aria-hidden="true"><use href="portfolio/icons.svg?v=12#taskmanager"/></svg>';
-  document.querySelector('.clock-tray').before(button);
+  // Task Manager remains available through Tools and Control Panel, not the tray.
 })();
