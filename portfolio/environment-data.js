@@ -50,6 +50,42 @@ window.TimEnvironmentData = {
       "family": "windows"
     },
     {
+      "id": "vista",
+      "name": "Windows Vista",
+      "short": "Vista",
+      "year": "2007",
+      "edition": "Aero Glass",
+      "description": "Translucent glass frames, a glowing Start orb and the two-column Aero Start menu.",
+      "wallpaper": "winvista-aurora",
+      "placement": "fit",
+      "color": "#204853",
+      "family": "windows"
+    },
+    {
+      "id": "10",
+      "name": "Windows 10",
+      "short": "10",
+      "year": "2015",
+      "edition": "Metro / Fluent desktop",
+      "description": "Crisp flat windows, a charcoal taskbar and a Start menu with an app list and colorful pinned tiles.",
+      "wallpaper": "win10-hero",
+      "placement": "fit",
+      "color": "#0078d7",
+      "family": "windows"
+    },
+    {
+      "id": "11",
+      "name": "Windows 11",
+      "short": "11",
+      "year": "2021",
+      "edition": "Fluent light · launch-era layout",
+      "description": "Soft rounded windows, a translucent light taskbar, centered app icons and a pinned-app Start menu.",
+      "wallpaper": "win11-bloom",
+      "placement": "fit",
+      "color": "#dce9f9",
+      "family": "windows"
+    },
+    {
       "id": "system7",
       "name": "System 7",
       "short": "7",
@@ -655,6 +691,84 @@ window.TimEnvironmentData = {
       "pattern": "repeating-linear-gradient(45deg,#bbb 0 1px,#ddd 1px 3px)",
       "color": "#ccc",
       "size": "4px 4px"
+    },
+    {
+      "width": 800,
+      "thumbnail": "winvista-aurora-thumb.jpg",
+      "id": "winvista-aurora",
+      "kind": "archive",
+      "label": "Vista Aurora",
+      "height": 600,
+      "note": "Original archival image; retained at its source resolution.",
+      "versions": [
+        "vista"
+      ],
+      "file": "winvista-aurora.jpg"
+    },
+    {
+      "width": 800,
+      "thumbnail": "winvista-warm-thumb.jpg",
+      "id": "winvista-warm",
+      "kind": "archive",
+      "label": "Vista warm glow",
+      "height": 600,
+      "note": "Original archival image; retained at its source resolution.",
+      "versions": [
+        "vista"
+      ],
+      "file": "winvista-warm.jpg"
+    },
+    {
+      "width": 800,
+      "thumbnail": "win10-hero-thumb.jpg",
+      "id": "win10-hero",
+      "kind": "archive",
+      "label": "Windows 10 Hero",
+      "height": 500,
+      "note": "Original archival image; retained at its source resolution.",
+      "versions": [
+        "10"
+      ],
+      "file": "win10-hero.jpg"
+    },
+    {
+      "width": 800,
+      "thumbnail": "win10-light-thumb.jpg",
+      "id": "win10-light",
+      "kind": "archive",
+      "label": "Windows 10 light",
+      "height": 500,
+      "note": "Original archival image; retained at its source resolution.",
+      "versions": [
+        "10"
+      ],
+      "file": "win10-light.jpg"
+    },
+    {
+      "width": 2560,
+      "thumbnail": "win11-bloom-thumb.jpg",
+      "id": "win11-bloom",
+      "kind": "archive",
+      "label": "Bloom (light)",
+      "height": 1600,
+      "note": "Microsoft Bloom wallpaper, resized from the bundled system image.",
+      "versions": [
+        "11"
+      ],
+      "file": "win11-bloom.jpg"
+    },
+    {
+      "width": 2560,
+      "thumbnail": "win11-bloom-dark-thumb.jpg",
+      "id": "win11-bloom-dark",
+      "kind": "archive",
+      "label": "Bloom (dark)",
+      "height": 1600,
+      "note": "Microsoft Bloom wallpaper, resized from the bundled system image.",
+      "versions": [
+        "11"
+      ],
+      "file": "win11-bloom-dark.jpg"
     }
   ]
 };
