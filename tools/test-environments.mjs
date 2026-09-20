@@ -20,3 +20,6 @@ legacyDefault.V.set('2000');legacyDefault.V.placement('fill');const explicit2000
 const customLegacy=environment({'timbuilds.environment.v1':JSON.stringify({version:'2000',defaultsRevision:2,desktops:{'2000':{wallpaper:'win2000-chateau',placement:'center'}}})});assert.equal(customLegacy.V.current(),'2000');assert.equal(customLegacy.V.selection().wallpaper,'win2000-chateau');assert.equal(customLegacy.V.selection().placement,'center');
 const fresh=environment();for(const t of fresh.V.themes){fresh.V.set(t.id);if(fresh.styles.get('--wall-image')?.startsWith('url'))assert.equal(fresh.V.selection().placement,'fit');}
 console.log('PASS: XP/Fit revision upgrades old stock defaults once, preserves custom desktops, and remembers later explicit Windows 2000/Fill choices.');
+
+for(const [id,paper] of [['vista','winvista-warm'],['10','win10-light'],['11','win11-bloom-dark']]){const e=environment();assert.equal(e.V.current(),'xp');assert.equal(e.V.set(id),true);assert.equal(e.V.selection().placement,'fit');assert.equal(e.V.wallpaper(paper),true);const r=environment(Object.fromEntries(e.values));assert.equal(r.V.current(),id);assert.equal(r.V.selection().wallpaper,paper);assert.equal(r.V.selection().placement,'fit');assert.equal(r.V.wallpaper('win95-wi'),false);}
+console.log('PASS Vista/10/11 fitted defaults, isolated catalogs and saved appearance choices.');
