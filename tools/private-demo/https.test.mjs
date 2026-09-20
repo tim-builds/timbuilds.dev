@@ -1,3 +1,4 @@
+import {checkModernPrivate} from './modern.browser.mjs';
 import {checkPrivateFolder} from './folder.browser.mjs';
 import {checkTouchpad} from './touchpad.browser.mjs';
 /** Local-only HTTPS integration test; credentials are generated for this fixture only. */
@@ -43,6 +44,7 @@ try{
   assert.equal(await b.evaluate(`document.querySelector('#window-lab-${id} iframe').getAttribute('sandbox')`),'allow-scripts');
   await b.screenshot(path.join(dir,id+'.png'));console.log('PASS',id,'game and emulator load through session-bound capability path in opaque iframe.');
   await checkTouchpad(b,dir,id);
+  await checkModernPrivate(b,dir,id);
   if(await b.evaluate('!!document.fullscreenElement'))await b.evaluate('document.exitFullscreen()');
   await b.evaluate(`window.TimWindows.close('lab-${id}');true`);
  }
