@@ -1,6 +1,6 @@
 # timBuilds portfolio
 
-A switchable Windows, classic Macintosh and Linux-inspired portfolio in plain HTML, CSS and JavaScript. Windows 2000 is the default. No package installation, application server, analytics service or hosted database is required.
+A switchable Windows, classic Macintosh and Linux-inspired portfolio in plain HTML, CSS and JavaScript. Windows XP is the default. My Projects opens maximized; image wallpapers default to Fit without cropping. No package installation, application server, analytics service or hosted database is required.
 
 ## Where it lives
 

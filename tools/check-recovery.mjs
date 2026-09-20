@@ -30,12 +30,11 @@ export async function checkRecovery({evaluate,send,click,box,mouse,viewport,navi
  for(const os of ['95','98','2000','xp','system7','mac9','ubuntu','kde'])for(const width of [320,390,1440]){
   await viewport(width,900);await evaluate(`window.TimVersion.set(${JSON.stringify(os)});window.TimWindows.showDesktop()`);
   const clock=os==='ubuntu'?'.platform-clock':'.clock-tray',year=os==='ubuntu'?'.platform-topbar .environment-year':'#environment-button';
-  assert.equal(await evaluate('document.querySelectorAll("#task-manager-button").length'),1);
-  assert.ok((await evaluate('document.querySelector("#task-manager-button use").getAttribute("href")')).endsWith('#taskmanager'));
+  assert.equal(await evaluate('document.querySelectorAll("#task-manager-button").length'),0);
   assert.equal(await evaluate('window.TimApps.list().find(a=>a.id==="taskmanager").icon'),'taskmanager');
   assert.equal(await evaluate(`document.querySelector(${JSON.stringify(year)}+' [data-os-year]').textContent`),await evaluate('window.TimVersion.info().year'));
   const c=await box(clock),y=await box(year);assert.ok(y.x>=c.x+c.w-.5&&y.x+y.w<=width+.5,os+' year follows time at '+width);
-  for(const [selector,id] of [['#task-manager-button','taskmanager'],[clock,'datetime'],[year,'versions']]){
+  for(const [selector,id] of [[clock,'datetime'],[year,'versions']]){
    await evaluate(`window.TimWindows.close(${JSON.stringify(id)})`);await tap(selector);assert.equal(await state(id),'open',os+' '+id+' opens');await tap(selector);assert.equal(await state(id),'minimized',os+' '+id+' minimizes');await tap(selector);assert.equal(await state(id),'open',os+' '+id+' restores');await evaluate(`window.TimWindows.close(${JSON.stringify(id)})`);
   }
   await evaluate('window.TimBSOD.open("locked")');const b=await box('#bsod-dialog');assert.equal(b.x,0);assert.equal(b.w,width);assert.equal(b.h,900);
@@ -45,7 +44,7 @@ export async function checkRecovery({evaluate,send,click,box,mouse,viewport,navi
   if(os==='xp'&&width===1440)await screenshot(path.join(output,'bsod-desktop.png'));if(os==='2000'&&width===390)await screenshot(path.join(output,'bsod-phone.png'));
   await tap('.bsod-toolbar [data-bsod-action=desktop]');assert.equal(await evaluate('window.TimBSOD.isOpen()'),false);
  }
- pass('Real tray clicks open/minimize/restore Task Manager, clock and era picker on 320/390/1440px across all eight OS skins');
+ pass('Real tray clicks open/minimize/restore clock and era picker; no Task Manager tray icon on 320/390/1440px across all eight OS skins');
  pass('Blue screen remains full viewport, scrollable without horizontal overflow and visibly escapable in every skin');
  await viewport(390,844);await evaluate('window.TimBSOD.open();document.querySelector("#access-response").focus()');await send('Emulation.setDeviceMetricsOverride',{width:390,height:490,deviceScaleFactor:1,mobile:false});await sleep(150);
  const exit=await box('.bsod-toolbar [data-bsod-action=desktop]');assert.ok(exit.y>=0&&exit.y+exit.h<490);await tap('.bsod-toolbar [data-bsod-action=desktop]');await viewport(1440,1000);
