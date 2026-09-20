@@ -30,7 +30,9 @@ try{
  await b.until(()=>b.evaluate('!!window.TimClassicLab'),'authenticated desktop',30000);
  await b.evaluate('(()=>{const original=window.TimDemoTouchpad.mount;window.TimDemoTouchpad={mount:opts=>original({...opts,tap:()=>{window.__tapProof=(window.__tapProof||0)+1;opts.tap();},press:()=>{const held=opts.press();if(held)(window.__gestureProof||=[]).push("down");return held;},release:cancelled=>{(window.__gestureProof||=[]).push(cancelled?"cancel-up":"up");opts.release(cancelled);}})};return true;})()');
  assert.equal(await b.evaluate('window.TimVersion.current()'),'xp');assert.equal(await b.evaluate('window.TimWindows.list().find(w=>w.id==="projects").maximized'),true);assert.equal(await b.evaluate('!!document.querySelector("#task-manager-button")'),false);assert.equal(await b.evaluate('window.TimVersion.selection().placement'),'fit');
- console.log('PASS real login form, Secure cookie, HTTPS proxy and private desktop (local fixture).');
+ const tray=await b.evaluate("(()=>{const e=document.querySelector('.taskbar>.clock-era'),s=getComputedStyle(e);return {border:parseFloat(s.borderLeftWidth),background:s.backgroundImage,time:e.querySelector('time').textContent,under:getComputedStyle(e.querySelector('time')).textDecorationLine,year:getComputedStyle(e.querySelector('[data-os-year]')).textDecorationLine};})()");
+ assert.ok(tray.border>=1);assert.notEqual(tray.background,'none');assert.match(tray.time,/^([1-9]|1[0-2]):[0-5]\d (AM|PM)$/);assert.equal(tray.under,'none');assert.ok(tray.year.includes('underline'));
+ console.log('PASS real login form, Secure cookie, shared XP clock/year tray and private desktop (local fixture).');
  for(const id of ['billiards','golf']){
   await b.evaluate(`window.TimApps.open('lab-${id}');true`);
   await b.until(()=>b.evaluate(`document.querySelector('#window-lab-${id}')?.dataset.classicReady==='true'`),id+' authenticated prefix load',60000);

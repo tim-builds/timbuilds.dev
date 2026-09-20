@@ -56,3 +56,9 @@ In touchpad mode, a short tap clicks at the cursor. Rest one finger for 350 ms t
 Pointer cancellation, capture loss, blur, pause, mode switch, minimization, restart and close clear the gesture/timer and release held input. A held release never invokes the short-tap callback. Authentication and the opaque-frame protocol are unchanged.
 
 Verification: `node tools/private-demo/touchpad.test.mjs` covers 19 deterministic gesture scenarios; `node tools/private-demo/frame-input.test.mjs` verifies actual mouse event buttons/down/up/cancel behavior and origin checks. The local HTTPS fixture drives real browser touch contacts through both games, checks down before lift, dragging while held, lift/cancel release and pause cleanup. This is emulated touch in a disposable browser, not physical-phone certification.
+
+## Hold delivery repair — September 20
+
+The previously prepared finger-hold commit had not reached the running owner checkout. The repair includes a real emulator check: browser touch contacts drive the unchanged frame bridge while CDP reads `_mouse.mouseDown` inside each game VM. It must be 0 before touch, 1 after a stationary 350 ms press and throughout a held drag, then 0 after finger lift, cancellation and pause. This is not inferred from the toolbar label or a mocked callback. The debugger attaches only to a disposable, loopback-only HTTPS fixture; production sandbox and authentication are unchanged.
+
+Quick slide still moves without pressing. Keep a finger still for about one-third of a second until the arrow turns yellow, drag while keeping that finger down, then lift to release. The full black game stage remains the touchpad. New controls load after a full page refresh, not just restarting the movie in an already open tab.
