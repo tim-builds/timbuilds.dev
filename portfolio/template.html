@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="portfolio/recovery.css?v=15">
   <link rel="stylesheet" href="portfolio/pinball-layout.css?v=14">
   <link rel="stylesheet" href="portfolio/desktop-defaults.css?v=15">
+  <link rel="stylesheet" href="portfolio/clock-era.css?v=16">
   <meta name="referrer" content="no-referrer">
   <script src="portfolio/locked.js?v=12" defer></script>
   <script src="portfolio/challenge-rules.js?v=12" defer></script>
@@ -46,7 +47,7 @@
   <script src="portfolio/windows.js?v=15" defer></script>
   <script src="portfolio/desktop-drag.js?v=12" defer></script>
   <script src="portfolio/desktop.js?v=12" defer></script>
-  <script src="portfolio/site.js?v=12" defer></script>
+  <script src="portfolio/site.js?v=16" defer></script>
   <script src="portfolio/classic-engines.js?v=12" defer></script>
   <script src="portfolio/accessories.js?v=12" defer></script>
   <script src="portfolio/minesweeper.js?v=12" defer></script>
@@ -60,8 +61,8 @@
   <script src="portfolio/start-menus.js?v=14" defer></script>
   <script src="portfolio/cascades.js?v=12" defer></script>
   <script src="portfolio/classic-shell.js?v=14" defer></script>
-  <script src="portfolio/environment-ui.js?v=12" defer></script>
-  <script src="portfolio/platform-shell.js?v=12" defer></script>
+  <script src="portfolio/environment-ui.js?v=16" defer></script>
+  <script src="portfolio/platform-shell.js?v=16" defer></script>
   <script src="portfolio/documents.js?v=12" defer></script>
   <script src="portfolio/explorer.js?v=14" defer></script>
   <script src="portfolio/bsod.js?v=13" defer></script>
@@ -103,7 +104,7 @@
     <div class="window-statusbar"><span id="window-status">{{COUNT}} projects</span><button class="resize-grip" data-resize="se" aria-label="Resize project window with arrow keys" title="Drag to resize, or focus and use arrow keys">◢</button></div>
   </main>
   <div class="start-menu window" id="start-menu" hidden><div class="start-brand"><strong>Windows</strong><span>2000</span><small>Professional</small></div><nav aria-label="Start menu"><a href="openhoops/privacy.html">OpenHoops Privacy.txt</a><a href="openhoops/terms.html">OpenHoops Terms.txt</a><button data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg>My Projects</button><button data-dialog="about"><svg aria-hidden="true"><use href="portfolio/icons.svg#document"/></svg>About Tim</button><button data-dialog="contact"><svg aria-hidden="true"><use href="portfolio/icons.svg#mail"/></svg>Say Hello</button><button data-dialog="display"><svg aria-hidden="true"><use href="portfolio/icons.svg#palette"/></svg>Display settings</button><a href="https://github.com/flushatoilet" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="portfolio/icons.svg#code"/></svg>GitHub <span aria-hidden="true">↗</span></a></nav></div>
-  <footer class="taskbar" aria-label="Desktop taskbar"><button id="start-button" class="start-button bevel-button" aria-expanded="false" aria-controls="start-menu"><svg aria-hidden="true"><use href="portfolio/icons.svg#computer"/></svg><strong>Start</strong></button><button id="show-desktop-button" class="quick-desktop" aria-label="Show desktop or restore windows" title="Show desktop / restore">▣</button><div class="task-separator" aria-hidden="true"></div><div id="task-list" class="task-list" aria-label="Open windows"><button class="task-button is-active" data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><span>My Projects</span></button></div><button class="clock-tray" data-app-open="datetime" title="Date/Time Properties" aria-label="Open Date/Time Properties"><span class="online-dot" aria-hidden="true"></span><time id="clock" aria-label="Your local time">--:--</time></button></footer>
+  <footer class="taskbar" aria-label="Desktop taskbar"><button id="start-button" class="start-button bevel-button" aria-expanded="false" aria-controls="start-menu"><svg aria-hidden="true"><use href="portfolio/icons.svg#computer"/></svg><strong>Start</strong></button><button id="show-desktop-button" class="quick-desktop" aria-label="Show desktop or restore windows" title="Show desktop / restore">▣</button><div class="task-separator" aria-hidden="true"></div><div id="task-list" class="task-list" aria-label="Open windows"><button class="task-button is-active" data-action="projects"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><span>My Projects</span></button></div><button class="clock-tray" data-app-open="datetime" title="Date/Time Properties" aria-label="Open Date/Time Properties"><time id="clock" aria-label="Your local time">--:--</time></button></footer>
   <dialog class="window detail-window" id="detail-dialog" aria-labelledby="dialog-title"><div class="titlebar dialog-titlebar"><div class="window-title"><svg id="dialog-icon" aria-hidden="true"><use href="portfolio/icons.svg#document"/></svg><span id="dialog-title">Project details</span></div><button class="dialog-close" aria-label="Close dialog" title="Close">×</button></div><div class="dialog-body" id="dialog-body"></div></dialog>
   <script type="application/json" id="project-data"><!--PROJECT_DATA--></script>
 </body>
