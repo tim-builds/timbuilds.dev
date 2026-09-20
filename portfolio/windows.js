@@ -54,7 +54,7 @@
   }
   function reset(id='projects'){const w=registry.get(id);if(!w)return;w.tiled=false;if(w.maximized)maximize(id);w.rect=bound(defaults(id),w);show(id);persist();}
   document.documentElement.classList.add('desktop-ready');
-  register({id:'projects',el:document.querySelector('#portfolio-window'),label:'My Projects',icon:'folder',main:true,task:document.querySelector('.task-button')});markActive('projects');
+  register({id:'projects',el:document.querySelector('#portfolio-window'),label:'My Projects',icon:'folder',main:true,task:document.querySelector('.task-button')});maximize('projects');
   document.addEventListener('click',event=>{const task=event.target.closest('[data-window-task]');if(task){toggleTask(task.dataset.windowTask);return;}const button=event.target.closest('[data-win-control]');if(!button)return;const id=button.closest('[data-window-id]').dataset.windowId;({minimize,maximize,close})[button.dataset.winControl]?.(id);});
   document.addEventListener('focusin',event=>{
     const el=event.target.closest('[data-window-id]');
@@ -135,7 +135,7 @@
     if(mode!=='cascade'){if(vertical){cols=Math.min(n,Math.max(1,Math.floor(innerWidth/340)));rows=Math.ceil(n/cols);}else{rows=Math.min(n,Math.max(1,Math.floor(availableHeight()/260)));cols=Math.ceil(n/rows);}}
     windows.forEach((w,i)=>{if(w.maximized)maximize(w.id);w.tiled=mode!=='cascade';const col=vertical?Math.floor(i/rows):i%cols,row=vertical?i%rows:Math.floor(i/cols);const r=w.tiled?{x:Math.floor(col*innerWidth/cols),y:workTop()+Math.floor(row*availableHeight()/rows),w:Math.floor(innerWidth/cols),h:Math.floor(availableHeight()/rows)}:{x:36+i*26,y:24+i*26,w:Math.min(w.main?1100:650,innerWidth-60),h:Math.min(650,availableHeight()-60)};w.rect=bound(r,w);paint(w);});persist();
   }
-  function freshSession(){for(const w of registry.values())if(!w.main)close(w.id);const main=registry.get('projects');if(main.maximized)maximize('projects');main.rect=bound(defaults('projects'),main);main.normal=null;main.tiled=false;main.state='open';main.el.hidden=false;main.task.hidden=false;paint(main);markActive('projects');desktopRestore=[];window.dispatchEvent(new Event('timbuilds-session-reset'));}
+  function freshSession(){for(const w of registry.values())if(!w.main)close(w.id);const main=registry.get('projects');if(main.maximized)maximize('projects');main.rect=bound(defaults('projects'),main);main.normal=null;main.tiled=false;main.state='open';main.el.hidden=false;main.task.hidden=false;maximize('projects');markActive('projects');desktopRestore=[];window.dispatchEvent(new Event('timbuilds-session-reset'));}
   window.TimWindows=Object.freeze({
     openPanel, show, minimize, close, maximize, toggleTask, reset, freshSession, list, arrange, showDesktop, restoreDesktop, cycle,
     deactivate:()=>markActive(null), active:()=>active, workHeight:availableHeight,workTop,workBottom
