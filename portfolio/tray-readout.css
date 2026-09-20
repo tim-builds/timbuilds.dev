@@ -1,0 +1,12 @@
+/* A single quiet readout. Time and era remain separate accessible controls. */
+:root[data-os] .tray-readout{display:flex;align-items:center;flex:0 0 auto;gap:0;margin-left:auto;padding:0 5px;white-space:nowrap;font:11px/1 Tahoma,Arial,sans-serif;font-variant-numeric:tabular-nums;color:inherit}
+:root[data-os=xp] .taskbar .tray-readout{color:#fff}
+:root[data-os] .tray-readout>button{display:inline-flex!important;align-items:center;justify-content:center;align-self:center;background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin:0!important;padding:0 4px!important;min-height:30px;min-width:0;color:inherit!important;font:inherit!important;text-decoration:none!important;white-space:nowrap;cursor:pointer}
+:root[data-os] .tray-readout>button:hover,:root[data-os] .tray-readout>button[aria-pressed=true]{outline:none;box-shadow:none!important;background:transparent!important}
+:root[data-os] .tray-readout>button:focus-visible{outline:2px dotted currentColor!important;outline-offset:-3px}
+:root[data-os] .tray-readout time{font:inherit;text-decoration:none}
+:root[data-os] .tray-readout [data-os-year]{text-decoration:underline dotted;text-underline-offset:3px}
+:root[data-os=ubuntu] .taskbar>.tray-readout{display:none}
+:root[data-family=mac] .tray-readout{margin-left:auto}
+@media(max-width:820px){:root[data-os] .tray-readout{font-size:10px;padding:0 3px}:root[data-os] .taskbar .tray-readout>button{min-height:40px;padding:0 4px!important}:root[data-family=mac] .tray-readout>button,:root[data-os=ubuntu] .platform-topbar .tray-readout>button{min-height:26px}}
+@media print{.tray-readout{display:none!important}}
