@@ -16,7 +16,8 @@
     reload:'<path d="M10 1v3A5 5 0 1 0 11 8H9a3 3 0 1 1-1-4H6v2h6V1z"/>',
     home:'<path d="m0 5 6-5 6 5-1 1-1-1v6H7V7H5v4H2V5L1 6z"/>'
   };
-  const svg=kind=>'<svg class="chrome-glyph" viewBox="0 0 12 12" aria-hidden="true" focusable="false">'+shapes[kind]+'</svg>';
+  const thin={minimize:'<path d="M1 6h10" fill="none" stroke="currentColor" stroke-width="1"/>',maximize:'<path d="M1.5 1.5h9v9h-9z" fill="none" stroke="currentColor" stroke-width="1"/>',restore:'<path d="M3.5 1.5h7v7M1.5 3.5h7v7h-7z" fill="none" stroke="currentColor" stroke-width="1"/>',close:'<path d="m1.5 1.5 9 9m0-9-9 9" fill="none" stroke="currentColor" stroke-width="1"/>'};
+  const svg=kind=>'<svg class="chrome-glyph" viewBox="0 0 12 12" aria-hidden="true" focusable="false">'+(['vista','10','11'].includes(document.documentElement.dataset.os)&&thin[kind]||shapes[kind])+'</svg>';
   function set(button,kind){if(!button||!shapes[kind])return;button.dataset.chromeIcon=kind;button.classList.add('chrome-icon-button');button.innerHTML=svg(kind);}
   function decorate(root){
     const query=s=>[...(root.matches?.(s)?[root]:[]),...root.querySelectorAll(s)];
