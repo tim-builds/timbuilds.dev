@@ -1,4 +1,4 @@
-/* One continuous time/era label; only the era is underlined. Both actions remain buttons. */
+/* One shared Windows tray section; only the era text is underlined. */
 :root[data-os] .clock-era{display:inline-flex;align-items:center;align-self:stretch;flex:0 0 auto;gap:0;padding:0 3px;white-space:nowrap;font:11px Tahoma,Arial,sans-serif;font-variant-numeric:tabular-nums;color:#111}
 :root[data-os] .clock-era :is(.clock-tray,.platform-clock,.environment-year,#environment-button){display:inline-flex;align-items:center;justify-content:center;align-self:stretch;margin:0;padding:0 5px;min-width:0;min-height:28px;border:0;border-radius:0;box-shadow:none;background:transparent;color:inherit;font:inherit;font-variant-numeric:inherit;line-height:1;gap:0;white-space:nowrap;text-decoration:none}
 :root[data-os] .clock-era time{font:inherit;font-variant-numeric:inherit;text-decoration:none}
@@ -6,7 +6,8 @@
 :root[data-os] .clock-era button:hover{outline:none;background:#0000000d}
 :root[data-os] .clock-era button:focus-visible{outline:1px dotted currentColor;outline-offset:-3px}
 :root[data-os] .taskbar .clock-era button[aria-pressed=true]{box-shadow:none;outline:none;background:#00000012}
-:root[data-os=xp] .taskbar .clock-era{color:#fff}
+:root[data-family=windows] .taskbar>.clock-era{background:var(--chrome);border:1px solid;border-color:#808080 #fff #fff #808080;box-shadow:none}
+:root[data-os=xp] .taskbar>.clock-era{color:#fff;background:linear-gradient(#36c1f0,#169bed 18%,#168ddd);border:0;border-left:1px solid #104bb1;box-shadow:inset 1px 0 #5ec4f3;padding-left:7px;padding-right:4px}
 :root[data-os=xp] .clock-era button:hover,:root[data-os=xp] .taskbar .clock-era button[aria-pressed=true]{background:#ffffff16}
 :root[data-family=mac] .taskbar>.clock-era{margin-left:auto}
 :root[data-family=mac] .clock-era{font-size:11px;padding:0}
