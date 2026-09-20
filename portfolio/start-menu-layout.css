@@ -1,0 +1,12 @@
+/* Anchor the launch menu to the measured taskbar, including safe-area padding.
+   The XP ID selector used to override mobile's taller taskbar with bottom:38px. */
+:root[data-family=windows] #start-menu,
+:root[data-os=kde] #start-menu{
+ top:auto;
+ bottom:calc(var(--taskbar-height,48px) + 2px);
+ max-height:max(0px,calc(var(--desk-height,100dvh) - var(--taskbar-height,48px) - 6px));
+ min-height:0;
+ overflow-x:hidden;
+ overflow-y:auto;
+ overscroll-behavior:contain;
+}
