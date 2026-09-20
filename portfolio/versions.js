@@ -5,21 +5,28 @@
   const data=freeze(window.TimEnvironmentData),themes=data.themes,papers=data.wallpapers;
   const key='timbuilds.environment.v1',placements=['fit','fill','center','tile'];
   const find=id=>themes.find(t=>t.id===id),allowed=(p,id)=>p&&(p.kind==='creative'||p.versions?.includes(id));
-  let current='2000',persistent=true,migratedDefault=false;const desktops={};
+  let current='xp',persistent=true,migratedDefault=false,versionChoice='default';const desktops={};
   for(const t of themes)desktops[t.id]={wallpaper:t.wallpaper,placement:t.placement};
   try {
     const raw=JSON.parse(localStorage.getItem(key)||'null');
     if(raw&&typeof raw==='object'){
       if(find(raw.version))current=raw.version;
+      versionChoice=raw.versionChoice==='explicit'?'explicit':'default';
       for(const t of themes){const saved=raw.desktops?.[t.id];if(saved&&allowed(papers.find(p=>p.id===saved.wallpaper),t.id))desktops[t.id].wallpaper=saved.wallpaper;if(saved&&placements.includes(saved.placement))desktops[t.id].placement=saved.placement;}
-      if(raw.defaultsRevision!==2&&desktops['2000'].wallpaper==='win2000-windows-2000'){desktops['2000'].wallpaper='win2000-paradise';migratedDefault=true;}
+      if((!raw.defaultsRevision||raw.defaultsRevision<2)&&desktops['2000'].wallpaper==='win2000-windows-2000'){desktops['2000'].wallpaper='win2000-paradise';migratedDefault=true;}
+      if(raw.defaultsRevision!==3){
+        // Upgrade the former stock desktop once, without discarding custom themes.
+        if(current==='2000'&&versionChoice!=='explicit'&&['win2000-paradise','win2000-windows-2000'].includes(desktops['2000'].wallpaper))current='xp';
+        for(const t of themes){const d=desktops[t.id];if(d.placement==='fill'&&papers.find(p=>p.id===d.wallpaper)?.file)d.placement='fit';}
+        migratedDefault=true;
+      }
     } else {
       const old=localStorage.getItem('timbuilds.wallpaper.v1'),placement=localStorage.getItem('timbuilds.wallpaper-placement.v1');
       if(allowed(papers.find(p=>p.id===old),'95'))desktops['95'].wallpaper=old;
       if(placements.includes(placement))desktops['95'].placement=placement;
     }
-  } catch { /* Invalid or unavailable storage falls back to Windows 2000. */ }
-  function persist(){try{localStorage.setItem(key,JSON.stringify({version:current,desktops,defaultsRevision:2}));persistent=true;}catch{persistent=false;}}
+  } catch { /* Invalid or unavailable storage falls back to Windows XP. */ }
+  function persist(){try{localStorage.setItem(key,JSON.stringify({version:current,desktops,defaultsRevision:3,versionChoice}));persistent=true;}catch{persistent=false;}}
   function apply(){
     const t=find(current),saved=desktops[current],p=papers.find(x=>x.id===saved.wallpaper),root=document.documentElement;
     root.dataset.os=current;root.dataset.family=t.family||"windows";root.dataset.wallpaper=p.id;root.dataset.wallpaperPlacement=saved.placement;root.dataset.wallpaperKind=p.file?'image':p.kind;
@@ -29,11 +36,11 @@
     else if(p.id==='win2000-blue'){root.style.setProperty('--wall-color','#3a6ea5');root.style.setProperty('--wall-image','none');}
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content',t.color);
   }
-  function set(id){if(!find(id)||id===current)return false;current=id;apply();persist();window.dispatchEvent(new CustomEvent('timbuilds-version',{detail:{version:current}}));return true;}
+  function set(id){if(!find(id)||id===current)return false;current=id;versionChoice='explicit';apply();persist();window.dispatchEvent(new CustomEvent('timbuilds-version',{detail:{version:current}}));return true;}
   function wallpaper(id){if(!allowed(papers.find(p=>p.id===id),current))return false;desktops[current].wallpaper=id;apply();persist();window.dispatchEvent(new Event('timbuilds-wallpaper'));return true;}
   function placement(value){if(!placements.includes(value))return false;desktops[current].placement=value;apply();persist();window.dispatchEvent(new Event('timbuilds-wallpaper'));return true;}
   function reset(){desktops[current]={wallpaper:find(current).wallpaper,placement:find(current).placement};apply();persist();window.dispatchEvent(new Event('timbuilds-wallpaper'));}
-  function selector(){const button=t=>`<button type="button" data-version="${t.id}" class="version-option" aria-pressed="${t.id===current}"><span class="version-mini" data-preview-os="${t.id}" aria-hidden="true"><i></i><b></b></span><strong>${t.name}</strong><small>${t.id==='2000'?'Default · ':''}${t.edition}</small></button>`;return '<fieldset class="version-selector"><legend>Operating system</legend>'+[['windows','Windows'],['mac','Classic Macintosh'],['linux','Linux desktops']].map(([family,label])=>'<h3 class="version-family-label">'+label+'</h3><div class="version-options">'+themes.filter(t=>(t.family||'windows')===family).map(button).join('')+'</div>').join('')+'</fieldset>';}
+  function selector(){const button=t=>`<button type="button" data-version="${t.id}" class="version-option" aria-pressed="${t.id===current}"><span class="version-mini" data-preview-os="${t.id}" aria-hidden="true"><i></i><b></b></span><strong>${t.name}</strong><small>${t.id==='xp'?'Default · ':''}${t.edition}</small></button>`;return '<fieldset class="version-selector"><legend>Operating system</legend>'+[['windows','Windows'],['mac','Classic Macintosh'],['linux','Linux desktops']].map(([family,label])=>'<h3 class="version-family-label">'+label+'</h3><div class="version-options">'+themes.filter(t=>(t.family||'windows')===family).map(button).join('')+'</div>').join('')+'</fieldset>';}
   function sync(){
     const t=find(current);document.querySelectorAll('[data-version]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.version===current)));
     document.querySelectorAll('[data-os-name]').forEach(el=>el.textContent=t.name);

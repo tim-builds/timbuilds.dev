@@ -29,7 +29,7 @@
 /* A separate era selector beside the live clock, not another computer glyph. */
 :root[data-os] .environment-year{display:inline-flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;cursor:pointer;font-variant-numeric:tabular-nums}
 .environment-year [data-os-year]{text-decoration:underline dotted;text-underline-offset:3px}.environment-year .era-chevron{font-size:9px;text-decoration:none}
-:root[data-family=mac] #environment-button{margin-left:0}:root[data-family=mac] #task-manager-button{margin-left:auto}
+:root[data-family=mac] #environment-button{margin-left:0}:root[data-family=mac] .clock-tray{margin-left:auto}
 :root[data-os] .taskbar :is(.tray-icon,.clock-tray,.environment-button)[aria-pressed=true]{box-shadow:inset 1px 1px 2px #0008;outline:1px dotted currentColor;outline-offset:-4px}
 :root[data-os] .environment-year:focus-visible{outline:2px solid currentColor;outline-offset:-3px}
 .wallpaper-resolution{font:12px/1.65 Tahoma,Arial,sans-serif;color:var(--muted);margin:12px 0}.wallpaper-resolution button{margin-left:6px}

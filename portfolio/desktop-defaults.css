@@ -1,0 +1,13 @@
+/* Keep the complete image inside the usable desktop, not behind the taskbar. */
+:root[data-os=xp][data-wallpaper=winxp-bliss]{--wall-color:#000;--wall-image:url("wallpapers/winxp-bliss-hd.jpg");--wall-size:contain;--wall-position:center}
+#desktop-wallpaper{display:none}
+:root.desktop-ready[data-os][data-wallpaper-kind=image] body{background-image:none}
+:root.desktop-ready[data-wallpaper-kind=image] #desktop-wallpaper{
+ display:block;position:fixed;left:0;top:var(--desktop-top,0px);
+ width:var(--desk-width,100vw);height:max(0px,calc(var(--desk-height,100dvh) - var(--desktop-top,0px) - var(--taskbar-height,48px)));
+ background-color:#000;background-image:var(--wall-image);background-size:var(--wall-size);background-position:var(--wall-position);background-repeat:no-repeat;
+ pointer-events:none;z-index:0;
+}
+:root.desktop-ready[data-family=mac] #desktop-wallpaper{height:max(0px,calc(var(--desk-height,100dvh) - var(--desktop-top,29px)))}
+:root[data-wallpaper-placement=tile] #desktop-wallpaper{background-repeat:repeat}
+@media print{#desktop-wallpaper{display:none!important}}
