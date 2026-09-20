@@ -1,3 +1,4 @@
+import {checkPrivateFolder} from './folder.browser.mjs';
 import {checkTouchpad} from './touchpad.browser.mjs';
 /** Local-only HTTPS integration test; credentials are generated for this fixture only. */
 import fs from 'node:fs';
@@ -33,8 +34,10 @@ try{
  const tray=await b.evaluate("(()=>{const e=document.querySelector('.taskbar>.clock-era'),s=getComputedStyle(e);return {border:parseFloat(s.borderLeftWidth),background:s.backgroundImage,time:e.querySelector('time').textContent,under:getComputedStyle(e.querySelector('time')).textDecorationLine,year:getComputedStyle(e.querySelector('[data-os-year]')).textDecorationLine};})()");
  assert.ok(tray.border>=1);assert.notEqual(tray.background,'none');assert.match(tray.time,/^([1-9]|1[0-2]):[0-5]\d (AM|PM)$/);assert.equal(tray.under,'none');assert.ok(tray.year.includes('underline'));
  console.log('PASS real login form, Secure cookie, shared XP clock/year tray and private desktop (local fixture).');
+ await checkPrivateFolder(b,dir);
  for(const id of ['billiards','golf']){
-  await b.evaluate(`window.TimApps.open('lab-${id}');true`);
+  await b.evaluate('window.TimWindows.show("games");true');
+  await b.click(`#window-games [data-entry=lab-${id}]`);
   await b.until(()=>b.evaluate(`document.querySelector('#window-lab-${id}')?.dataset.classicReady==='true'`),id+' authenticated prefix load',60000);
   await sleep(1200);await b.click(`#window-lab-${id} [data-classic-expand]`);await sleep(400);
   assert.equal(await b.evaluate(`document.querySelector('#window-lab-${id} iframe').getAttribute('sandbox')`),'allow-scripts');

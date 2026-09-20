@@ -62,3 +62,9 @@ Verification: `node tools/private-demo/touchpad.test.mjs` covers 19 deterministi
 The previously prepared finger-hold commit had not reached the running owner checkout. The repair includes a real emulator check: browser touch contacts drive the unchanged frame bridge while CDP reads `_mouse.mouseDown` inside each game VM. It must be 0 before touch, 1 after a stationary 350 ms press and throughout a held drag, then 0 after finger lift, cancellation and pause. This is not inferred from the toolbar label or a mocked callback. The debugger attaches only to a disposable, loopback-only HTTPS fixture; production sandbox and authentication are unchanged.
 
 Quick slide still moves without pressing. Keep a finger still for about one-third of a second until the arrow turns yellow, drag while keeping that finger down, then lift to release. The full black game stage remains the touchpad. New controls load after a full page refresh, not just restarting the movie in an already open tab.
+
+## Games folder and Start menu
+
+The private desktop now offers **Start > Games > Candystand (Private)** as a real nested explorer folder, with both game entries and working Up/Back/Forward navigation. The existing All Programs shortcut opens that same folder. Registration is in memory after authentication, never in the public catalogue. The public explorer includes only a generic folder-extension API; it contains no private game registrations or assets. Both desktops anchor Start above the measured taskbar, including mobile padding and rotation.
+
+The HTTPS browser fixture launches both games through the new folder before running the existing actual-emulator hold/release checks. Private access control and game input code are unchanged. Refresh the whole page to load the new navigation; no movie restart alone will replace an already-loaded host script.
