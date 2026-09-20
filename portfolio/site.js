@@ -195,7 +195,7 @@
   function syncURL(){const id=location.hash.startsWith('#project-')?location.hash.slice(9):null;if(id&&byId.has(id))openProject(id,false);else if(dialog.open&&dialogKind==='project')closeDialog(false);}
   window.addEventListener('popstate',syncURL);
   window.addEventListener('hashchange',syncURL);
-  function updateClock(){const now=new Date();$('#clock').textContent=now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});$('#clock').dateTime=now.toISOString();$('#clock').title=now.toLocaleDateString([],{weekday:'long',year:'numeric',month:'long',day:'numeric'});$('#year').textContent=String(now.getFullYear());}
+  function updateClock(){const now=new Date();$('#clock').textContent=(now.getHours()%12||12)+':'+String(now.getMinutes()).padStart(2,'0')+' '+(now.getHours()<12?'AM':'PM');$('#clock').dateTime=now.toISOString();$('#clock').title=now.toLocaleDateString([],{weekday:'long',year:'numeric',month:'long',day:'numeric'});$('#year').textContent=String(now.getFullYear());}
   window.TimCatalogue=Object.freeze({browse(name){if(name==='Locked')return openLocked();if(!['All projects','Apps','Games','Websites','Tools','Experiments'].includes(name))return false;category=name;search.value='';showProjects();applyFilter();return true;}});
   window.addEventListener('timbuilds-session-reset',()=>{category='All projects';search.value='';view='grid';grid.classList.remove('is-list');$('#project-sort').value='curated';applyFilter();$('.workspace').scrollTop=0;});
   document.querySelector('#show-desktop-button').addEventListener('click',()=>{if(window.TimWindows.list().some(w=>w.state==='open'))window.TimWindows.showDesktop();else if(window.TimWindows.list().some(w=>w.state==='minimized'))window.TimWindows.restoreDesktop();else showProjects();});
