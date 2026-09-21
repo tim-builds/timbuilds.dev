@@ -1,0 +1,21 @@
+{
+  "privateTest": true,
+  "engine": "/absolute/path/to/dirplayer-polyfill",
+  "games": {
+    "billiards": {
+      "title": "Life Savers Billiards",
+      "entry": "csplmain.dcr",
+      "files": {"csplmain.dcr": "/absolute/path/to/authorized/csplmain.dcr"},
+      "parameters": {}
+    },
+    "golf": {
+      "title": "Candystand Miniature Golf",
+      "entry": "csmgmain.dcr",
+      "files": {
+        "csmgmain.dcr": "/absolute/path/to/authorized/csmgmain.dcr",
+        "csmgholes.cct": "/absolute/path/to/authorized/csmgholes.cct"
+      },
+      "parameters": {}
+    }
+  }
+}
