@@ -32,9 +32,17 @@ For an ordinary code regression, revert the offending change in canonical `main`
 
 The former GitHub Pages services and their CNAME bindings are retained as frozen fallback origins. Archiving the old repository makes it read-only, not deleted; unarchive it before an emergency edit/rebuild. A privately saved Git bundle and named historical refs provide additional recovery material. Do not remove these fallbacks merely because the public domains no longer direct apex traffic there. A DNS rollback is a separate account operation requiring current confirmation of the exact original records and TLS; caches make instant recovery impossible to promise.
 
-At this checkpoint, the `www` records still point to `tim-builds.github.io`. The hyphenated `www` already redirects correctly. The pre-existing `www.timbuilds.dev` certificate mismatch remains open: the attempted Cloudflare redirect-rule save hit a tool safety-status block, so no `www` DNS rewrite is claimed complete. Keep this honest rather than treating apex migration as proof of `www` health. Do not delete the GitHub fallback while its `www` redirects are still in use.
+## WWW aliases — completed September 22, 2026
 
-The scoped intended finish is `www.timbuilds.dev` to `https://timbuilds.dev` and `www.tim-builds.dev` to `https://tim-builds.dev`, preserving paths, queries and browser-held fragments, without redirecting either apex to the other. Re-read active rules and DNS before retrying; a reported button click is not saved-state evidence. Do not use a second write channel to bypass a blocked action.
+Both WWW hostnames now terminate HTTPS and redirect at Cloudflare, independently of the frozen GitHub origins. Each zone has one active Single Redirect: `http*://www.<matching-domain>/*` to `https://<matching-domain>/${2}`, status 301, Preserve query string enabled. Neither apex redirects to the other. Browser-held fragments were checked with harmless markers, not live credentials.
+
+Only each zone's `www` DNS record changed: a proxied A record to `192.0.2.1`, TTL Auto, as a redirect-only record. The redirect runs at the edge; that reserved address is not an application server. Do not disable its proxy or remove the redirect without arranging a replacement. The existing free Universal SSL serves the WWW certificates. No extra Pages custom-domain binding or paid feature is required.
+
+The former `www.timbuilds.dev` certificate mismatch is fixed. Both aliases preserve paths and queries, including OpenHoops URLs. The exact rule names, checks and rollback are recorded in [the WWW completion note](docs/www-redirects-2026-09-22.md). Both apex Pages records, all email records, nameservers, account-wide TLS/security settings and private game runtime were unchanged.
+
+For an authorized WWW-only rollback, restore that hostname's saved original `CNAME www -> tim-builds.github.io`, DNS only / Auto, and disable only its new WWW redirect. Re-check the frozen GitHub origin first. The primary WWW previously had a certificate mismatch, so returning to that old configuration is not a guarantee of healthy HTTPS. Keep both apexes and all mail untouched.
+
+Re-read active rules and DNS before edits, and confirm saved state rather than relying on a reported click. Do not use another write channel to bypass a blocked action.
 
 ## References
 
