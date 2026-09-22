@@ -14,7 +14,7 @@
   let category = 'All projects';
   let lockedProjects = [];
   let folderRequest = 0;
-  let view = 'grid';
+  let view = 'list';
   let previousFocus = null;
   let dialogKind = null;
   const safe = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -37,15 +37,11 @@
   }
 
   function applyFilter() {
-    const mobileFilter=document.querySelector("#mobile-project-filter");if(mobileFilter)mobileFilter.value=category;
     const workspace=$('.workspace'), oldScroll=workspace.scrollTop, oldPage=window.scrollY;
     const query = search.value.trim().toLocaleLowerCase();
     const source=category==='Locked'?lockedProjects:data;
     let ordered = [...source];
     for(const card of cards.values()) card.hidden=true;
-    const sort = $('#project-sort').value;
-    if (sort === 'name') ordered.sort((a,b) => a.title.localeCompare(b.title));
-    if (sort === 'category') ordered.sort((a,b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
     let visible = 0;
     for (const project of ordered) {
       const matchesCategory = category === 'Locked' || category === 'All projects' || project.category === category;
@@ -60,17 +56,12 @@
     $('#results-count').textContent = `${visible} project${visible===1?'':'s'} · ${category==='All projects'?'All folders':category}${query?' · Filtered':''}`;
     $('#window-status').textContent = `${visible} of ${source.length} projects${view==='list'?' · List view':''}`;
     $('#address-text').value = `C:\\Tim\\Projects\\${category}`;
-    $$('.folder-button').forEach(button => {
-      const active = button.dataset.category === category;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed',String(active));
-    });
-    const locked=$('[data-action="locked"]');locked.classList.toggle('is-active',category==='Locked');locked.setAttribute('aria-pressed',String(category==='Locked'));
-    $('#collection-title').textContent=category==='Locked'?'Locked':'My Projects';
+    $('#collection-title').textContent=category==='All projects'?'My Projects':category;
     window.dispatchEvent(new CustomEvent("timbuilds-folder",{detail:category}));
     workspace.scrollTop=oldScroll;if(window.scrollY!==oldPage)window.scrollTo(0,oldPage);
   }
   function setView(next) {
+    if(!['grid','list'].includes(next))return false;
     view = next;
     grid.classList.toggle('is-list', next==='list');
     $$('.view-button').forEach(button => {
@@ -113,7 +104,7 @@
     contact: {title:'Say Hello — New message', icon:'mail', html:`<div class="project-detail-copy"><div class="eyebrow">CONTACT</div><h2>Let’s talk.</h2><p>For project questions, feedback or enquiries, email me below.</p><a class="email-address" href="mailto:support@timbuilds.dev?subject=Hello%20Tim">support@timbuilds.dev</a><div class="detail-actions"><a class="bevel-button primary-button" href="mailto:support@timbuilds.dev?subject=Hello%20Tim">Open your email app ↗</a><button class="bevel-button" data-action="copy-email">Copy address</button></div><p class="clipboard-status" id="clipboard-status" role="status" aria-live="polite"></p><p class="private-note">No form submission or account needed. This page does not send a message on your behalf.</p></div>`},
     display: {title:'Display Properties',icon:'palette',html:''},
     github: {title:'GitHub — Source explorer',icon:'code',html:'<div class="project-detail-copy"><div class="eyebrow">GITHUB</div><h2>Source code</h2><p>Explore my public GitHub profile, or look at the source for this desktop.</p><div class="detail-actions"><a class="bevel-button primary-button" href="https://github.com/flushatoilet" target="_blank" rel="noopener noreferrer">Open GitHub profile ↗<span class="sr-only"> (opens in the desktop browser)</span></a><a class="bevel-button" href="https://github.com/tim-builds/timbuilds.dev" target="_blank" rel="noopener noreferrer">Portfolio source ↗<span class="sr-only"> (opens in the desktop browser)</span></a></div><p class="private-note">Websites open in the desktop browser. Sites that prohibit embedding offer an external-tab fallback. Private repositories remain private.</p></div>'},
-    help: {title:'Desktop Help', icon:'document', html:`<div class="project-detail-copy"><div class="eyebrow">DESKTOP HELP</div><h2>Using this desktop</h2><ul class="help-list"><li>Double-click desktop icons to open them, or press Enter. On touchscreens, tap once. Hold an icon to move it, or hold empty desktop space to drag a selection rectangle. Drag window title bars to move them and use the lower-right corner to resize. Ordinary swipes inside a window scroll its contents. The small desktop button beside Start hides or restores windows. Drag the empty desktop to select a group; Ctrl-click adds or removes icons. Drag selected icons together; they snap to a grid. Use Alt + arrow keys to move a selected group. Display settings can arrange them on the left again.</li><li>Drag the project title bar to move the window. Drag an edge or corner to resize. Maximise fills the workspace, restore returns to the previous size, and close removes the taskbar item. Double-click My Projects to reopen. Focus the title bar or resize grip and use arrow keys for keyboard control.</li><li>Right-click the desktop, an icon, a taskbar button or a title bar for a context menu. Shift-right-click keeps your browser menu. Click the clock for a calendar; click the underlined year beside it to change operating systems. Start → Operating system (or Display Properties) switches between the eight Windows, Macintosh and Linux desktops, with a separate wallpaper choice for each. Start → Programs contains classic accessories; Run accepts notepad, calc, mspaint, winmine and pinball. Alt+F6 cycles windows.</li><li>Choose a folder to filter the projects. Locked opens the blue-screen recovery console; dragging My Projects into the Recycle Bin finds the same console. Press Escape or choose Return to desktop to leave without deleting anything. Search works across names, descriptions and technologies.</li><li>Click a project’s name for details. App and game links open their project websites. Play buttons on those websites launch the actual games in a new browser tab. Website projects link to their websites.</li><li>Use <kbd>/</kbd> to jump to search, <kbd>Tab</kbd> to move through controls, and <kbd>Esc</kbd> to close a popup.</li><li>Click a focused window’s taskbar button to minimise it; click again to restore. About, contact, GitHub and Display each have their own window. Open My Projects again from <strong>My Projects</strong> or the <strong>Start</strong> button.</li></ul><p class="private-note">A modern portfolio with eight classic desktop environments. Browser accessories are reimplementations. Wallpaper and pinball credits are in System Properties. This is not Microsoft software.</p><div class="detail-actions"><button class="bevel-button" data-action="close-dialog">Got it</button></div></div>`},
+    help: {title:'Desktop Help', icon:'document', html:`<div class="project-detail-copy"><div class="eyebrow">DESKTOP HELP</div><h2>Using this desktop</h2><ul class="help-list"><li>Double-click desktop icons to open them, or press Enter. On touchscreens, tap once. Hold an icon to move it, or hold empty desktop space to drag a selection rectangle. Drag window title bars to move them and use the lower-right corner to resize. Ordinary swipes inside a window scroll its contents. The small desktop button beside Start hides or restores windows. Drag the empty desktop to select a group; Ctrl-click adds or removes icons. Drag selected icons together; they snap to a grid. Use Alt + arrow keys to move a selected group. Display settings can arrange them on the left again.</li><li>Drag the project title bar to move the window. Drag an edge or corner to resize. Maximise fills the workspace, restore returns to the previous size, and close removes the taskbar item. Double-click My Projects to reopen. Focus the title bar or resize grip and use arrow keys for keyboard control.</li><li>Right-click the desktop, an icon, a taskbar button or a title bar for a context menu. Shift-right-click keeps your browser menu. Click the clock for a calendar; click the underlined year beside it to change operating systems. Start → Operating system (or Display Properties) switches between the eleven Windows, Macintosh and Linux desktops, with a separate wallpaper choice for each. Start → Programs contains classic accessories; Run accepts notepad, calc, mspaint, winmine and pinball. Alt+F6 cycles windows.</li><li>Use the View menu to browse project categories or switch between List and Cards. Locked opens the blue-screen recovery console; dragging My Projects into the Recycle Bin finds the same console. Press Escape or choose Return to desktop to leave without deleting anything. Search works across names, descriptions and technologies.</li><li>Click a project’s name for details. App and game links open their project websites. Play buttons on those websites launch the actual games in a new browser tab. Website projects link to their websites.</li><li>Use <kbd>/</kbd> to jump to search, <kbd>Tab</kbd> to move through controls, and <kbd>Esc</kbd> to close a popup.</li><li>Click a focused window’s taskbar button to minimise it; click again to restore. About, contact, GitHub and Display each have their own window. Open My Projects again from <strong>My Projects</strong> or the <strong>Start</strong> button.</li></ul><p class="private-note">A modern portfolio with eleven desktop environments. Browser accessories are reimplementations. Wallpaper and pinball credits are in System Properties. This is not Microsoft software.</p><div class="detail-actions"><button class="bevel-button" data-action="close-dialog">Got it</button></div></div>`},
   };
   function openPanel(name) {
     if(!panels[name])return;
@@ -145,6 +136,7 @@
     }
     else if(el.dataset.wallpaper) setWallpaper(el.dataset.wallpaper);
     else if(el.dataset.action==='projects') showProjects();
+    else if(el.dataset.action==='explore-desktop'){window.TimWindows.showDesktop();setStart(true);$('#start-button').focus({preventScroll:true});}
     else if(el.dataset.action==='locked') await openLocked();
     else if(el.dataset.action==='arrange-icons'){window.TimDesktop.arrange();closeSurface(el);}
     else if(el.dataset.action==='reset-window'){window.TimDesktop.resetWindow();closeSurface(el);}
@@ -160,11 +152,9 @@
       catch{status.textContent='Copy is unavailable here. Select the address above, or open your email app.';}
     }
   });
-  document.querySelector("#mobile-project-filter").addEventListener("change",e=>window.TimCatalogue.browse(e.target.value));
   search.addEventListener('input',applyFilter);
-  $('#project-sort').addEventListener('change',applyFilter);
   $('#start-button').addEventListener('click',()=>setStart($('#start-menu').hidden));
-  document.addEventListener('click',event=>{if(!event.target.closest('#start-menu,#start-button'))setStart(false);});
+  document.addEventListener('click',event=>{if(!event.target.closest('#start-menu,#start-button,[data-action=explore-desktop]'))setStart(false);});
   document.addEventListener('keydown',event=>{
     if(event.key==='Escape' && !$('#start-menu').hidden){setStart(false);$('#start-button').focus();}
     if(event.key==='/' && !dialog.open && !event.ctrlKey && !event.metaKey && !event.altKey && !event.target.closest('input,textarea,select,[contenteditable="true"]')){event.preventDefault();showProjects(true);search.focus();}
@@ -196,8 +186,8 @@
   window.addEventListener('popstate',syncURL);
   window.addEventListener('hashchange',syncURL);
   function updateClock(){const now=new Date();$('#clock').textContent=(now.getHours()%12||12)+':'+String(now.getMinutes()).padStart(2,'0')+' '+(now.getHours()<12?'AM':'PM');$('#clock').dateTime=now.toISOString();$('#clock').title=now.toLocaleDateString([],{weekday:'long',year:'numeric',month:'long',day:'numeric'});$('#year').textContent=String(now.getFullYear());}
-  window.TimCatalogue=Object.freeze({browse(name){if(name==='Locked')return openLocked();if(!['All projects','Apps','Games','Websites','Tools','Experiments'].includes(name))return false;category=name;search.value='';showProjects();applyFilter();return true;}});
-  window.addEventListener('timbuilds-session-reset',()=>{category='All projects';search.value='';view='grid';grid.classList.remove('is-list');$('#project-sort').value='curated';applyFilter();$('.workspace').scrollTop=0;});
+  window.TimCatalogue=Object.freeze({setView,view:()=>view,browse(name){if(name==='Locked')return openLocked();if(!['All projects','Apps','Games','Websites','Tools','Experiments'].includes(name))return false;category=name;search.value='';showProjects();applyFilter();return true;}});
+  window.addEventListener('timbuilds-session-reset',()=>{category='All projects';search.value='';view='list';grid.classList.add('is-list');applyFilter();$('.workspace').scrollTop=0;});
   document.querySelector('#show-desktop-button').addEventListener('click',()=>{if(window.TimWindows.list().some(w=>w.state==='open'))window.TimWindows.showDesktop();else if(window.TimWindows.list().some(w=>w.state==='minimized'))window.TimWindows.restoreDesktop();else showProjects();});
   updateClock();setInterval(updateClock,30000);syncURL();
   window.TimLocked.ready.then(access=>{
