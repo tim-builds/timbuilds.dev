@@ -1,6 +1,6 @@
 # timBuilds portfolio
 
-A switchable Windows, classic Macintosh and Linux-inspired portfolio in plain HTML, CSS and JavaScript. Windows 2000 is the default. No package installation, application server, analytics service or hosted database is required.
+A switchable Windows, classic Macintosh and Linux-inspired portfolio in plain HTML, CSS and JavaScript. There are eleven selectable environments, including Vista Aero, Windows 10 and Windows 11. Windows XP is still the default. My Projects opens maximized in a clean list view; image wallpapers default to Fit without cropping. No package installation, application server, analytics service or hosted database is required.
 
 ## Where it lives
 
@@ -194,3 +194,9 @@ The recovery form uses one fixed-size primary button: Verify response, Incorrect
 Pinball: Space Cadet is the first game in Programs and Games. The initial canvas now starts at the engine’s 600 × 440 proportions instead of the browser’s default 300 × 150; the old startup shape wasted vertical space. A larger default desktop window, removal of the redundant shell menu, and an explicit Expand game / Restore window control give the table more room while preserving its aspect ratio and running session. A fixed logical iframe viewport is scaled uniformly, avoiding a paused SDL/WebGL resize that could otherwise clear the game to black. The native game menu, touch controls, credits and original-art external option remain available.
 
 `tools/check-pinball-sizing.mjs` exercises ordering, the initial aspect ratio, real expand/restore clicks, pause preservation and 320/390/1440-pixel layouts. `portfolio/CLASSIC-GAME-RESEARCH.md` records the exact Life Savers/Candystand archive matches and the unverified browser-emulation work; these games are not yet shipped. `REPOSITORY-CONSOLIDATION.md` is the non-destructive one-repository proposal, not a DNS or auth cutover.
+
+## Project-list presentation
+
+My Projects is a reading-first list with separated rows, proportional source-derived thumbnails and one simple search field. Category and sorting dropdowns, the folder sidebar and the inline view-toggle toolbar are removed. Categories and the optional Cards view remain available from the window's View menu. The Explore the desktop action below the collection minimizes Projects and opens Start without losing the reading position.
+
+Full-size project captures and provenance notes remain in the project details and standalone project websites. Thumbnail source regions and hashes are recorded in portfolio/media/provenance.json. Solitaire Clemulie uses an actual capture of its built-in Family artwork, rather than a fabricated board or a plain Felt capture. The user-facing default returns to List on page load and browser-desktop restart; unrelated OS and wallpaper preferences are not reset.

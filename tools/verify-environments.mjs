@@ -2,11 +2,15 @@ import fs from 'node:fs';import vm from 'node:vm';import assert from 'node:asser
 const root=new URL('../portfolio/',import.meta.url),context={window:{}};
 vm.runInNewContext(fs.readFileSync(new URL('environment-data.js',root),'utf8'),context);
 const {themes,wallpapers}=context.window.TimEnvironmentData;
-assert.deepEqual(Array.from(themes,t=>t.id),['95','98','2000','xp','system7','mac9','ubuntu','kde']);assert.equal(new Set(wallpapers.map(p=>p.id)).size,wallpapers.length);
+assert.deepEqual(Array.from(themes,t=>t.id),['95','98','2000','xp','vista','10','11','system7','mac9','ubuntu','kde']);assert.equal(new Set(wallpapers.map(p=>p.id)).size,wallpapers.length);
 for(const p of wallpapers){assert.match(p.id,/^[a-z0-9-]+$/);assert.ok(typeof p.label==='string'&&p.label.length>0);if(p.file){assert.match(p.file,/^[a-z0-9-]+\.(jpg|png)$/);assert.ok(fs.existsSync(new URL('wallpapers/'+p.file,root)));}if(p.kind!=='creative')assert.ok(p.versions.every(id=>themes.some(t=>t.id===id)));}
 for(const t of themes){const p=wallpapers.find(p=>p.id===t.wallpaper);assert.ok(p&&p.versions.includes(t.id));assert.ok(['fit','fill','tile','center'].includes(t.placement));}
 const provenance=JSON.parse(fs.readFileSync(new URL('wallpapers/environment-provenance.json',root),'utf8'));
 for(const p of provenance.images){const bytes=fs.readFileSync(new URL('wallpapers/'+p.file,root));assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),p.sha256,p.file+' matches recorded source');assert.ok(p.width>0&&p.height>0);}
 const added=JSON.parse(fs.readFileSync(new URL('wallpapers/platform-provenance.json',root),'utf8'));for(const p of added.images){const bytes=fs.readFileSync(new URL('wallpapers/'+p.file,root));assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),p.sha256);assert.ok(p.width>0&&p.height>0);}assert.equal(added.images.length,9);
-const html=fs.readFileSync(new URL('template.html',root),'utf8');assert.ok(html.includes('data-os="2000"'));assert.ok(html.indexOf('Content-Security-Policy')<html.indexOf('src="portfolio/versions.js'));assert.ok(html.indexOf('src="portfolio/versions.js')<html.indexOf('href="portfolio/site.css'));
-console.log(`PASS: eight themes, ${wallpapers.length} allowlisted wallpaper choices, ${provenance.images.length} existing verified archive hashes/dimensions plus 9 platform images and Windows 2000 pre-paint defaults.`);
+const html=fs.readFileSync(new URL('template.html',root),'utf8');assert.ok(html.includes('data-os="xp"'));assert.ok(html.indexOf('Content-Security-Policy')<html.indexOf('src="portfolio/versions.js'));assert.ok(html.indexOf('src="portfolio/versions.js')<html.indexOf('href="portfolio/site.css'));
+console.log(`PASS: ${themes.length} themes, ${wallpapers.length} allowlisted wallpaper choices, ${provenance.images.length} existing verified archive hashes/dimensions plus 9 platform images and Windows XP pre-paint defaults.`);
+
+const modern=JSON.parse(fs.readFileSync(new URL('wallpapers/modern-provenance.json',root),'utf8'));for(const p of modern.images){assert.equal(crypto.createHash('sha256').update(fs.readFileSync(new URL('wallpapers/'+p.file,root))).digest('hex'),p.sha256);assert.ok(p.width>0&&p.height>0);}console.log('PASS six additional wallpaper source/derived hashes.');
+
+const svg=fs.readFileSync(new URL('modern-icons.svg',root),'utf8');assert.ok(svg.startsWith('<svg xmlns=')&&svg.trimEnd().endsWith('</svg>'));assert.equal((svg.match(/<symbol /g)||[]).length,18);console.log('PASS modern SVG sprite contains all 18 expected symbols.');
