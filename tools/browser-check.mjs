@@ -1,3 +1,4 @@
+import {checkMigration} from './check-migration.mjs';
 import {checkProjectList} from './check-project-list.mjs';
 import {checkModernWindows} from './check-modern-windows.mjs';
 import {checkStartAccess} from './check-start-access.mjs';
@@ -62,7 +63,7 @@ try{
  const port=fs.readFileSync(active,'utf8').split(/\r?\n/)[0];
  const targets=await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
  ws=new WebSocket(targets.find(t=>t.type==='page').webSocketDebuggerUrl);
- ws.addEventListener('message',event=>{const message=JSON.parse(event.data);if(message.id){const waiter=pending.get(message.id);if(!waiter)return;pending.delete(message.id);message.error?waiter.reject(new Error(message.error.message)):waiter.resolve(message.result);}else if(message.method==='Network.requestWillBeSent'){requests.push(message.params.request.url);}else if(message.method==='Runtime.exceptionThrown'){errors.push(message.params.exceptionDetails.text);}});
+ ws.addEventListener('message',event=>{const message=JSON.parse(event.data);if(message.id){const waiter=pending.get(message.id);if(!waiter)return;pending.delete(message.id);message.error?waiter.reject(new Error(message.error.message)):waiter.resolve(message.result);}else if(message.method==='Fetch.requestPaused'){Promise.resolve(globalThis.__migrationFetchPaused?.(message.params)).catch(error=>errors.push(error.message));}else if(message.method==='Network.requestWillBeSent'){requests.push(message.params.request.url);}else if(message.method==='Runtime.exceptionThrown'){errors.push(message.params.exceptionDetails.text);}});
  await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',reject,{once:true});});
  await send('Page.enable');await send('Runtime.enable');await send('Network.enable');await send('Emulation.setFocusEmulationEnabled',{enabled:true});await viewport(1440,1100);await navigate(origin);
  assert.equal(await evaluate('document.querySelectorAll(".project-card").length'),catalogue.length);pass('All public static project entries');
@@ -134,6 +135,7 @@ try{
 
  await evaluate('document.querySelector("#portfolio-window > .titlebar").focus()');const keyboardBefore=await box('#portfolio-window');await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowLeft',code:'ArrowLeft',windowsVirtualKeyCode:37});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowLeft',code:'ArrowLeft',windowsVirtualKeyCode:37});assert.equal((await box('#portfolio-window')).x,keyboardBefore.x-10);await evaluate('document.querySelector(".resize-grip").focus()');await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowLeft',code:'ArrowLeft',windowsVirtualKeyCode:37});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowLeft',code:'ArrowLeft',windowsVirtualKeyCode:37});assert.equal((await box('#portfolio-window')).w,keyboardBefore.w-10);pass('Keyboard title-bar movement and resize grip');
  await viewport(390,844);await click('[data-action="close-projects"]');await evaluate('window.scrollTo(0,0)');await send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:1});const touchIcon=await box('.desktop-shortcut[data-action="projects"]');await send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:touchIcon.x+touchIcon.w/2,y:touchIcon.y+touchIcon.h/2}]});await send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await sleep(200);assert.equal(await evaluate('document.querySelector("#portfolio-window").hidden'),false);await send('Emulation.setTouchEmulationEnabled',{enabled:false});pass('Emulated touchscreen single tap reopens My Projects');
+ if(process.argv.includes('--migration'))await checkMigration({evaluate,send,until,origin,pass});
  assert.deepEqual(errors,[]);pass('No runtime JavaScript errors');
  fs.writeFileSync(path.join(output,'browser-checks.json'),JSON.stringify({checks,origin,browser:'installed Chrome, separate disposable profile',timestamp:new Date().toISOString(),limits:'Not a physical-phone or formal accessibility certification.'},null,2));
  console.log(`PASS: ${checks.length} browser check groups. Screenshots in .qa/.`);
