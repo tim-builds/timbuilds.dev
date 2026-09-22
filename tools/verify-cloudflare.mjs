@@ -14,7 +14,7 @@ for(const entry of manifest){
  if(entry.path==='.nojekyll')continue;
  const response=await fetch(new URL(entry.path,origin),{signal:AbortSignal.timeout(20000)});
  assert.equal(response.status,200,entry.path+' is served');assert.equal(new URL(response.url).origin,origin.origin,'No cross-origin redirect');
- const expected=gitRef?hash(execFileSync('git',['show',gitRef+':'+entry.path],{cwd:root})):entry.sha256;
+ const expected=gitRef?hash(execFileSync('git',['show',gitRef+':'+entry.path],{cwd:root,maxBuffer:32*1024*1024})):entry.sha256;
  assert.equal(hash(Buffer.from(await response.arrayBuffer())),expected,entry.path+' is byte-identical');
  assert.equal(response.headers.get('clear-site-data'),null,'Do not clear visitors’ storage');
  if(entry.path.endsWith('.wasm'))assert.match(response.headers.get('content-type')||'',/application\/wasm/);
@@ -22,7 +22,7 @@ for(const entry of manifest){
 }
 for(const p of ['/openhoops/reset','/openhoops/add-friend']){
  const response=await fetch(new URL(p,origin));assert.equal(response.status,200,p);
- assert.equal(hash(Buffer.from(await response.arrayBuffer())),hash(gitRef?execFileSync('git',['show',gitRef+':'+p.slice(1)+'.html'],{cwd:root}):fs.readFileSync(path.join(root,p.slice(1)+'.html'))));
+ assert.equal(hash(Buffer.from(await response.arrayBuffer())),hash(gitRef?execFileSync('git',['show',gitRef+':'+p.slice(1)+'.html'],{cwd:root,maxBuffer:32*1024*1024}):fs.readFileSync(path.join(root,p.slice(1)+'.html'))));
  if(p.endsWith('/reset'))assert.match(response.headers.get('cache-control')||'',/no-store/);
 }
 for(const p of ['/missing-migration-check','/openhoops/missing-migration-check','/.git/HEAD','/.qa/private-demo/config.json','/tools/build-cloudflare.mjs','/wrangler.jsonc','/CNAME','/__classic__/config.json','/__classic__/game/billiards/csplmain.dcr','/__classic__/game/golf/csmgholes.cct']){const response=await fetch(new URL(p,origin));assert.equal(response.status,404,p);assert.ok(!(await response.text()).includes('project-data'));}
