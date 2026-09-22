@@ -32,7 +32,19 @@ for(const relative of files){
 }
 // A real 404 prevents an unknown OpenHoops URL from becoming the portfolio SPA.
 fs.writeFileSync(path.join(target,'404.html'),'<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found — timBuilds</title><h1>Page not found</h1><p>The requested page does not exist.</p><a href="/">Desktop</a> · <a href="/openhoops/">OpenHoops</a></html>\n');
-fs.writeFileSync(path.join(target,'_headers'),'/*\n  Referrer-Policy: no-referrer\n  X-Content-Type-Options: nosniff\n\n/openhoops/reset\n  Cache-Control: no-store\n/openhoops/reset.html\n  Cache-Control: no-store\n');
+// Preserve authored HTML on proxied custom domains without changing zone settings.
+// Explicit, nonoverlapping paths keep the reset response no-store and avoid
+// changing caching/compression for images, JavaScript, CSS or WebAssembly.
+const htmlRoutes=new Map();
+for(const {path:file} of [...manifest,{path:'404.html'}]){
+ if(!file.endsWith('.html'))continue;
+ const clean=file==='index.html'?'/':file.endsWith('/index.html')?'/'+file.slice(0,-10):'/'+file.slice(0,-5);
+ const cache=file==='openhoops/reset.html'?'no-store, no-transform':'public, max-age=0, must-revalidate, no-transform';
+ for(const route of ['/'+file,clean])htmlRoutes.set(route,cache);
+}
+if(htmlRoutes.size+1>100)throw new Error('Generated header rules exceed the Pages limit.');
+const headers='/*\n  Referrer-Policy: no-referrer\n  X-Content-Type-Options: nosniff\n\n'+[...htmlRoutes].map(([route,cache])=>route+'\n  Cache-Control: '+cache+'\n').join('\n');
+fs.writeFileSync(path.join(target,'_headers'),headers);
 fs.mkdirSync(path.join(root,'.qa'),{recursive:true});
 fs.writeFileSync(path.join(root,'.qa','cloudflare-export-manifest.json'),JSON.stringify({sourceCommit:process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||null,files:manifest},null,2)+'\n');
 console.log(JSON.stringify({files:files.length,bytes:manifest.reduce((n,f)=>n+f.bytes,0),output:'dist',excluded:['CNAME','.git','.qa','tools','owner recovery files'],deployed:false},null,2));
