@@ -9,7 +9,7 @@ export async function checkInlineFeedback({evaluate,send,click,box,mouse,viewpor
  const stable=(a,b)=>{for(const property of ['x','y','w','h'])assert.ok(Math.abs(a[property]-b[property])<1,'Primary button keeps its '+property+' coordinate/size');};
  for(const width of [1440,390,320]){
   await viewport(width,900);await navigate(origin);await evaluate('sessionStorage.setItem("timbuilds.access-progress.v3",JSON.stringify({depth:0,seed:123456}))');await navigate(origin);
-  await click('[data-action=locked]');await until(()=>evaluate('!!document.querySelector(".access-verify")'),'inline verify button');
+  await evaluate('window.TimCatalogue.browse("Locked")');await until(()=>evaluate('!!document.querySelector(".access-verify")'),'inline verify button');
   assert.equal(await evaluate('document.querySelectorAll("#bsod-dialog [data-bsod-action=desktop]").length'),1);
   assert.equal(await evaluate('document.querySelectorAll(".bsod-recovery [data-access-action=disconnect],.bsod-footer button,#access-accepted").length'),0);
   await evaluate('window.__verifyPrimary=document.querySelector(".access-verify");window.__verifyPrimary.scrollIntoView({block:"center"});document.querySelector("#access-response").value="incorrect";document.querySelector("#access-response").dispatchEvent(new Event("input",{bubbles:true}))');
