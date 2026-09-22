@@ -1,2 +1,7 @@
 .qa/
 .portfolio-bundle.b64
+
+# Generated public Cloudflare export
+/dist/
+
+/.wrangler/
