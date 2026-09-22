@@ -31,3 +31,11 @@ Record the actual Git deployment ID, preview origin and commit after Cloudflare 
 Keep both GitHub Pages sites, repositories, authoring/mirror procedures and developer remotes intact. Reconcile unique work (including old repo PR #1) before retirement. Read-only DNS/TLS review and a hostname-by-hostname rollback plan precede later cutover approval.
 
 References: https://developers.cloudflare.com/pages/get-started/git-integration/ ; https://developers.cloudflare.com/pages/configuration/branch-build-controls/ ; https://developers.cloudflare.com/pages/configuration/preview-deployments/ .
+
+## Preview project created — September 22
+
+Cloudflare project `timbuilds-site` is now connected through GitHub to `tim-builds/timbuilds.dev`. The existing GitHub app authorization was reused; no second repository was connected to this project. No custom domains or paid upgrades were added.
+
+The dashboard's required initial build attempted current `main` and failed without creating a production deployment. Main remains unchanged; it does not yet contain this branch's exporter. Automatic production deployments have now been disabled. Custom preview deployment is restricted to `prep/pages-20-current` (the wildcard include was removed). This documentation commit triggers the first intended Git preview build.
+
+Current local verification: 214 public runtime files pass exact byte checks under local Pages. All 142 browser check groups pass, including the mocked reset/friend-fragment checks. This paragraph does not yet claim hosted verification. OAuth credentials are stored using Wrangler's OS-keychain-backed encrypted storage; no credential is present in Git or this document.
