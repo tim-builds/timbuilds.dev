@@ -8,7 +8,7 @@ export async function checkRecovery({evaluate,send,click,box,mouse,viewport,navi
  await evaluate('sessionStorage.setItem("timbuilds.access-progress.v3",JSON.stringify({depth:0,seed:123456}))');await navigate(origin);
  await evaluate('window.TimApps.open("notepad");const n=document.querySelector("#notepad-text");n.value="Keep my work during the crash";n.dispatchEvent(new Event("input"));window.TimWindows.show("projects")');
  const before=await evaluate('window.TimWindows.list()'),rect=await box('#portfolio-window');
- await click('[data-action=locked]');await until(()=>evaluate('window.TimBSOD.isOpen()'),'BSOD from Locked');
+ await evaluate('window.TimCatalogue.browse("Locked")');await until(()=>evaluate('window.TimBSOD.isOpen()'),'BSOD from Locked');
  assert.equal(await evaluate('document.querySelector("#bsod-stop").textContent'),'UNAUTHORIZED_FOLDER_CURIOSITY');
  assert.equal(await evaluate('!!document.querySelector("#window-locked")'),false);
  assert.equal(await evaluate('document.activeElement.id'),'bsod-title');
@@ -20,7 +20,7 @@ export async function checkRecovery({evaluate,send,click,box,mouse,viewport,navi
  assert.equal(await evaluate('window.TimBSOD.isOpen()'),false);assert.deepEqual(await evaluate('window.TimWindows.list()'),before);assert.deepEqual(await box('#portfolio-window'),rect);
  assert.equal(await evaluate('document.querySelector("#notepad-text").value'),'Keep my work during the crash');
  pass('BSOD contains keyboard focus and shell shortcuts; Escape from its input preserves desktop windows, geometry and notes');
- await click('[data-action=locked]');await until(()=>evaluate('!!document.querySelector(".access-terminal")'),'recovery form');
+ await evaluate('window.TimCatalogue.browse("Locked")');await until(()=>evaluate('!!document.querySelector(".access-terminal")'),'recovery form');
  await evaluate('document.querySelector("#access-response").value=window.TimChallengeRules.makeStage(0,123456).answer;document.querySelector("#access-form").requestSubmit()');await click('.access-verify');
  await click('#bsod-dialog [data-bsod-action=desktop]');await evaluate('window.TimDesktopActions.warn("move")');
  assert.equal(await evaluate('document.querySelector("#bsod-stop").textContent'),'PROJECTS_CANNOT_BE_RECYCLED');assert.equal(await evaluate('document.querySelector(".access-terminal").dataset.depth'),'1');assert.equal(await evaluate('document.querySelector("#desktop-warning").open'),false);

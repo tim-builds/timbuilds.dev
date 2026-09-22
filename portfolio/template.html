@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="portfolio/clock-era.css?v=17">
   <link rel="stylesheet" href="portfolio/start-menu-layout.css?v=18">
   <link rel="stylesheet" href="portfolio/modern-windows.css?v=19">
+  <link rel="stylesheet" href="portfolio/projects-list.css?v=20">
   <meta name="referrer" content="no-referrer">
   <script src="portfolio/locked.js?v=12" defer></script>
   <script src="portfolio/challenge-rules.js?v=12" defer></script>
@@ -49,7 +50,7 @@
   <script src="portfolio/windows.js?v=15" defer></script>
   <script src="portfolio/desktop-drag.js?v=12" defer></script>
   <script src="portfolio/desktop.js?v=12" defer></script>
-  <script src="portfolio/site.js?v=16" defer></script>
+  <script src="portfolio/site.js?v=20" defer></script>
   <script src="portfolio/classic-engines.js?v=12" defer></script>
   <script src="portfolio/accessories.js?v=12" defer></script>
   <script src="portfolio/minesweeper.js?v=12" defer></script>
@@ -73,7 +74,7 @@
   <script src="portfolio/project-destinations.js?v=12" defer></script>
   <script src="portfolio/browser.js?v=12" defer></script>
   <script src="portfolio/task-manager.js?v=15" defer></script>
-  <script src="portfolio/window-menus.js?v=14" defer></script>
+  <script src="portfolio/window-menus.js?v=20" defer></script>
 </head>
 <body>
   <div id="desktop-wallpaper" aria-hidden="true"></div>
@@ -87,20 +88,15 @@
     <nav class="window-menubar" aria-label="Window actions"><button data-action="projects"><span>F</span>ile</button><button data-action="toggle-view"><span>V</span>iew</button><button data-dialog="about"><span>A</span>bout</button><button data-dialog="help"><span>H</span>elp</button></nav>
     <div class="addressbar"><span class="address-label">Address</span><div class="address-field"><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><span id="address-text">C:\Tim\Projects\All projects</span></div><a class="address-home" href="#projects" aria-label="Go to project collection" title="Go to projects">↵</a></div>
     <div class="explorer-layout">
-      <aside class="explorer-sidebar">
-        <div class="sidebar-title">Project folders</div>
-        <nav aria-label="Filter projects" class="folder-nav"><!--FILTERS--></nav>
-        <div class="sidebar-links"><button data-dialog="about">About Tim <span aria-hidden="true">↗</span></button><button data-dialog="contact">Get in touch <span aria-hidden="true">↗</span></button></div>
-      </aside>
       <div class="workspace">
         <section id="projects" class="project-collection" aria-labelledby="collection-title" tabindex="-1">
-          <div class="collection-heading"><div><h1 id="collection-title">My Projects</h1></div><label class="mobile-project-filter"><span class="sr-only">Project type</span><select id="mobile-project-filter"><option>All projects</option><option>Apps</option><option>Games</option><option>Websites</option><option>Tools</option><option>Experiments</option><option>Locked</option></select></label><div class="view-toggle" aria-label="Project layout"><button class="view-button is-active" data-view="grid" aria-pressed="true" aria-label="Grid view" title="Grid view"><span aria-hidden="true">▦</span></button><button class="view-button" data-view="list" aria-pressed="false" aria-label="List view" title="List view"><span aria-hidden="true">☰</span></button></div></div>
-          <div class="collection-tools"><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><span class="sr-only">Search projects</span><input id="project-search" type="search" placeholder="Search projects" autocomplete="off"><kbd aria-hidden="true">/</kbd></label><label class="sort-box"><span class="sr-only">Sort projects</span><select id="project-sort"><option value="curated">Portfolio order</option><option value="name">Name: A–Z</option><option value="category">By category</option></select></label></div>
-          <div class="results-caption"><span id="results-count" role="status" aria-live="polite">{{COUNT}} projects · All folders</span></div>
-          <div class="project-grid" id="project-grid"><!--PROJECT_CARDS--></div>
-          <div class="empty-state" id="empty-state" hidden><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><h3>This folder is empty.</h3><p>No projects match those filters. Try a different word or look in all folders.</p><button class="bevel-button" data-action="reset-filters">Show all projects</button></div>
+          <header class="projects-heading"><h1 id="collection-title">My Projects</h1><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><span class="sr-only">Search projects</span><input id="project-search" type="search" placeholder="Search" autocomplete="off"></label></header>
+          <span class="sr-only" id="results-count" role="status" aria-live="polite">{{COUNT}} projects</span>
+          <div class="project-grid is-list" id="project-grid"><!--PROJECT_CARDS--></div>
+          <div class="empty-state" id="empty-state" hidden><svg aria-hidden="true"><use href="portfolio/icons.svg#folder"/></svg><h3>No matching projects.</h3><p>Try another search or show all projects.</p><button class="bevel-button" data-action="reset-filters">Show all projects</button></div>
           <noscript><p class="noscript-note">The full portfolio and public project links work without JavaScript. Enable it for search, filters and project-detail windows.</p></noscript>
         </section>
+        <div class="projects-explore"><button type="button" data-action="explore-desktop">Explore the desktop <span aria-hidden="true">→</span></button></div>
         <footer class="portfolio-footer"><span>© <span id="year">2026</span> timBuilds. <a href="mailto:support@timbuilds.dev">Contact</a></span></footer>
       </div>
     </div>
