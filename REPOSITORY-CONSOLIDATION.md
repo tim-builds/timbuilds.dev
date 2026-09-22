@@ -25,6 +25,6 @@ Canonical README/AGENTS/HOSTING are authoritative for website authoring. Older n
 
 ## Not being claimed complete
 
-Real-account recovery, physical-phone and old-install App Link acceptance remain open. The existing primary-www TLS issue and final www redirect cleanup remain separate in #20. GitHub Pages fallbacks are retained, including existing www behavior, and can be edited again after unarchiving if explicitly needed. Archiving the old source is reversible; deleting it is not approved.
+Real-account recovery, physical-phone and old-install App Link acceptance remain open. WWW cleanup is complete: both aliases redirect through Cloudflare to their matching HTTPS apex with paths, queries and browser-held fragments preserved; see `docs/www-redirects-2026-09-22.md`. GitHub Pages fallbacks remain retained but are no longer needed to serve either WWW redirect. They can be edited again after unarchiving if explicitly needed. Archiving the old source is reversible; deleting it is not approved.
 
 The original migration proposal, hosting comparison and detailed desktop release notes remain under `docs/history/`. Operator/entity research (#35), raw DNS snapshots, credentials and private test evidence are outside public Git.
