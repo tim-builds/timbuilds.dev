@@ -41,3 +41,19 @@ The dashboard's required initial build attempted current `main` and failed witho
 Current local verification: 214 public runtime files pass exact byte checks under local Pages. All 142 browser check groups pass, including the mocked reset/friend-fragment checks. This paragraph does not yet claim hosted verification. OAuth credentials are stored using Wrangler's OS-keychain-backed encrypted storage; no credential is present in Git or this document.
 
 Hosted checks must pass `--git-ref=<full deployment commit SHA>` to compare against the exact Linux/Git build source, not Windows CRLF working-copy bytes. This is strict byte comparison against a pinned commit, not normalization or a weaker comparison. Local Pages checks omit the option and compare the actual local export.
+
+## Hosted preview verified — September 22
+
+- Git-integrated project: `timbuilds-site`, repository `tim-builds/timbuilds.dev`.
+- Successful preview deployment: `0f3653b0-00f9-4e54-aff3-0643a9862662`.
+- Deployed source: `fa29dc05e525b07a27e25dfa874546ba519e2088`.
+- Pinned URL: https://0f3653b0.timbuilds-site.pages.dev/ . Branch alias: https://prep-pages-20-current.timbuilds-site.pages.dev/ . The bare project hostname has no successful production deployment and is not the preview link.
+- All 214 exported runtime files pass strict comparison against the pinned Git objects. Reset no-store, WASM MIME, true 404/private-path denial, same-origin redirects, query retention and no Clear-Site-Data pass.
+- All 142 browser check groups pass on the hosted HTTPS preview, including the current project list, eleven OS themes, public games, mobile/desktop layout and mocked reset/friend fragments. The 390-pixel landing screenshot was visually inspected.
+- Verifier-only commit `6e4640cdd8187d6a67295894771a3a80dc425666` increases Git-blob read capacity for existing large game assets and waits for the actual newly opened pinball canvas before measuring it. It changes no website/runtime bytes. Its `[CF-Pages-Skip]` record is intentionally not a deployed revision. Later documentation-only records may likewise be skipped.
+- Saved account settings were reopened and verified: production branch main, automatic production builds disabled, Custom preview branches containing only `prep/pages-20-current`; no custom domains configured. Existing GitHub-app authorization was reused, not broadly changed. Only this repository is attached to this Pages project.
+- Both live domains remain on GitHub Pages. Canonical main `64519aa` and old source main `4fc0ff9` are unchanged and still differ only in CNAME. Eight live route bodies on each domain match their original Git content. No DNS/mail/registration, paid-plan, corporate/store, native-app or private-runtime change was performed.
+
+The hosted preview stage is complete, not the migration. This PR stays draft/unmerged and #20 stays open. Real-account recovery, old-install physical-device app links, account-side DNS/TLS review, concrete cutover approval, one-hostname-at-a-time rollout, rollback and reconciliation of the old repository's unique work remain separate gates. #35's detailed operator research remains private and no entity action is authorized by this preview approval.
+
+Detailed browser/HTTP evidence remains in ignored `.qa/`; no owner key, authentication token, private game file, personal record or handoff packet was committed. Owned local Pages test processes and the disposable preview browser were stopped after verification; the owner's normal browser and private demo were not closed.
