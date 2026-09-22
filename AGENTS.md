@@ -1,0 +1,13 @@
+# Website work: canonical source and safety boundaries
+
+- Edit and submit website PRs only to `tim-builds/timbuilds.dev`. Its `main` deploys both main domains through Cloudflare Pages `timbuilds-site`.
+- The former `tim-builds/site` authoring/mirroring procedure is retired. Do not reintroduce it from historical documentation or an old local checkout. Do not force-push, delete old history or merge historical branches just to make ancestry look complete.
+- Read `README.md`, `HOSTING.md` and `REPOSITORY-CONSOLIDATION.md`. Files under `docs/history/` and the dated preview note are evidence, not current operational instructions.
+- Keep the native OpenHoops implementation separate. The shared website contains its existing `/openhoops/` pages and `.well-known/` proofs; changes to those deserve route/content verification. Do not edit native source, signing authorization, app config, Supabase settings, mail, real accounts or the lead's worktree as part of generic website maintenance.
+- Build from the public allowlist with `node tools/build-cloudflare.mjs`; never deploy the raw working directory. Keep HTML `no-transform`, recovery `no-store`, real 404s, WebAssembly MIME, path/query/fragment handling and existing origins intact. Do not emit `Clear-Site-Data`.
+- Ignore/private is not equivalent to safe to upload: `.qa/`, original game archives, owner credentials/recovery files, local browser profiles, operator/entity notes, local configs, and test evidence must stay outside public commits/deployments.
+- The Candystand owner runtime remains separate. Do not deploy private-runtime or historical `archive/site/*` branches. The current Pages preview allowlist is restricted; opening a PR does not automatically guarantee a preview build. Change preview rules only with owner approval.
+- Use an isolated worktree for changes and disposable browsers for automated tests. Do not reset another worktree, replace an active agent's checkout or interpret a dev-signed phone as a Play/old-install acceptance test.
+- Before a PR, run generated-source checks, asset/media verification, the explicit export, `tools/test-cloudflare-headers.mjs`, and relevant browser tests. Use an unused/nonexistent `TIMBUILDS_OWNER_FILE` path for CI fixtures that must not load a real owner recovery file.
+- Routine deployment is a merge to canonical `main`, not DNS editing. Website rollback is a reviewed revert/redeploy of known-good source; DNS rollback and domain/account changes need the owner's specific authority.
+- Keep real recovery, physical-device and old-install acceptance honestly open until actually exercised. Automated mocked flows do not count as real-account validation. Do not mark other app release gates passed.
