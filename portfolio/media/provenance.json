@@ -1,6 +1,6 @@
 {
   "prepared": "2026-09-18",
-  "note": "User-owned project screenshots and labelled original design studies. September 18 polish: complete source frames are fitted without distortion, and Solitaire is freshly captured in its own Felt theme. No private account, raw source, audio or financial data is published.",
+  "note": "User-owned project screenshots and labelled original design studies. September 18 polish: complete source frames are fitted without distortion, and Solitaire is freshly captured in its own Felt theme. No private account, raw source, audio or financial data is published. List-view thumbnails use declared source crops, proportionally fitted without stretching. Full images and source notes remain in project details.",
   "items": [
     {
       "project": "openhoops",
@@ -26,10 +26,11 @@
     },
     {
       "project": "solitaire",
-      "image": "portfolio/media/solitaire-felt.jpg",
+      "image": "portfolio/media/solitaire-family.jpg",
       "label": "Game screenshot",
-      "description": "Actual Solitaire Clemulie game with its built-in Felt theme. Complete board and toolbar; fresh anonymous session.",
-      "sha256": "b5700baf4ba10398759113bc72c380b38dfb944c43f7ad2d14486a37e89f5a45"
+      "description": "Captured from the public Solitaire Clemulie game in a fresh anonymous browser at 1200 × 700, using its built-in Family theme. This is the real game, not a concept render.",
+      "sha256": "5709cf75a240eab16f39e1191432d067485b49d3b07a75a09f0f908392f7c16b",
+      "capture": "https://solitaire-mocha.vercel.app/ — actual browser viewport 1200 x 700; default Family theme; fresh anonymous local session; no account data."
     },
     {
       "project": "grit-athletics",
@@ -93,6 +94,203 @@
       "label": "Prototype screenshot",
       "description": "Shoe Ratings rendered from its existing public source.",
       "sha256": "24cfb6fa543eca978f553a45668dd6f762e77d16013181a46bc1dd2513bcb6c4"
+    }
+  ],
+  "thumbnails": [
+    {
+      "sourceRegion": [
+        0,
+        0,
+        1200,
+        700
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/openhoops.jpg",
+      "project": "openhoops",
+      "height": 400,
+      "image": "portfolio/media/thumbs/openhoops.jpg",
+      "sha256": "aaa3eb9aab0867fb3fc086150f7d100d5d50cfbd415ca5f074b7aec3d7c7fa5a"
+    },
+    {
+      "sourceRegion": [
+        589,
+        98,
+        304,
+        304
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/lola-board.jpg",
+      "project": "letters-with-lola",
+      "height": 400,
+      "image": "portfolio/media/thumbs/letters-with-lola.jpg",
+      "sha256": "c6988fb9f862124267527d1fec00034fd7680164f931824cba52c82f25650fe7"
+    },
+    {
+      "sourceRegion": [
+        0,
+        0,
+        1200,
+        700
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/siomai.jpg",
+      "project": "studio-siomai",
+      "height": 400,
+      "image": "portfolio/media/thumbs/studio-siomai.jpg",
+      "sha256": "fa8235954b631a5440451e6ed8650280412256eab1067d7b49e4bfb16741a52d"
+    },
+    {
+      "sourceRegion": [
+        270,
+        0,
+        660,
+        440
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/solitaire-family.jpg",
+      "project": "solitaire",
+      "height": 400,
+      "image": "portfolio/media/thumbs/solitaire.jpg",
+      "sha256": "697763dd83ad4199e05b7f08519ca49319ff46e4d869ed6249acb560d19921ab"
+    },
+    {
+      "sourceRegion": [
+        0,
+        0,
+        1200,
+        700
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/grit.jpg",
+      "project": "grit-athletics",
+      "height": 400,
+      "image": "portfolio/media/thumbs/grit-athletics.jpg",
+      "sha256": "af6ee05e29b4a4beef80043cab5fff1edb369b861c0bb48c45daacccb9127fea"
+    },
+    {
+      "sourceRegion": [
+        602,
+        30,
+        284,
+        620
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/blockapp-native.jpg",
+      "project": "block-app",
+      "height": 400,
+      "image": "portfolio/media/thumbs/block-app.jpg",
+      "sha256": "bf4d273bc8f620cb2fbd9ada4039e05012a61732cc016fc177d11c320b73eec0"
+    },
+    {
+      "sourceRegion": [
+        0,
+        0,
+        1200,
+        700
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/tv-native.jpg",
+      "project": "tv-app",
+      "height": 400,
+      "image": "portfolio/media/thumbs/tv-app.jpg",
+      "sha256": "fb13c9ff6e620ceaf86d2254f96d41cd5caaf0c2f215df6ead34aba5d8d4dbdc"
+    },
+    {
+      "sourceRegion": [
+        626,
+        92,
+        511,
+        543
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/showtally.jpg",
+      "project": "showtally",
+      "height": 400,
+      "image": "portfolio/media/thumbs/showtally.jpg",
+      "sha256": "2d3997624ace5903db9f118f81649914799fd528ebd81e902533d12917ecdcb4"
+    },
+    {
+      "sourceRegion": [
+        0,
+        0,
+        1200,
+        700
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/north.jpg",
+      "project": "north-of-the-6ix",
+      "height": 400,
+      "image": "portfolio/media/thumbs/north-of-the-6ix.jpg",
+      "sha256": "986f6ad7901c06a3562c636646b3d2e30e8d632abfb674a9fdc495a9b58918d4"
+    },
+    {
+      "sourceRegion": [
+        0,
+        0,
+        1200,
+        700
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/ratings.jpg",
+      "project": "ratings-aggregator",
+      "height": 400,
+      "image": "portfolio/media/thumbs/ratings-aggregator.jpg",
+      "sha256": "820651c610f3b1d16b06673dd35d2126b02f32e8744d13a49968c59f68d9bbc2"
+    },
+    {
+      "sourceRegion": [
+        0,
+        0,
+        1200,
+        700
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/lofi.jpg",
+      "project": "lofi-demos",
+      "height": 400,
+      "image": "portfolio/media/thumbs/lofi-demos.jpg",
+      "sha256": "8db9baaeb2e7b198b3a2701682e19157c08ed60d8d134863de2fa3b82249bcab"
+    },
+    {
+      "sourceRegion": [
+        0,
+        0,
+        1200,
+        700
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/money.jpg",
+      "project": "household-money",
+      "height": 400,
+      "image": "portfolio/media/thumbs/household-money.jpg",
+      "sha256": "ed5210ff27f0c34183dfaba3ee4ead07d1e0808252135d1b371dbef99ee6714f"
+    },
+    {
+      "sourceRegion": [
+        0,
+        0,
+        1200,
+        700
+      ],
+      "transform": "Selected actual source region, proportionally fitted; no reconstructed interface or stretching",
+      "width": 600,
+      "source": "portfolio/media/research.jpg",
+      "project": "shoe-ratings",
+      "height": 400,
+      "image": "portfolio/media/thumbs/shoe-ratings.jpg",
+      "sha256": "ea11b47c088ec4c2e4803247831966520f086c0a476175cef44e293eabdc4a85"
     }
   ]
 }

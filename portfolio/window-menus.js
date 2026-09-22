@@ -53,7 +53,7 @@
       ...(projects?[item('Find a project…',()=>q('#project-search').focus()),item('Clear search',()=>{const el=q('#project-search');el.value='';el.dispatchEvent(new Event('input'));})]:[])
     ];
     if(name==='View') return [
-      ...(projects?[item('Cards',click('[data-view=grid]')),item('Details',click('[data-view=list]')),null,...['All projects','Apps','Games','Websites','Tools','Experiments','Locked'].map(c=>item(c,()=>window.TimCatalogue.browse(c)))]:[]),
+      ...(projects?[item('Cards',()=>window.TimCatalogue.setView('grid')),item('List',()=>window.TimCatalogue.setView('list')),null,...['All projects','Apps','Games','Websites','Tools','Experiments','Locked'].map(c=>item(c,()=>window.TimCatalogue.browse(c)))]:[]),
       ...(q('.explorer-navigation')?[item('Refresh folder',()=>window.TimExplorer.refresh(owner))]:[]),
       null,item('Maximise / Restore',()=>W.maximize(id)),item('Fit window to screen',()=>W.reset(id)),item('Minimise',()=>W.minimize(id))
     ];

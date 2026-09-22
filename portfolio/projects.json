@@ -19,7 +19,9 @@
     "image": "portfolio/media/openhoops.jpg",
     "imageLabel": "Website + app capture",
     "imageAlt": "openHoops project website with its actual development map screen.",
-    "imageNote": "Actual openHoops website and development app capture; not live court activity."
+    "imageNote": "Actual openHoops website and development app capture; not live court activity.",
+    "thumbnail": "portfolio/media/thumbs/openhoops.jpg",
+    "thumbnailAlt": "openHoops project website with its actual development map screen."
   },
   {
     "id": "letters-with-lola",
@@ -40,7 +42,9 @@
     "image": "portfolio/media/lola-board.jpg",
     "imageLabel": "Game screenshot",
     "imageAlt": "Complete Letters with Lola test-game screen, proportionally fitted without cropping or rotation.",
-    "imageNote": "Complete Letters with Lola test-game screen, proportionally fitted without cropping or rotation."
+    "imageNote": "Complete Letters with Lola test-game screen, proportionally fitted without cropping or rotation.",
+    "thumbnail": "portfolio/media/thumbs/letters-with-lola.jpg",
+    "thumbnailAlt": "The actual Letters with Lola demo board, showing the word QUARK."
   },
   {
     "id": "studio-siomai",
@@ -62,14 +66,16 @@
     "image": "portfolio/media/siomai.jpg",
     "imageLabel": "Website screenshot",
     "imageAlt": "Studio Siomai public homepage.",
-    "imageNote": "Studio Siomai public homepage."
+    "imageNote": "Studio Siomai public homepage.",
+    "thumbnail": "portfolio/media/thumbs/studio-siomai.jpg",
+    "thumbnailAlt": "Studio Siomai public homepage."
   },
   {
     "id": "solitaire",
     "title": "Solitaire Clemulie",
     "category": "Games",
     "status": "Playable",
-    "summary": "Klondike, made for my grandma. Good cards. No clutter.",
+    "summary": "An offline-ready Klondike game made for my grandma.",
     "detail": "An installable, offline-first Klondike game named for my grandma. The focus is the part that matters when you play every day: comfortable controls, satisfying card movement and a familiar table.",
     "stack": [
       "TypeScript",
@@ -81,10 +87,12 @@
     "url": "/projects/solitaire/",
     "cta": "Project website",
     "source": null,
-    "image": "portfolio/media/solitaire-felt.jpg",
+    "image": "portfolio/media/solitaire-family.jpg",
     "imageLabel": "Game screenshot",
-    "imageAlt": "Actual Solitaire Clemulie game with its built-in Felt theme. Complete board and toolbar; fresh anonymous session.",
-    "imageNote": "Actual Solitaire Clemulie game with its built-in Felt theme. Complete board and toolbar; fresh anonymous session."
+    "imageAlt": "Solitaire Clemulie running with its built-in family artwork and the actual card layout.",
+    "imageNote": "Captured from the public Solitaire Clemulie game in a fresh anonymous browser at 1200 × 700, using its built-in Family theme. This is the real game, not a concept render.",
+    "thumbnail": "portfolio/media/thumbs/solitaire.jpg",
+    "thumbnailAlt": "Actual Solitaire Clemulie cards over its illustrated family table artwork."
   },
   {
     "id": "grit-athletics",
@@ -106,7 +114,9 @@
     "image": "portfolio/media/grit.jpg",
     "imageLabel": "Website screenshot",
     "imageAlt": "Grit Athletics public coaching website concept.",
-    "imageNote": "Grit Athletics public coaching website concept."
+    "imageNote": "Grit Athletics public coaching website concept.",
+    "thumbnail": "portfolio/media/thumbs/grit-athletics.jpg",
+    "thumbnailAlt": "Grit Athletics public coaching website concept."
   },
   {
     "id": "block-app",
@@ -127,7 +137,9 @@
     "image": "portfolio/media/blockapp-native.jpg",
     "imageLabel": "Native proof screen",
     "imageAlt": "Complete blockApp native development screen, proportionally fitted without cropping.",
-    "imageNote": "Complete blockApp native development screen, proportionally fitted without cropping."
+    "imageNote": "Complete blockApp native development screen, proportionally fitted without cropping.",
+    "thumbnail": "portfolio/media/thumbs/block-app.jpg",
+    "thumbnailAlt": "The blockApp native development screen, cropped from its existing capture."
   },
   {
     "id": "tv-app",
@@ -148,7 +160,9 @@
     "image": "portfolio/media/tv-native.jpg",
     "imageLabel": "Native test screen",
     "imageAlt": "Complete native tvapp development capture with its user-supplied test playlist; no channels are provided.",
-    "imageNote": "Complete native tvapp development capture with its user-supplied test playlist; no channels are provided."
+    "imageNote": "Complete native tvapp development capture with its user-supplied test playlist; no channels are provided.",
+    "thumbnail": "portfolio/media/thumbs/tv-app.jpg",
+    "thumbnailAlt": "Complete native tvapp development capture with its user-supplied test playlist; no channels are provided."
   },
   {
     "id": "showtally",
@@ -169,7 +183,9 @@
     "image": "portfolio/media/showtally.jpg",
     "imageLabel": "Prototype screenshot",
     "imageAlt": "ShowTally extension panel using sample session figures from its store mockup.",
-    "imageNote": "ShowTally extension panel using sample session figures from its store mockup."
+    "imageNote": "ShowTally extension panel using sample session figures from its store mockup.",
+    "thumbnail": "portfolio/media/thumbs/showtally.jpg",
+    "thumbnailAlt": "ShowTally extension panel using sample session figures from its store mockup."
   },
   {
     "id": "north-of-the-6ix",
@@ -190,7 +206,9 @@
     "image": "portfolio/media/north.jpg",
     "imageLabel": "Design study",
     "imageAlt": "Black-and-gold basketball brand study; not a launched website or screenshot.",
-    "imageNote": "Black-and-gold basketball brand study; not a launched website or screenshot."
+    "imageNote": "Black-and-gold basketball brand study; not a launched website or screenshot.",
+    "thumbnail": "portfolio/media/thumbs/north-of-the-6ix.jpg",
+    "thumbnailAlt": "Black-and-gold basketball brand study; not a launched website or screenshot."
   },
   {
     "id": "ratings-aggregator",
@@ -211,7 +229,9 @@
     "image": "portfolio/media/ratings.jpg",
     "imageLabel": "Prototype screenshot",
     "imageAlt": "Ratings Explorer rendered from its source with clearly labelled sample data and no external API.",
-    "imageNote": "Ratings Explorer rendered from its source with clearly labelled sample data and no external API."
+    "imageNote": "Ratings Explorer rendered from its source with clearly labelled sample data and no external API.",
+    "thumbnail": "portfolio/media/thumbs/ratings-aggregator.jpg",
+    "thumbnailAlt": "Ratings Explorer rendered from its source with clearly labelled sample data and no external API."
   },
   {
     "id": "lofi-demos",
@@ -232,7 +252,9 @@
     "image": "portfolio/media/lofi.jpg",
     "imageLabel": "Original audio waveform",
     "imageAlt": "Measured waveform of the original Harbor Lights composition, decoded locally without publishing the audio.",
-    "imageNote": "Measured waveform of the original Harbor Lights composition, decoded locally without publishing the audio."
+    "imageNote": "Measured waveform of the original Harbor Lights composition, decoded locally without publishing the audio.",
+    "thumbnail": "portfolio/media/thumbs/lofi-demos.jpg",
+    "thumbnailAlt": "Measured waveform of the original Harbor Lights composition, decoded locally without publishing the audio."
   },
   {
     "id": "household-money",
@@ -253,7 +275,9 @@
     "image": "portfolio/media/money.jpg",
     "imageLabel": "Concept illustration",
     "imageAlt": "Household budgeting scenario illustration; no personal figures or real projections.",
-    "imageNote": "Household budgeting scenario illustration; no personal figures or real projections."
+    "imageNote": "Household budgeting scenario illustration; no personal figures or real projections.",
+    "thumbnail": "portfolio/media/thumbs/household-money.jpg",
+    "thumbnailAlt": "Household budgeting scenario illustration; no personal figures or real projections."
   },
   {
     "id": "shoe-ratings",
@@ -274,6 +298,8 @@
     "image": "portfolio/media/research.jpg",
     "imageLabel": "Prototype screenshot",
     "imageAlt": "Shoe Ratings rendered from its existing public source.",
-    "imageNote": "Shoe Ratings rendered from its existing public source."
+    "imageNote": "Shoe Ratings rendered from its existing public source.",
+    "thumbnail": "portfolio/media/thumbs/shoe-ratings.jpg",
+    "thumbnailAlt": "Shoe Ratings rendered from its existing public source."
   }
 ]
