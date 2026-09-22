@@ -1,0 +1,34 @@
+# Historical record — superseded
+
+Do not follow the former two-repository publishing instructions below. The root README.md, AGENTS.md and HOSTING.md describe the current single-source workflow. This snapshot preserves the earlier implementation/research notes without making them operational instructions.
+
+---
+
+# Hosting and portability
+
+## Current recommendation
+
+The desktop and games themselves fit static hosting: they run in the visitor's browser, while the host serves HTML, scripts, CSS, pictures and the pinball WebAssembly/data files. Their complexity alone does not require moving from GitHub Pages. Static hosting definition: https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages
+
+However, the whole domain is not solely a toy desktop. The existing protected /openhoops/reset.html page accepts a real new password, establishes the recovery session and calls Supabase client.auth.updateUser({ password: pw }). This was verified by source inspection only; no credentials were submitted and the page was not changed. GitHub's Pages guidance says Pages sites should not be used for sensitive transactions such as sending passwords. That is a concrete reason to prefer moving this entire static frontend to a suitable application host such as Cloudflare, or separately hosting the real authentication pages with carefully planned URLs. It is not evidence that GitHub receives the entered passwords, that Supabase is compromised, or that an incident occurred. Guidance: https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits
+
+Recommendation for a future approved move: evaluate Cloudflare Pages or Workers Static Assets for the full domain, keeping Supabase as the existing authentication/backend service. Vercel is technically suitable too, subject to its plan rules below. No hosting, DNS, auth configuration or protected route has been changed as part of this portfolio update.
+
+The release-9 portable payload is approximately 12.84 MiB across 157 files; the largest file is the 4.53 MiB pinball WASM. Re-run `node tools/export-site.mjs --check` for current sizes. This is comfortably below GitHub Pages' 1 GB published-site limit. GitHub also documents a 100 GB/month soft bandwidth limit and restrictions on primarily commercial transaction/SaaS sites: https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits
+
+Cloudflare Pages would also work, and would offer explicit header/redirect configuration and an optional Functions/Workers path for future backend features. Its documented 25 MiB single-asset limit is above this site's largest asset. For a new Cloudflare deployment, also evaluate Workers Static Assets rather than assuming Pages is the only route. Documentation: https://developers.cloudflare.com/pages/platform/limits/ , https://developers.cloudflare.com/pages/configuration/headers/ , https://developers.cloudflare.com/workers/static-assets/migration-guides/migrate-from-pages/
+
+Vercel can host this static build, but nothing in this portfolio needs its server-rendering features. Hobby is restricted to personal non-commercial use; commercial usage requires a paid plan. A growing client business or advertising services merits reviewing that policy rather than assuming Hobby covers it: https://vercel.com/docs/limits/fair-use-guidelines
+
+Changing host would not improve desktop gesture logic or remove browser tab-closing restrictions; those are client-side behaviours. It also would not change third-party artwork rights. Keep the bundled credits and source notices wherever the site is deployed.
+
+## Hypothetical migration checklist — no migration has been performed
+
+1. Run the generated-HTML, static-asset and browser checks before exporting. `node tools/export-site.mjs` creates a timestamped ignored `.qa/portable-site-*` directory. Upload only that public output, not the whole development workspace. The export deliberately excludes Git history, tools, other QA files, domain CNAME configuration and the private owner recovery file.
+2. Deploy it as static files, preserving `/openhoops/`, `/.well-known/`, `/portfolio/` and `/legacy-stubs/` paths. Do not add a catch-all rewrite that masks the OpenHoops policy/account/app-link pages. Keep WASM responses as `application/wasm` and honour the existing per-document content security policies.
+3. Verify and preserve the Supabase recovery callback/redirect allowlist and all OpenHoops deep-link routes. Keeping the final HTTPS origin and paths can avoid callback changes, but verify with authorised test accounts before cutover; a different hostname can require allowlist updates. Do not submit real user credentials during a generic portfolio test. Test the new temporary host: all OS skins, games, text-policy viewer, mobile controls, canonical OpenHoops paths and asset hashes. A different preview hostname has separate browser storage and will not automatically recognise the owner key.
+4. Only after separate approval, configure HTTPS for the same `timbuilds.dev` domain and change its web-hosting DNS records. Preserve mail records, domain ownership settings and the separate interim `tim-builds.dev` migration plan. Do not change DNS or shut down the previous host merely to create a preview.
+5. Confirm the final HTTPS hostname/port are unchanged. Browser localStorage and IndexedDB are scoped to origin, not to the hosting vendor, so an origin-preserving migration normally keeps local notes/preferences and enrolled owner keys. Moving to another hostname does not transfer those automatically. Do not clear site data or send Clear-Site-Data during the migration. See https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage and https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB .
+6. Run the browser suite against the final domain, then retain a rollback route until verified.
+
+The desktop itself needs no framework rewrite or application database migration. The existing OpenHoops authentication remains a separate Supabase service: moving its static frontend is not a migration of that database, but its recovery URLs and session flow still need an explicit verification plan. Future shared game state, payments or multiplayer infrastructure would add separate backend considerations.

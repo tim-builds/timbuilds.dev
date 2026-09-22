@@ -1,24 +1,30 @@
-# One website repository — proposed migration, not a completed cutover
+# One website repository — current operational source
 
-## What is duplicated today
+**Use `tim-builds/timbuilds.dev` for all new website changes.** Both main domains deploy canonical `main` through Cloudflare Pages project `timbuilds-site`. The former source-to-mirror procedure is retired. No native app code, database, account, store identity or private game runtime was consolidated into the public website.
 
-Read-only audit on 2026-09-18: `tim-builds/site` publishes `tim-builds.dev` and `tim-builds/timbuilds.dev` publishes `timbuilds.dev`; both use GitHub Pages, `main`, repository root. Both contain the portfolio, `/portfolio/`, `/projects/`, `/openhoops/`, `.well-known/`, and historical stubs. They are not a portfolio-versus-OpenHoops split. The native OpenHoops application is a different project and is outside this proposal.
+## Reconciled history
 
-At source `ed52e7d73a96115e38db42aa777f68debee84b11` and canonical `2013017a5bcf010d7bc7204f02d2f07c9ef3e54d`, GitHub's comparison confirms the canonical history contains the source, with **CNAME as the only file difference**. Refresh this comparison immediately before cutover.
+Audit date: September 22, 2026. Old repository main `4fc0ff980c55b477c48bfb9acdc3985e88142ec8` is an ancestor of canonical main `e84323acb8014cfa5fe5574c3a52c55221713096`. The public app/game/policy source was not rewritten for cleanup. The remaining old PR #1, `privacy/crash-scope-correction`, is superseded by merged commit `2e30d3932aa2a90c582d093ea3af9e14ac016802` and later approved privacy revisions. That merged correction addresses native-only crash-reporting scope and US hosting without the stale patch's unverified exact cutoff claim. The current page no longer contains the erroneous statement that an update adds native crash reporting to older installs.
 
-## Proposed destination
+Do not merge the July patch over the later September policy. Closing it as superseded preserves its discussion rather than claiming its exact commit was merged. Its original commit and the other non-ancestral branch heads are retained in canonical historical branches:
 
-Keep `tim-builds/timbuilds.dev` as the single authoring repository for both the portfolio and OpenHoops website. Deploy its static payload to one project capable of serving both existing hostnames, for example Cloudflare Pages. Initially serve the same content on both domains; this is simpler and safer than changing password-recovery origins during the repository change. No framework rewrite, app merge, Supabase database migration, or new login system is needed for this arrangement.
+| Historical branch in canonical repository | Exact original head |
+| --- | --- |
+| `archive/site/assetlinks-481` | `1b6cc1e1191b8c5bc3627caa10ae680721c080d8` |
+| `archive/site/privacy-precision-corrections` | `e66d6382df86e8048d3af6766907c58194957a86` |
+| `archive/site/integrated-clock-year` | `8cf25bbf3d6e09e4808ae01199f19aa617fbf96a` |
+| `archive/site/crash-scope-correction` | `55cfa627265206f6bfc7e9232f60c3ff4ce5cfa2` |
 
-Cloudflare supports multiple custom domains on a Pages project: https://developers.cloudflare.com/pages/configuration/custom-domains/ . Existing host suitability and export instructions are in HOSTING.md.
+These branches are archival evidence, not production or preview targets. Their capabilities already have later main-line implementations; no old file should overwrite a current implementation. The complete original repository refs and PR discussion were also backed up privately. No branch, tag, PR history or issue was deleted.
 
-## Approval and verification gates
+## One-place workflow
 
-1. Preserve both repositories and their history; create and test a preview from the canonical repo. Do not rename, delete, archive, change CNAME, repoint an existing developer checkout, or edit live DNS just to create that preview.
-2. Check root portfolio assets and every protected `/openhoops/` route, especially reset, privacy, terms, account deletion, court and add-friend links, plus `.well-known/assetlinks.json`. Policies and deletion instructions must still be directly readable by crawlers, not just JavaScript redirects.
-3. Review current DNS, TLS and host bindings read-only. Obtain approval for the concrete web-record cutover. Preserve all MX/TXT/mail routing and both registered domains. Keep the exact HTTPS hostnames and paths so browser storage and recovery callbacks do not silently change origin.
-4. Test recovery with an authorized account and shared links on real devices, including an old install. The existing OpenHoops `docs/DOMAIN-MIGRATION.md` contains unresolved auth/store/legacy-link gates; this proposal does not declare them completed or change the Supabase allowlist.
-5. Cut over the two web origins one at a time with rollback available. Verify TLS, callback fragments, ordinary query strings, app handoff, direct policy text, desktop state and games on the real domains. Do not issue Clear-Site-Data.
-6. Only after verification, make the canonical repo the documented authoring source, update the separate app's source pointers in a coordinated change, and retire the duplicate deployment. Archive the old repo for rollback first; deletion would be a separate explicit decision. Old-domain compatibility must remain hosted even after its old repository is retired.
+Use the fresh `Desktop/dev/timbuilds.dev` checkout on Playground, or clone the canonical repository. Existing named lanes and the running private-demo checkout must not be reset or moved. The old `Desktop/dev/openhoops-site` checkout is historical; its saved worktrees remain available. Do not use its stale main or old `origin` for new website work. The old repository's retirement notice and archival/read-only state prevent successful routine publishing there.
 
-Until that migration is approved and verified, the current source-to-mirror merge procedure remains in force. **This document changes no hosting, DNS, auth, repository settings or publishing permissions.**
+Canonical README/AGENTS/HOSTING are authoritative for website authoring. Older native-app migration notes and old local instructions do not reinstate the mirror. Coordinate any native-repository documentation-pointer update through its lead; cleanup does not edit that implementation or pause its work.
+
+## Not being claimed complete
+
+Real-account recovery, physical-phone and old-install App Link acceptance remain open. The existing primary-www TLS issue and final www redirect cleanup remain separate in #20. GitHub Pages fallbacks are retained, including existing www behavior, and can be edited again after unarchiving if explicitly needed. Archiving the old source is reversible; deleting it is not approved.
+
+The original migration proposal, hosting comparison and detailed desktop release notes remain under `docs/history/`. Operator/entity research (#35), raw DNS snapshots, credentials and private test evidence are outside public Git.

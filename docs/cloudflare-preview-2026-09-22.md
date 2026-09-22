@@ -1,3 +1,7 @@
+# Historical preview-stage record
+
+The preview-only restrictions and interim publishing instructions below were superseded by the approved production migrations in #20, #36 and #37. Follow the root README.md and HOSTING.md for routine updates. Retain this dated evidence; do not restart the migration from it.
+
 # Cloudflare Pages preview — issue #20
 
 ## Approved scope
