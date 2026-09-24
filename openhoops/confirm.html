@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Confirm your email — openHoops</title>
+<style>
+  body { margin: 0; min-height: 100vh; box-sizing: border-box; padding: 24px; display: grid; place-items: center; background: #121316; color: #f2f3f5; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { box-sizing: border-box; width: min(100%, 420px); padding: 30px; border: 1px solid rgba(255,255,255,.12); border-radius: 20px; background: rgba(255,255,255,.04); }
+  h1 { margin: 0 0 12px; font-size: 23px; line-height: 1.25; }
+  p { margin: 0; color: #b7bbc3; font-size: 15px; line-height: 1.55; }
+  a { color: #ffc400; }
+  .button { display: block; margin: 22px 0 16px; padding: 13px; border-radius: 12px; background: #ffc400; color: #17181c; font-weight: 700; text-align: center; text-decoration: none; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="heading">Checking your email link…</h1>
+  <p id="message" role="status" aria-live="polite">This should only take a moment.</p>
+  <a id="open-app" class="button" href="openhoops://" hidden>Open the app</a>
+  <p id="computer-help" hidden>If you're on a computer, open the openHoops app on your phone and log in there.</p>
+</main>
+<script>
+  // Supabase verifies the email link before redirecting here with an implicit
+  // access token in the fragment. Keep that token in memory only.
+  const params = new URLSearchParams(location.hash.slice(1));
+  history.replaceState(null, "", location.pathname + location.search);
+
+  const heading = document.getElementById("heading");
+  const message = document.getElementById("message");
+  function show(title, detail, confirmed) {
+    heading.textContent = title;
+    message.textContent = detail;
+    document.getElementById("open-app").hidden = !confirmed;
+    document.getElementById("computer-help").hidden = !confirmed;
+  }
+
+  if (params.has("error") || params.has("error_code")) {
+    show("This email link has expired or is invalid.", "Request a new confirmation email in the openHoops app.", false);
+  } else if (!params.get("access_token")) {
+    show("No confirmation link found.", "Open the link from your confirmation email, or request a new one in the openHoops app.", false);
+  } else {
+    const token = params.get("access_token");
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    fetch("https://tpqrkdvvnoipxrrxovnb.supabase.co/auth/v1/user", {
+      method: "GET",
+      headers: {
+        apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwcXJrZHZ2bm9pcHhycnhvdm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMjcwODMsImV4cCI6MjA5OTgwMzA4M30.qz9G9SzbJl7eejpzUqVmLJjd_0K8p7cHccM6GJxWv8g",
+        Authorization: "Bearer " + token
+      },
+      cache: "no-store",
+      credentials: "omit",
+      redirect: "error",
+      referrerPolicy: "no-referrer",
+      signal: controller.signal
+    }).then(async response => {
+      if (response.status === 401 || response.status === 403) {
+        show("This email link has expired or is invalid.", "Request a new confirmation email in the openHoops app.", false);
+        return;
+      }
+      if (!response.ok) throw new Error("Verification unavailable");
+      const user = await response.json();
+      if (user && typeof user.email_confirmed_at === "string" && !Number.isNaN(Date.parse(user.email_confirmed_at))) {
+        show("Your email is confirmed.", "Open the openHoops app to log in.", true);
+      } else {
+        show("We couldn't confirm your email.", "Request a new confirmation email in the openHoops app.", false);
+      }
+    }).catch(() => {
+      show("We couldn't check your link right now.", "Check your connection, then open the original email link again. If it still fails, request a new confirmation email in the openHoops app.", false);
+    }).finally(() => clearTimeout(timeout));
+  }
+</script>
+</body>
+</html>

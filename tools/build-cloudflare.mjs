@@ -39,7 +39,7 @@ const htmlRoutes=new Map();
 for(const {path:file} of [...manifest,{path:'404.html'}]){
  if(!file.endsWith('.html'))continue;
  const clean=file==='index.html'?'/':file.endsWith('/index.html')?'/'+file.slice(0,-10):'/'+file.slice(0,-5);
- const cache=file==='openhoops/reset.html'?'no-store, no-transform':'public, max-age=0, must-revalidate, no-transform';
+ const cache=['openhoops/reset.html','openhoops/confirm.html'].includes(file)?'no-store, no-transform':'public, max-age=0, must-revalidate, no-transform';
  for(const route of ['/'+file,clean])htmlRoutes.set(route,cache);
 }
 if(htmlRoutes.size+1>100)throw new Error('Generated header rules exceed the Pages limit.');
