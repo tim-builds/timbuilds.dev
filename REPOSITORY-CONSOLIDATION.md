@@ -1,6 +1,6 @@
 # One website repository — current operational source
 
-**Use `tim-builds/timbuilds.dev` for all new website changes.** Both main domains route to Cloudflare Worker `timbuilds-web`, built from canonical `main` through the repository's allowlist export. The Git-integrated Pages project `timbuilds-site` remains a fallback. The former source-to-mirror procedure is retired. No native app code, database, account, store identity or private game runtime was consolidated into the public website.
+**Use `tim-builds/timbuilds.dev` for all new website changes.** Both main domains route to Cloudflare Worker `timbuilds-web`, built from canonical `main` through the repository's allowlist export. The former Pages project `timbuilds-site`, the GitHub Pages sites and the old `tim-builds/site` repository were retired and deleted on 2026-09-25 (see `HOSTING.md`). The former source-to-mirror procedure is retired. No native app code, database, account, store identity or private game runtime was consolidated into the public website.
 
 ## Reconciled history
 
@@ -15,16 +15,16 @@ Do not merge the July patch over the later September policy. Closing it as super
 | `archive/site/integrated-clock-year` | `8cf25bbf3d6e09e4808ae01199f19aa617fbf96a` |
 | `archive/site/crash-scope-correction` | `55cfa627265206f6bfc7e9232f60c3ff4ce5cfa2` |
 
-These branches are archival evidence, not production or preview targets. Their capabilities already have later main-line implementations; no old file should overwrite a current implementation. The complete original repository refs and PR discussion were also backed up privately. No branch, tag, PR history or issue was deleted.
+These branches are archival evidence, not production or preview targets. Their capabilities already have later main-line implementations; no old file should overwrite a current implementation. The complete original repository refs and PR discussion were also backed up privately. No branch, tag, PR history or issue was deleted during this reconciliation. On 2026-09-25 the owner deleted the old `tim-builds/site` repository itself; a full private Git bundle of all its branches was saved first, and the `archive/site/*` branches above remain in this repository.
 
 ## One-place workflow
 
-Use the fresh `Desktop/dev/timbuilds.dev` checkout on Playground, or clone the canonical repository. Existing named lanes and the running private-demo checkout must not be reset or moved. The old `Desktop/dev/openhoops-site` checkout is historical; its saved worktrees remain available. Do not use its stale main or old `origin` for new website work. The old repository's retirement notice and archival/read-only state prevent successful routine publishing there.
+Use the fresh `Desktop/dev/timbuilds.dev` checkout on Playground, or clone the canonical repository. Existing named lanes and the running private-demo checkout must not be reset or moved. The old `Desktop/dev/openhoops-site` checkout is historical; its saved worktrees remain available. Do not use its stale main or old `origin` for new website work; that remote repository has been deleted, so nothing can be published there.
 
 Canonical README/AGENTS/HOSTING are authoritative for website authoring. Older native-app migration notes and old local instructions do not reinstate the mirror. Coordinate any native-repository documentation-pointer update through its lead; cleanup does not edit that implementation or pause its work.
 
 ## Not being claimed complete
 
-Real-account recovery, physical-phone and old-install App Link acceptance remain open. WWW cleanup is complete: both aliases redirect through Cloudflare to their matching HTTPS apex with paths, queries and browser-held fragments preserved; see `docs/www-redirects-2026-09-22.md`. GitHub Pages fallbacks remain retained but are no longer needed to serve either WWW redirect. They can be edited again after unarchiving if explicitly needed. Archiving the old source is reversible; deleting it is not approved.
+Real-account recovery, physical-phone and old-install App Link acceptance remain open. WWW cleanup is complete: both aliases redirect through Cloudflare to their matching HTTPS apex with paths, queries and browser-held fragments preserved; see `docs/www-redirects-2026-09-22.md`. The GitHub Pages fallbacks were retired on 2026-09-25: GitHub Pages is disabled here and the old source repository was deleted by the owner, so they can no longer be restored. The private Git bundle and `archive/site/*` branches are the remaining history.
 
 The original migration proposal, hosting comparison and detailed desktop release notes remain under `docs/history/`. Operator/entity research (#35), raw DNS snapshots, credentials and private test evidence are outside public Git.
