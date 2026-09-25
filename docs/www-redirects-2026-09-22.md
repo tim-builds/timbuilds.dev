@@ -25,6 +25,8 @@ Fresh parity checks verified all 214 runtime files on each apex. Both authentica
 
 ## Rollback and remaining work
 
+> **Superseded 2026-09-25:** the GitHub Pages origins were retired, so the WWW-record rollback below is no longer available. See `HOSTING.md`.
+
 A separately authorized per-host rollback can restore that WWW record's original CNAME, DNS-only/Auto, and disable only its new rule. Verify the retained GitHub origin first; the primary WWW old state had a certificate mismatch, so it is not a healthy-HTTPS fallback guarantee. Never roll back a whole zone or touch mail/apex records for a WWW-only problem. Account/device acceptance remains open in #20; repository consolidation is already complete.
 
 References: [Single Redirect configuration](https://developers.cloudflare.com/rules/url-forwarding/single-redirects/settings/), [matching one hostname while preserving paths and queries](https://developers.cloudflare.com/rules/url-forwarding/examples/redirect-all-different-hostname/), [Cloudflare redirect-only DNS setup](https://developers.cloudflare.com/pages/how-to/www-redirect/).
