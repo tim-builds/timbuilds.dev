@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "timbuilds-web",
+  "compatibility_date": "2026-09-25",
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "timbuilds.dev/*", "zone_name": "timbuilds.dev" },
+    { "pattern": "tim-builds.dev/*", "zone_name": "tim-builds.dev" }
+  ],
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

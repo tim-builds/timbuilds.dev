@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "build:worker": "node tools/build-portfolio.mjs --check && node tools/build-project-sites.mjs --check && node tools/verify-portfolio.mjs && node tools/verify-media.mjs && node tools/build-cloudflare.mjs && node tools/test-cloudflare-headers.mjs",
+    "deploy:worker": "wrangler deploy --config wrangler.workers.jsonc"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "wrangler": "4.140.0"
+  }
+}

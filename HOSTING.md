@@ -2,36 +2,38 @@
 
 ## Current production
 
-Both apex addresses, `timbuilds.dev` and `tim-builds.dev`, serve the same Cloudflare Pages project: **`timbuilds-site`**, Git-connected to **`tim-builds/timbuilds.dev`**, production branch **`main`**. Do not redirect either apex to the other. DNS and email are different responsibilities; publishing a new site version does not require changing domain/mail records.
+`tim-builds/timbuilds.dev` is the only website source. Cloudflare Worker **`timbuilds-web`** serves both `https://timbuilds.dev` and `https://tim-builds.dev` through their existing routes. Neither apex redirects to the other. The Git-integrated Pages project **`timbuilds-site`** still builds `main` as a fallback; it is no longer the normal path for apex traffic. Routine publishing does not change DNS or email.
 
-The static export uses framework preset **None**, repository-root build context, output **dist**, and the configured Node version **24.18.0**. The current build command is:
+The Worker uses Static Assets. `tools/build-cloudflare.mjs` copies only approved public source into `dist/`, then generates `404.html`, `_headers`, and an `.assetsignore` rule excluding its local export marker. `wrangler.workers.jsonc` points only at `dist/`, declares the existing apex routes and workers.dev hostname, and serves real 404s. The separate `wrangler.jsonc` remains the Pages configuration. Do not upload the repository root, private runtime, QA results, owner files, local configuration, or browser profiles.
 
-```sh
-node tools/build-portfolio.mjs --check && node tools/build-project-sites.mjs --check && node tools/verify-portfolio.mjs && node tools/verify-media.mjs && node tools/build-cloudflare.mjs
+## Publishing from Git
+
+Workers Builds is connected to `tim-builds/timbuilds.dev`, production branch `main`, root `/`, with Node **24.18.0**. Its exact commands are:
+
+```text
+Build:  npm ci && npm run build:worker
+Deploy: npx wrangler deploy --config wrangler.workers.jsonc
 ```
 
-`tools/build-cloudflare.mjs` copies only the approved public source trees and generates a real 404 and hosting headers. It excludes Git, tools, QA, CNAME, local configuration and private original-game/recovery files. Do not replace this with a raw folder upload. No Pages Functions, paid upgrade or external runtime service is required by this portfolio.
+`package-lock.json` pins Wrangler. `build:worker` checks generated source, project sites, portfolio and media, then creates and checks the allowlisted export. The named deploy configuration is required because the default `wrangler.jsonc` still targets Pages. Workers previews are disabled, so a feature branch does not publish a preview of this production Worker. Pages previews remain restricted to `prep/pages-20-current`. Change either preview rule only with owner approval.
 
-## Preview and response behavior
+For routine changes, branch from current canonical `main`, edit source and generators, regenerate outputs, run the README checks, and review the complete diff in one PR. After required checks and independent review pass, merge to `main`. Workers Builds runs the commands above and deploys the complete `dist/` export to `timbuilds-web`; the existing routes expose it on both apexes. Pages also builds that same `main` source as fallback. Do not manually deploy old source while a PR is in flight.
 
-Production deployments are enabled for `main`. Automatic previews are restricted to `prep/pages-20-current`; private branches and `archive/site/*` are not deployment targets. A new feature branch needs an explicitly approved preview allowlist addition if a hosted preview is necessary. Local testing does not change the account.
+For local serving checks, run `npm ci`, `npm run build:worker`, and `npx wrangler dev --config wrangler.workers.jsonc` with a disposable browser profile. `npx wrangler deploy --config wrangler.workers.jsonc --dry-run` validates the upload without changing production. The workers.dev hostname reaches the production Worker, so it is not an isolated staging site.
 
-HTML responses include `Cache-Control: public, max-age=0, must-revalidate, no-transform`. Recovery HTML instead uses `no-store, no-transform`. This avoids Cloudflare's zone-level email-link rewriting without changing its account-wide settings. Non-HTML caching is untouched. The global export headers retain `Referrer-Policy: no-referrer` and `X-Content-Type-Options: nosniff`. Preserve original inline/document CSP rules, WebAssembly MIME and URL query/fragment behavior.
+## Response behavior and verification
 
-Pages removes `.html` in some canonical URLs; the migration tests check recovery/friend fragments and court queries through these redirects. Do not add an SPA fallback or broad redirect that replaces a real policy, recovery or app-link response with the portfolio.
+Workers Static Assets applies the generated `_headers` rules. HTML uses `Cache-Control: public, max-age=0, must-revalidate, no-transform`; reset and confirmation HTML use `no-store, no-transform`. Preserve `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`, document CSP, WebAssembly MIME, real 404s, clean HTML redirects, paths, queries, and browser-held fragments. Do not emit `Clear-Site-Data` or an SPA fallback.
 
-## Verify a deployment
+After a merge, read the Workers Build **ID, successful status, source commit, deployment ID, and active Worker version**. Re-read both routes to confirm they still target `timbuilds-web`. From a checkout containing that commit, run `node tools/build-cloudflare.mjs` and `node tools/verify-cloudflare.mjs https://timbuilds.dev --git-ref=<full-deployed-commit-sha>`; repeat for `https://tim-builds.dev`. Check live headers and browser behavior on both domains, including OpenHoops, screenshots, project tabs, recovery and app-link routes, redirects, query/fragment handling, and actual 404s. Windows working-copy line endings are not the reference for a Linux build. Keep test results in ignored `.qa/`.
 
-Run `node tools/build-cloudflare.mjs`, then `node tools/verify-cloudflare.mjs https://timbuilds.dev --git-ref=<full-deployed-commit-sha>` and repeat for the hyphenated apex. The full SHA must identify the actual deployment; Windows working-copy line endings are not the reference for a Linux build. Also verify `tools/test-cloudflare-headers.mjs`, current headers and the relevant browser tests. Hosted browser runs support `PORTFOLIO_ORIGIN`; keep results and screenshots in ignored `.qa/`.
+The former staged Worker added `X-TimBuilds-Release` and fetched unchanged files from pinned Pages deployment `4a80b07d.timbuilds-site.pages.dev`. A complete Static Assets deployment serves the export itself; prove the new release with build metadata and body hashes rather than that old header. Real-account recovery, physical-device and old-install acceptance remain open until separately exercised. Never use real passwords or recovery tokens in these checks.
 
-Each apex passed 214 runtime-file parity checks and 142 browser-check groups after the migration. Those are dated results, not permanent certification. Recovery used a mocked Supabase client; real-account recovery, physical-device and old-install acceptance remain open. Never collect real passwords or recovery tokens in public tickets or chat.
+## Rollback and retained fallbacks
 
-## Rollback and remaining domain work
+For a code regression, revert the offending change in canonical `main`, wait for the checked Worker build, and verify both apexes. For urgent restoration, select a known-good `timbuilds-web` version in Cloudflare, confirm its deployment and both domains, then reconcile `main` before the next build. The pre-migration Worker version `de9a79d4-88eb-474a-84cd-6969f2f8b946` depends on pinned Pages deployment `4a80b07d-216b-44b3-9f33-8d6007e0a644`; retain that deployment while it remains a rollback choice.
 
-For an ordinary code regression, revert the offending change in canonical `main`, verify the new deployment, and do not copy the revert into the old repository. An authorized Pages rollback to a known-good production deployment is also possible; reconcile source afterward so the next deployment does not undo the rollback.
-
-The former GitHub Pages services and their CNAME bindings are retained as frozen fallback origins. Archiving the old repository makes it read-only, not deleted; unarchive it before an emergency edit/rebuild. A privately saved Git bundle and named historical refs provide additional recovery material. Do not remove these fallbacks merely because the public domains no longer direct apex traffic there. A DNS rollback is a separate account operation requiring current confirmation of the exact original records and TLS; caches make instant recovery impossible to promise.
-
+The Pages project stays Git-connected to `main` as a fallback. Removing the two apex Worker routes would send traffic to the **current** Pages production deployment, which may be newer than the pinned version above. Re-read routes, Pages deployment, and TLS before such a change; do not remove routes merely to simplify the setup. DNS rollback is a separate owner-authorized account action. The former GitHub Pages origins, privately saved Git bundle, and named historical refs remain recovery material; the retired repository is not an authoring lane.
 ## WWW aliases — completed September 22, 2026
 
 Both WWW hostnames now terminate HTTPS and redirect at Cloudflare, independently of the frozen GitHub origins. Each zone has one active Single Redirect: `http*://www.<matching-domain>/*` to `https://<matching-domain>/${2}`, status 301, Preserve query string enabled. Neither apex redirects to the other. Browser-held fragments were checked with harmless markers, not live credentials.
@@ -46,6 +48,8 @@ Re-read active rules and DNS before edits, and confirm saved state rather than r
 
 ## References
 
+Workers Builds configuration: https://developers.cloudflare.com/workers/ci-cd/builds/configuration/
+Workers Static Assets, headers and real 404s: https://developers.cloudflare.com/workers/static-assets/ and https://developers.cloudflare.com/workers/static-assets/routing/static-site-generation/
 Cloudflare Pages domains: https://developers.cloudflare.com/pages/configuration/custom-domains/
 Pages headers and email rewriting: https://developers.cloudflare.com/pages/configuration/headers/ and https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/
 WWW redirects: https://developers.cloudflare.com/pages/how-to/www-redirect/

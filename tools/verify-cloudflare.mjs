@@ -1,5 +1,5 @@
 import {execFileSync} from 'node:child_process';
-/* Read-only checks of a candidate Pages deployment against the exact public export. */
+/* Read-only checks of a candidate Pages or Workers deployment against the public export. */
 import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';import assert from 'node:assert/strict';import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const origin=new URL(process.argv[2]||'http://127.0.0.1:8798');
@@ -17,7 +17,7 @@ for(const entry of manifest){
  const expected=gitRef?hash(execFileSync('git',['show',gitRef+':'+entry.path],{cwd:root,maxBuffer:32*1024*1024})):entry.sha256;
  assert.equal(hash(Buffer.from(await response.arrayBuffer())),expected,entry.path+' is byte-identical');
  assert.equal(response.headers.get('clear-site-data'),null,'Do not clear visitors’ storage');
- if(entry.path.endsWith('.wasm'))assert.match(response.headers.get('content-type')||'',/application\/wasm/);
+ if(entry.path.endsWith('.wasm')){assert.match(response.headers.get('content-type')||'',/application\/wasm/);const head=await fetch(new URL(entry.path,origin),{method:'HEAD'});assert.equal(head.status,200);assert.match(head.headers.get('content-type')||'',/application\/wasm/);assert.equal(await head.text(),'');}
  report.push({path:entry.path,status:response.status,finalPath:new URL(response.url).pathname});
 }
 for(const p of ['/openhoops/reset','/openhoops/add-friend']){
@@ -25,7 +25,29 @@ for(const p of ['/openhoops/reset','/openhoops/add-friend']){
  assert.equal(hash(Buffer.from(await response.arrayBuffer())),hash(gitRef?execFileSync('git',['show',gitRef+':'+p.slice(1)+'.html'],{cwd:root,maxBuffer:32*1024*1024}):fs.readFileSync(path.join(root,p.slice(1)+'.html'))));
  if(p.endsWith('/reset'))assert.match(response.headers.get('cache-control')||'',/no-store/);
 }
-for(const p of ['/missing-migration-check','/openhoops/missing-migration-check','/.git/HEAD','/.qa/private-demo/config.json','/tools/build-cloudflare.mjs','/wrangler.jsonc','/CNAME','/__classic__/config.json','/__classic__/game/billiards/csplmain.dcr','/__classic__/game/golf/csmgholes.cct']){const response=await fetch(new URL(p,origin));assert.equal(response.status,404,p);assert.ok(!(await response.text()).includes('project-data'));}
+for(const p of ['/', '/openhoops/', '/openhoops/reset', '/openhoops/confirm']){
+ const response=await fetch(new URL(p,origin),{method:'HEAD'});
+ assert.equal(response.status,200,p+' HEAD');assert.match(response.headers.get('content-type')||'',/text\/html/);
+ assert.match(response.headers.get('cache-control')||'',/no-transform/);
+ assert.equal(response.headers.get('referrer-policy'),'no-referrer');
+ assert.equal(response.headers.get('x-content-type-options'),'nosniff');
+ assert.equal(response.headers.get('clear-site-data'),null);
+ if(['/openhoops/reset','/openhoops/confirm'].includes(p))assert.match(response.headers.get('cache-control')||'',/no-store/);
+ assert.equal(await response.text(),'');
+}
+for(const [from,to] of [
+ ['/index.html?marker=1','/?marker=1'],
+ ['/openhoops/index.html?marker=1','/openhoops/?marker=1'],
+ ['/openhoops/reset.html?marker=1','/openhoops/reset?marker=1'],
+ ['/openhoops/court.html?g=11111111-1111-4111-8111-111111111111','/openhoops/court?g=11111111-1111-4111-8111-111111111111'],
+]){
+ const response=await fetch(new URL(from,origin),{redirect:'manual'});
+ assert.ok([301,302,307,308].includes(response.status),from+' redirects');
+ const location=new URL(response.headers.get('location'),origin);
+ assert.equal(location.origin,origin.origin);assert.equal(location.pathname+location.search,to);
+ assert.equal(response.headers.get('clear-site-data'),null);
+}
+for(const p of ['/missing-migration-check','/openhoops/missing-migration-check','/.git/HEAD','/.qa/private-demo/config.json','/.timbuilds-export','/.assetsignore','/tools/build-cloudflare.mjs','/wrangler.jsonc','/wrangler.workers.jsonc','/package-lock.json','/CNAME','/__classic__/config.json','/__classic__/game/billiards/csplmain.dcr','/__classic__/game/golf/csmgholes.cct']){const response=await fetch(new URL(p,origin));assert.equal(response.status,404,p);assert.ok(!(await response.text()).includes('project-data'));}
 const query=await fetch(new URL('/openhoops/court.html?g=11111111-1111-4111-8111-111111111111',origin));assert.equal(new URL(query.url).search,'?g=11111111-1111-4111-8111-111111111111');
 fs.writeFileSync(path.join(root,'.qa/cloudflare-http-checks.json'),JSON.stringify({origin:origin.origin,sourceCommit:gitRef,byteSource:gitRef?'Git object':'local export',timestamp:new Date().toISOString(),checks:report},null,2));
-console.log('PASS: '+report.length+' public files byte-identical; same-origin redirects, WASM MIME, OpenHoops clean URLs, query retention, true 404 and no storage clearing.');
+console.log('PASS: '+report.length+' public files byte-identical; GET/HEAD, HTML/security headers, redirects and queries, WASM MIME, true 404 and no storage clearing.');

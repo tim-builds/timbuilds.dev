@@ -5,8 +5,8 @@ export async function checkProjectSites({evaluate,send,click,box,mouse,drag,view
  const frameClick=async selector=>{const p=await evaluate(`(()=>{const f=document.querySelector('.browser-frame'),a=f.contentDocument.querySelector(${JSON.stringify(selector)});a.scrollIntoView({block:'center',behavior:'instant'});const fr=f.getBoundingClientRect(),r=a.getBoundingClientRect();return {x:fr.x+r.x+r.width/2,y:fr.y+r.y+r.height/2};})()`);await mouse(p.x,p.y,'mousePressed');await mouse(p.x,p.y,'mouseReleased');};
  await viewport(1440,1000);await navigate(origin);
  const registry=await evaluate('window.TimProjectSites');assert.equal(registry.length,10);
- for(const entry of registry){await click('.project-card[data-id="'+entry.project+'"] .card-footer a');await ready();assert.ok((await evaluate('document.querySelector(".browser-frame").src')).endsWith(entry.site));assert.equal(await evaluate('document.querySelector(".browser-frame").contentDocument.querySelectorAll("iframe,canvas").length'),0);assert.equal(await evaluate('document.querySelector(".browser-frame").contentDocument.documentElement.dataset.project'),entry.project);}
- pass('Every new project card opens its own information website, not an embedded app runtime');
+ for(const entry of registry){await open(entry.site);await ready();assert.ok((await evaluate('document.querySelector(".browser-frame").src')).endsWith(entry.site));assert.equal(await evaluate('document.querySelector(".browser-frame").contentDocument.querySelectorAll("iframe,canvas").length'),0);assert.equal(await evaluate('document.querySelector(".browser-frame").contentDocument.documentElement.dataset.project'),entry.project);}
+ pass('All ten owned project pages remain available in the optional desktop browser without embedding an app runtime');
  for(const entry of registry.filter(s=>s.launch)){
    const start=requests.length;await open(entry.launch);await ready();assert.ok((await evaluate('window.TimBrowser.current()')).endsWith(entry.site));assert.ok(!requests.slice(start).some(url=>url.startsWith(entry.launch)),'Typing an app address does not load its runtime in a frame');
    const before=(await send('Target.getTargets')).targetInfos.map(t=>t.targetId);const oldFrame=await evaluate('document.querySelector(".browser-frame").src');
@@ -17,7 +17,7 @@ export async function checkProjectSites({evaluate,send,click,box,mouse,drag,view
    await screenshot(path.join(output,entry.project+'-website.png'));
  }
  pass('Real Play clicks open both games in separate browser tabs while the desktop remains on the project website');
- await open('/openhoops/');await ready();assert.equal(await evaluate('document.querySelector(".browser-frame").contentDocument.querySelector(".wordmark").textContent'),'openHoops');
+ await open('/openhoops/');await ready();assert.equal(await evaluate('document.querySelector(".browser-frame").contentDocument.querySelector(".wordmark").textContent.trim()'),'openHoops');
  await click('[data-browser-action=home]');assert.equal(await evaluate('window.TimBrowser.current()'),'about:home');await click('[data-browser-action=back]');await ready();assert.ok((await evaluate('window.TimBrowser.current()')).endsWith('/openhoops/'));await click('[data-browser-action=forward]');assert.equal(await evaluate('window.TimBrowser.current()'),'about:home');
  await open('/projects/letters-with-lola/');await ready();await frameClick('.related-projects a');await until(()=>evaluate('window.TimBrowser.current().endsWith("/projects/solitaire/")'),'related-project navigation');await ready();assert.ok((await evaluate('window.TimBrowser.current()')).endsWith('/projects/solitaire/'));await click('[data-browser-action=back]');await ready();assert.ok((await evaluate('window.TimBrowser.current()')).endsWith('/projects/letters-with-lola/'));
  pass('Internal Back/Forward, related-project links and bookmarks stay within the website browser');
@@ -25,7 +25,7 @@ export async function checkProjectSites({evaluate,send,click,box,mouse,drag,view
  try{
    await open('/openhoops/');await until(()=>evaluate('!!document.querySelector(".browser-frame")?.contentDocument?.querySelector(".hero")'),'early openHoops DOM');
    assert.notEqual(await evaluate('document.querySelector(".browser-frame").contentDocument.readyState'),'complete');
-   await frameClick('header a[href="privacy.html"]');
+   await frameClick('footer a[href="privacy.html"]');
  }finally{await send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});await send('Network.setCacheDisabled',{cacheDisabled:false});}
  await until(()=>evaluate('document.querySelector("#window-document-privacy .document-text")?.textContent.length>10000'),'early policy link');await evaluate('window.TimWindows.close("document-privacy")');
  assert.ok((await evaluate('window.TimBrowser.current()')).endsWith('/openhoops/'));pass('Owned website links route correctly even when clicked before slow images finish loading');
@@ -33,9 +33,12 @@ export async function checkProjectSites({evaluate,send,click,box,mouse,drag,view
    await viewport(width,900);await open('/openhoops/');await evaluate('if(!document.querySelector("#window-browser").classList.contains("is-maximized"))window.TimWindows.maximize("browser")');await ready();
    await evaluate('[...document.querySelector(".browser-frame").contentDocument.images].forEach(i=>i.loading="eager")');
    await until(()=>evaluate('[...document.querySelector(".browser-frame").contentDocument.images].every(i=>i.complete&&i.naturalWidth>0)'),'openHoops screenshots');
-   const metrics=await evaluate(`(()=>{const f=document.querySelector('.browser-frame'),doc=f.contentDocument;return {fits:doc.documentElement.scrollWidth<=f.clientWidth+1,images:[...doc.images].map(i=>{const r=i.getBoundingClientRect(),s=f.contentWindow.getComputedStyle(i);return {w:r.width-parseFloat(s.borderLeftWidth)-parseFloat(s.borderRightWidth),h:r.height-parseFloat(s.borderTopWidth)-parseFloat(s.borderBottomWidth),ratio:i.naturalWidth/i.naturalHeight};})};})()`);
-   assert.ok(metrics.fits,'Embedded openHoops fits '+width);for(const i of metrics.images)assert.ok(Math.abs(i.w/i.h-i.ratio)<.003,'No stretched image at '+width);
-   if(width===390){await screenshot(path.join(output,'openhoops-mobile-hero.png'));await evaluate('document.querySelector(".browser-frame").contentDocument.querySelector(".venue-section").scrollIntoView()');await screenshot(path.join(output,'openhoops-mobile-venue.png'));}
+   const measure=async()=>evaluate(`(()=>{const f=document.querySelector('.browser-frame'),doc=f.contentDocument;return {fits:doc.documentElement.scrollWidth<=f.clientWidth+1,images:[...doc.images].filter(i=>i.getClientRects().length).map(i=>{const s=f.contentWindow.getComputedStyle(i);return {w:i.clientWidth,h:i.clientHeight,fit:s.objectFit,ratio:i.naturalWidth/i.naturalHeight};})};})()`);
+   const checkImages=metrics=>{assert.ok(metrics.fits,'Embedded openHoops fits '+width);assert.ok(metrics.images.length>=2,'Hero and selected screenshot are visible at '+width);for(const i of metrics.images)assert.ok(i.fit==='contain'||Math.abs(i.w/i.h-i.ratio)<.003,'No stretched image at '+width);};
+   checkImages(await measure());
+   await evaluate('document.querySelector(".browser-frame").contentDocument.querySelector(".screen-choice[data-screen=venue]").click()');checkImages(await measure());
+   await evaluate('document.querySelector(".browser-frame").contentDocument.querySelector(".screen-choice[data-screen=map]").click()');
+   if(width===390){await screenshot(path.join(output,'openhoops-mobile-hero.png'));await evaluate('document.querySelector(".browser-frame").contentDocument.querySelector(".screen-choice[data-screen=venue]").click();document.querySelector(".browser-frame").contentDocument.querySelector("#screen-venue").scrollIntoView()');await screenshot(path.join(output,'openhoops-mobile-venue.png'));}
  }
  pass('Both openHoops screenshots preserve their real aspect ratios across phone, tablet and desktop widths');
  for(const entry of registry){await viewport(390,844);await open(entry.site);await ready();const data=await evaluate('(()=>{const d=document.querySelector(".browser-frame").contentDocument;return {w:d.documentElement.scrollWidth,v:d.documentElement.clientWidth,links:d.querySelectorAll("[data-launch-app]").length};})()');assert.ok(data.w<=data.v+1,entry.project+' mobile overflow');assert.equal(data.links,entry.launch?2:0);}
@@ -52,8 +55,20 @@ export async function checkProjectSites({evaluate,send,click,box,mouse,drag,view
  }
  await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await evaluate('window.TimVersion.set("2000");window.TimDesktop.arrange()');await drag('[data-shortcut=projects]',0,96);assert.equal(await evaluate('document.querySelector("#bsod-dialog").open'),true);assert.equal(await evaluate('document.querySelectorAll(".desktop-drag-copy").length'),0);await click('#bsod-dialog [data-bsod-action="desktop"]');await send('Emulation.setEmulatedMedia',{features:[]});
  pass('The warning follows all eight OS themes, has focused dismissal controls and respects reduced motion');
- await viewport(390,844);await send('Page.navigate',{url:origin+'/openhoops/'});await until(()=>evaluate('!!document.querySelector(".hero h1")&&document.readyState==="complete"'),'standalone openHoops');
- assert.equal(await evaluate('document.querySelector(".wordmark").textContent'),'openHoops');assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth'),false);await screenshot(path.join(output,'openhoops-standalone-phone.png'));
+ for(const width of [320,390,768,1440]){
+   await viewport(width,width<500?844:1000);await send('Page.navigate',{url:origin+'/openhoops/'});await until(()=>evaluate('!!document.querySelector(".hero h1")&&document.readyState==="complete"'),'standalone openHoops '+width);
+   assert.equal(await evaluate('document.querySelector(".wordmark").textContent.trim()'),'openHoops');assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth'),false,'standalone openHoops overflow '+width);
+   await evaluate('[...document.images].forEach(i=>i.loading="eager")');await until(()=>evaluate('[...document.images].every(i=>i.complete&&i.naturalWidth>0)'),'genuine OpenHoops images '+width);
+   if(width===390)await screenshot(path.join(output,'openhoops-standalone-phone.png'));
+ }
+ assert.equal(await evaluate('document.querySelector(".screen-picker").hidden'),false);
+ await click('.screen-choice[data-screen="map"]');assert.equal(await evaluate('document.querySelector("#screen-map").hidden'),false);assert.equal(await evaluate('document.querySelector("#screen-venue").hidden'),true);
+ await evaluate('document.querySelector(".screen-choice[data-screen=map]").focus()');await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowDown',code:'ArrowDown',windowsVirtualKeyCode:40});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowDown',code:'ArrowDown',windowsVirtualKeyCode:40});
+ assert.equal(await evaluate('document.querySelector("#screen-map").hidden'),true);assert.equal(await evaluate('document.querySelector("#screen-venue").hidden'),false);
+ await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});assert.equal(await evaluate('getComputedStyle(document.querySelector(".screen-panel")).animationName'),'none');await send('Emulation.setEmulatedMedia',{features:[]});
+ await send('Network.setBlockedURLs',{urls:['*openhoops-courtside.js*','*website-bridge.js*']});
+ try{await send('Page.navigate',{url:origin+'/openhoops/'});await until(()=>evaluate('!!document.querySelector("#screen-map")&&document.readyState==="complete"'),'OpenHoops without page scripts');assert.equal(await evaluate('document.querySelector(".screen-picker").hidden'),true);assert.equal(await evaluate('document.querySelectorAll(".screen-panel:not([hidden])").length'),2);}finally{await send('Network.setBlockedURLs',{urls:[]});}
+ pass('Standalone OpenHoops: 320/390/768/1440px, genuine images, mouse and keyboard screen picker, reduced motion and both screenshots without JavaScript');
  await send('Page.navigate',{url:origin+'/projects/letters-with-lola/'});await until(()=>evaluate('document.documentElement.dataset.project==="letters-with-lola"&&document.readyState==="complete"'),'standalone game website');assert.equal(await evaluate('document.querySelector("[data-launch-app]").target'),'_blank');assert.equal(await evaluate('document.querySelectorAll("iframe,canvas").length'),0);pass('Project websites also work as direct standalone URLs outside the simulated desktop');
  await navigate(origin);await viewport(1440,1000);await evaluate('window.TimVersion.set("2000");window.TimWindows.reset("projects")');
 }

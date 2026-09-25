@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';import path from 'node:path';
-export async function checkProjectList({evaluate,send,click,box,mouse,viewport,navigate,origin,until,sleep,screenshot,output,pass}){
+export async function checkProjectList({evaluate,send,click,box,mouse,viewport,navigate,origin,until,sleep,screenshot,output,pass,getTargets}){
  const command=async label=>{await click('#portfolio-window [data-window-menu=View]');await evaluate(`[...document.querySelectorAll('.os-command-menu button')].find(b=>b.textContent===${JSON.stringify(label)}).click()`);};
  const realClick=async selector=>{await evaluate(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);const r=await box(selector);await mouse(r.x+r.w/2,r.y+r.h/2,'mousePressed');await mouse(r.x+r.w/2,r.y+r.h/2,'mouseReleased');await sleep(100);};
  await navigate(origin);assert.equal(await evaluate('window.TimCatalogue.view()'),'list');assert.equal(await evaluate('document.querySelector("#project-grid").classList.contains("is-list")'),true);assert.equal(await evaluate('document.querySelectorAll("#portfolio-window .workspace select,#mobile-project-filter,#project-sort,.explorer-sidebar,.view-toggle").length'),0);
@@ -21,9 +21,31 @@ export async function checkProjectList({evaluate,send,click,box,mouse,viewport,n
  await evaluate('(()=>{const q=document.querySelector("#project-search");q.value="grandma";q.dispatchEvent(new Event("input"))})()');assert.equal(await evaluate('document.querySelectorAll(".project-card:not([hidden])").length'),2);
  await evaluate('(()=>{const q=document.querySelector("#project-search");q.value="no-matching-project";q.dispatchEvent(new Event("input"))})()');assert.equal(await evaluate('document.querySelector("#empty-state").hidden'),false);await click('[data-action=reset-filters]');
  await realClick('.project-card[data-id=solitaire] .card-preview');await until(()=>evaluate('document.querySelector(".project-detail-preview")?.complete'),'full-size Solitaire capture');assert.ok((await evaluate('document.querySelector(".project-detail-preview").src')).includes('solitaire-family.jpg'));assert.ok((await evaluate('document.querySelector(".sketch-note").textContent')).includes('real game'));await click('.dialog-close');
- await realClick('.project-card[data-id=solitaire] .card-footer a');assert.equal(await evaluate('window.TimWindows.active()'),'browser');await until(()=>evaluate('document.querySelector(".browser-frame")?.contentDocument?.querySelector("[data-launch-app]")'),'project website not playable iframe');await evaluate('window.TimWindows.close("browser");window.TimWindows.show("projects")');
+ const links=await evaluate('[...document.querySelectorAll(".project-card .card-footer a[data-project-website]")].map(a=>({target:a.target,rel:a.rel}))');
+ assert.equal(links.length,13);assert.ok(links.every(a=>a.target==='_blank'&&a.rel.split(' ').includes('noopener')&&a.rel.split(' ').includes('noreferrer')));
+ const popupFrom=async(selector,activate=()=>realClick(selector))=>{
+  const before=new Set((await getTargets()).map(t=>t.id));
+  const href=await evaluate(`document.querySelector(${JSON.stringify(selector)}).href`);
+  await activate();
+  let popup;
+  await until(async()=>{popup=(await getTargets()).find(t=>t.type==='page'&&!before.has(t.id)&&t.url===href);return !!popup;},'native browser tab for '+href);
+  assert.equal(await evaluate('window.TimWindows.active()'),'projects','the original desktop stays open');
+  await send('Target.closeTarget',{targetId:popup.id});await send('Page.bringToFront');
+ };
+ await popupFrom('.project-card[data-id=solitaire] .card-footer a');
+ const projectLink='.project-card[data-id=openhoops] .card-footer a';
+ await popupFrom(projectLink,async()=>{await evaluate(`document.querySelector(${JSON.stringify(projectLink)}).focus()`);await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});});
+ const modifiedClick=async(selector,button,modifiers=0)=>{await evaluate(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);const r=await box(selector),x=r.x+r.w/2,y=r.y+r.h/2;await send('Input.dispatchMouseEvent',{type:'mousePressed',x,y,button,buttons:button==='middle'?4:1,clickCount:1,modifiers});await send('Input.dispatchMouseEvent',{type:'mouseReleased',x,y,button,buttons:0,clickCount:1,modifiers});};
+ await popupFrom(projectLink,()=>modifiedClick(projectLink,'left',2));
+ await popupFrom(projectLink,()=>modifiedClick(projectLink,'middle'));
+ await realClick('.project-card[data-id=openhoops] h3 button');
+ await popupFrom('#detail-dialog .detail-actions a[data-project-website]');
+ await click('#detail-dialog [data-preview-project="/openhoops/"]');
+ assert.equal(await evaluate('window.TimWindows.active()'),'browser');
+ await until(()=>evaluate('document.querySelector(".browser-frame")?.contentDocument?.querySelector("#hero-title")'),'optional OpenHoops desktop preview');
+ await evaluate('window.TimWindows.close("browser");window.TimWindows.show("projects")');await click('.dialog-close');
  await realClick('[data-action=explore-desktop]');assert.equal(await evaluate('document.querySelector("#portfolio-window").hidden'),true);assert.equal(await evaluate('document.querySelector("#start-menu").hidden'),false);assert.equal(await evaluate('document.activeElement.id'),'start-button');await click('#start-button');await evaluate('window.TimWindows.show("projects")');
  await command('Cards');await navigate(origin);assert.equal(await evaluate('window.TimCatalogue.view()'),'list');await evaluate('window.TimWindows.freshSession()');assert.equal(await evaluate('window.TimCatalogue.view()'),'list');
  await viewport(390,844);await evaluate('document.querySelector(".workspace").scrollTop=0');await screenshot(path.join(output,'clean-list-final-phone.png'));
- pass('List-first project landing: no dropdowns/sidebar/toggle clutter, distinct bordered rows and uncropped thumbnails across11 OS skins and320–1440px; real View navigation, search, full Solitaire art, website routes, desktop-explore and reload/restart defaults');
+ pass('List-first project landing: 11 OS skins and 320–1440px layouts, native project tabs from catalogue and details, optional desktop preview, desktop-explore and reload/restart defaults');
 }

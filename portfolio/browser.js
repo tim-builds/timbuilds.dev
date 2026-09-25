@@ -1,4 +1,4 @@
-/* Website browser: project information stays here; actual game launches use real tabs. */
+/* Optional desktop browser. Ordinary portfolio website links use native browser tabs. */
 (() => {
   'use strict';
   const A=window.TimApps,sites=window.TimProjectSites||[];
@@ -39,7 +39,7 @@
     const content=body.querySelector('.browser-content'),status=body.querySelector('.browser-status span'),outside=body.querySelector('[data-browser-external]');
     function sync(){address.value=current;form.querySelector('[data-browser-action=back]').disabled=index===0;form.querySelector('[data-browser-action=forward]').disabled=index===history.length-1;outside.hidden=current==='about:home';if(current!=='about:home')outside.href=current;}
     function home(){
-      content.innerHTML='<section class="browser-home"><span class="browser-home-kicker">timBuilds Internet</span><h1>Project websites</h1><p>Browse project websites below or enter an address. Game websites include a Play link that opens the game in a new browser tab.</p><div class="browser-bookmarks"></div><p class="browser-home-note">Some external websites prohibit embedded viewing. Open in real browser is always available.</p></section>';
+      content.innerHTML='<section class="browser-home"><span class="browser-home-kicker">timBuilds Internet</span><h1>Project websites</h1><p>This is the optional desktop browser. Choose a bookmark to preview a project here, or use Open in real browser for the full website.</p><div class="browser-bookmarks"></div><p class="browser-home-note">Some external websites prohibit embedded viewing. Open in real browser is always available.</p></section>';
       const links=[['openHoops','/openhoops/'],['Letters with Lola','/projects/letters-with-lola/'],['Solitaire Clemulie','/projects/solitaire/'],['Studio Siomai','https://studio-siomai.vercel.app/'],['Grit Athletics','https://grit-athletics.pages.dev/'],['GitHub','https://github.com/flushatoilet']];
       for(const [label,url] of links){const b=document.createElement('button');b.textContent=label;b.dataset.bookmark=url;content.querySelector('.browser-bookmarks').append(b);}status.textContent='Project websites';
     }
@@ -79,7 +79,7 @@
       const action=event.target.closest('[data-browser-action]')?.dataset.browserAction;
       if(action==='back'&&index>0)navigate(history[--index],false);if(action==='forward'&&index<history.length-1)navigate(history[++index],false);
       if(action==='reload')navigate(current,false);if(action==='home'||event.target.closest('[data-browser-menu=favorites]'))navigate('about:home');
-      if(event.target.closest('[data-browser-menu=help]'))status.textContent='Browse project websites here. Play buttons open the actual games in new browser tabs. External sites may require Open in real browser.';
+      if(event.target.closest('[data-browser-menu=help]'))status.textContent='This is the optional desktop browser. Project website links in My Projects open in new browser tabs. Use Open in real browser to leave a preview.';
     });
     address.addEventListener('focus',()=>address.select());
     controller={navigate,current:()=>current,owns:source=>frame?.contentWindow===source};home();sync();
@@ -91,7 +91,9 @@
     A.open('browser');controller?.navigate(next);return true;
   }
   document.addEventListener('click',event=>{
-    const link=event.target.closest('a[href]');if(!link)return;
+    // Only an explicit opt-in may intercept top-level navigation. Native links retain
+    // keyboard, middle-click, context-menu and no-JavaScript browser behaviour.
+    const link=event.target.closest('a[data-desktop-browser][href]');if(!link)return;
     let url;try{url=new URL(link.href);}catch{return;}
     if(policy(url)&&!link.hasAttribute('data-document-original'))return;
     follow(link,event);

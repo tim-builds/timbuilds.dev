@@ -1,4 +1,4 @@
-/* Explicit public-file export for the staged Cloudflare Pages migration. */
+/* Explicit public-file export for Cloudflare Pages and Workers Static Assets. */
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -45,6 +45,8 @@ for(const {path:file} of [...manifest,{path:'404.html'}]){
 if(htmlRoutes.size+1>100)throw new Error('Generated header rules exceed the Pages limit.');
 const headers='/*\n  Referrer-Policy: no-referrer\n  X-Content-Type-Options: nosniff\n\n'+[...htmlRoutes].map(([route,cache])=>route+'\n  Cache-Control: '+cache+'\n').join('\n');
 fs.writeFileSync(path.join(target,'_headers'),headers);
+// The marker protects local cleanups, but it is not a public website asset.
+fs.writeFileSync(path.join(target,'.assetsignore'),'.timbuilds-export\n');
 fs.mkdirSync(path.join(root,'.qa'),{recursive:true});
 fs.writeFileSync(path.join(root,'.qa','cloudflare-export-manifest.json'),JSON.stringify({sourceCommit:process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||null,files:manifest},null,2)+'\n');
 console.log(JSON.stringify({files:files.length,bytes:manifest.reduce((n,f)=>n+f.bytes,0),output:'dist',excluded:['CNAME','.git','.qa','tools','owner recovery files'],deployed:false},null,2));

@@ -61,7 +61,8 @@ async function screenshot(file,clip){const r=await send('Page.captureScreenshot'
 try{
  const active=path.join(profile,'DevToolsActivePort');await until(()=>fs.existsSync(active),'Chrome startup');
  const port=fs.readFileSync(active,'utf8').split(/\r?\n/)[0];
- const targets=await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
+ const getTargets=async()=>await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
+ const targets=await getTargets();
  ws=new WebSocket(targets.find(t=>t.type==='page').webSocketDebuggerUrl);
  ws.addEventListener('message',event=>{const message=JSON.parse(event.data);if(message.id){const waiter=pending.get(message.id);if(!waiter)return;pending.delete(message.id);message.error?waiter.reject(new Error(message.error.message)):waiter.resolve(message.result);}else if(message.method==='Fetch.requestPaused'){Promise.resolve(globalThis.__migrationFetchPaused?.(message.params)).catch(error=>errors.push(error.message));}else if(message.method==='Network.requestWillBeSent'){requests.push(message.params.request.url);}else if(message.method==='Runtime.exceptionThrown'){errors.push(message.params.exceptionDetails.text);}});
  await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',reject,{once:true});});
@@ -87,6 +88,10 @@ try{
  const box=selector=>evaluate(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height};})()`);
  let mouseHeld=false;async function mouse(x,y,type='mouseMoved',count=1){if(type==='mousePressed')mouseHeld=true;if(type==='mouseReleased')mouseHeld=false;await send('Input.dispatchMouseEvent',{type,x,y,button:type==='mouseMoved'?'none':'left',buttons:mouseHeld?1:0,clickCount:type==='mouseMoved'?0:count});}
  async function drag(selector,dx,dy){const r=await box(selector),x=r.x+r.w/2,y=r.y+r.h/2;await mouse(x,y);await mouse(x,y,'mousePressed');await sleep(60);for(let i=1;i<=5;i++){await mouse(x+dx*i/5,y+dy*i/5);await sleep(35);}await sleep(40);await mouse(x+dx,y+dy,'mouseReleased');await sleep(350);}
+ if(process.argv.includes('--project-sites-only')){
+  await checkProjectSites({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
+  assert.deepEqual(errors,[]);pass('No runtime JavaScript errors');console.log(`PASS: ${checks.length} focused browser check groups.`);
+ }else{
  await viewport(1440,1000);await evaluate('window.TimDesktop.resetWindow();window.TimDesktop.arrange()');
  const before=await box('#portfolio-window');await drag('#portfolio-window > .titlebar',-40,10);const moved=await box('#portfolio-window');assert.equal(Math.round(moved.x),Math.round(before.x-40));assert.equal(Math.round(moved.y),Math.round(before.y+10));pass('Real pointer drag moves the main window');
  await drag('.resize-se',-160,-120);const resized=await box('#portfolio-window');assert.equal(Math.round(resized.w),Math.round(moved.w-160));assert.equal(Math.round(resized.h),Math.round(moved.h-120));pass('Corner drag resizes the project window');
@@ -97,7 +102,7 @@ try{
  await click('[data-action="close-projects"]');await drag('.desktop-shortcut[data-action="projects"]',220,0);const movedIcon=await box('.desktop-shortcut[data-action="projects"]');assert.equal(movedIcon.x,220);await navigate(origin);assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,220);await evaluate('window.TimDesktop.arrange()');assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,12);pass('Desktop icon drag, grid snapping, persistence and arrange-left reset');
  for(const width of [1024,1440,2560,3440]){await viewport(width,1100);await evaluate('window.TimDesktop.arrange()');assert.equal((await box('.desktop-shortcut[data-action="projects"]')).x,12);assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth'),false);}await screenshot(path.join(output,'ultrawide.png'));pass('Left-aligned icons across 1024–3440 px widths');
  await viewport(1440,1000);await evaluate('window.TimDesktop.resetWindow();document.querySelector(".workspace").scrollTop=200');const scroll=await evaluate('document.querySelector(".workspace").scrollTop');await evaluate('window.TimCatalogue.browse("Websites")');assert.equal(await evaluate('document.querySelector(".workspace").scrollTop'),scroll);assert.equal(await evaluate('window.scrollY'),0);await evaluate('window.TimCatalogue.browse("All projects")');pass('Filtering preserves explorer scroll position and never scrolls the desktop');
- await checkProjectList({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
+ await checkProjectList({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests,getTargets});
  await checkModernWindows({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkStartAccess({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
  await checkFolderExtension({evaluate,send,click,box,mouse,drag,viewport,navigate,origin,until,sleep,screenshot,output,pass,requests});
@@ -139,6 +144,7 @@ try{
  assert.deepEqual(errors,[]);pass('No runtime JavaScript errors');
  fs.writeFileSync(path.join(output,'browser-checks.json'),JSON.stringify({checks,origin,browser:'installed Chrome, separate disposable profile',timestamp:new Date().toISOString(),limits:'Not a physical-phone or formal accessibility certification.'},null,2));
  console.log(`PASS: ${checks.length} browser check groups. Screenshots in .qa/.`);
+ }
 }catch(error){try{await screenshot(path.join(output,"failure.png"));console.error("Viewport diagnostic",await evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll("body *")].filter(e=>e.getBoundingClientRect().right>innerWidth+.5&&e.getBoundingClientRect().width>0).slice(0,18).map(e=>({tag:e.tagName,id:e.id,classes:String(e.className),right:e.getBoundingClientRect().right,width:e.getBoundingClientRect().width}))})'));}catch{}console.error(error);process.exitCode=1;}
 finally{
  if(ws&&ws.readyState===WebSocket.OPEN){try{await send('Browser.close');}catch{}ws.close();}

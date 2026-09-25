@@ -1,6 +1,6 @@
 # timBuilds website
 
-**The only authoring and publishing repository is `tim-builds/timbuilds.dev`.** Both `https://timbuilds.dev` and `https://tim-builds.dev` use the same Git-integrated Cloudflare Pages project, `timbuilds-site`, deploying `main`. Do not edit `tim-builds/site` or copy changes between the two repositories.
+**The only authoring and publishing repository is `tim-builds/timbuilds.dev`.** Both `https://timbuilds.dev` and `https://tim-builds.dev` route to Cloudflare Worker `timbuilds-web`. Workers Builds publishes the checked public export from this repository's `main`; the Git-integrated Pages project `timbuilds-site` remains a fallback. Do not edit `tim-builds/site` or copy changes between the two repositories.
 
 The portfolio is plain HTML, CSS and JavaScript: eleven selectable Windows/Mac/Linux-inspired desktops, a maximized list-first My Projects window, fitted wallpapers, and browser-based games/accessories. XP remains the default. Hosting the desktop needs no application database, framework installation, analytics service or Pages Function. The separate OpenHoops backend is not part of this repository consolidation.
 
@@ -9,8 +9,8 @@ The portfolio is plain HTML, CSS and JavaScript: eleven selectable Windows/Mac/L
 1. Work in a branch of this repository. A fresh checkout is `git clone https://github.com/tim-builds/timbuilds.dev.git`.
 2. Edit `portfolio/projects.json`, `portfolio/template.html` and the relevant `portfolio/` scripts/styles. Keep source labels, accessible descriptions and artwork provenance accurate.
 3. Regenerate with `node tools/build-portfolio.mjs` and, when project websites change, `node tools/build-project-sites.mjs`.
-4. Run the checks below; review the diff and merge the approved PR into this repository's `main`.
-5. Cloudflare builds the explicit public `dist/` export and publishes it to both main addresses. No second-repository sync or routine DNS change is needed.
+4. Run the checks below and `npm ci && npm run build:worker`; review the diff and merge the approved PR into this repository's `main`.
+5. Workers Builds runs the same checked export and deploys only `dist/` to `timbuilds-web` using `wrangler.workers.jsonc`. Verify the build's source commit and both live addresses. No second-repository sync or routine DNS change is needed.
 
 ```sh
 node tools/build-portfolio.mjs --check
@@ -20,6 +20,7 @@ node tools/verify-media.mjs
 node tools/build-cloudflare.mjs
 node tools/test-cloudflare-headers.mjs
 node tools/browser-check.mjs --migration
+npx wrangler deploy --config wrangler.workers.jsonc --dry-run
 ```
 
 The browser suite uses an isolated disposable Chrome profile; results belong in ignored `.qa/`. Real-account password resets and physical-device tests require their own authority and are not implied by these automated checks. See `HOSTING.md` for deployment, preview restrictions, response headers, live checks and rollback.
@@ -32,7 +33,7 @@ The authenticated Candystand runtime is separate and is not deployed by the publ
 
 ## Map of the source
 
-`portfolio/projects.json` is the public catalogue; `tools/build-portfolio.mjs` generates root `index.html`. `portfolio/` holds the desktop and accessory code, media, themes and notices. `projects/` contains standalone project information websites, and `openhoops/` contains the existing app website and compatibility routes. `.well-known/` supports Android App Links. `tools/build-cloudflare.mjs` is the allowlist-based hosting exporter; it does not upload the working directory.
+`portfolio/projects.json` is the public catalogue; `tools/build-portfolio.mjs` generates root `index.html`. `portfolio/` holds the desktop and accessory code, media, themes and notices. `projects/` contains standalone project information websites, and `openhoops/` contains the existing app website and compatibility routes. `.well-known/` supports Android App Links. `tools/build-cloudflare.mjs` is the allowlist-based hosting exporter; `wrangler.workers.jsonc` publishes its `dist/` output as Workers Static Assets.
 
 Public browser preferences and Notepad contents remain browser-local. Paint stays in memory unless exported. The owner catalogue uses the existing encryption/key mechanism; this workflow does not grant access to it. Detailed implementation history and original limitations are preserved under `docs/history/`, not silently deleted.
 

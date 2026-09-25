@@ -1,6 +1,6 @@
 # One website repository — current operational source
 
-**Use `tim-builds/timbuilds.dev` for all new website changes.** Both main domains deploy canonical `main` through Cloudflare Pages project `timbuilds-site`. The former source-to-mirror procedure is retired. No native app code, database, account, store identity or private game runtime was consolidated into the public website.
+**Use `tim-builds/timbuilds.dev` for all new website changes.** Both main domains route to Cloudflare Worker `timbuilds-web`, built from canonical `main` through the repository's allowlist export. The Git-integrated Pages project `timbuilds-site` remains a fallback. The former source-to-mirror procedure is retired. No native app code, database, account, store identity or private game runtime was consolidated into the public website.
 
 ## Reconciled history
 
