@@ -3,5 +3,6 @@
 
 # Generated public Cloudflare export
 /dist/
+/node_modules/
 
 /.wrangler/

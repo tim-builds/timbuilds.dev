@@ -2,6 +2,7 @@ import fs from 'node:fs';import assert from 'node:assert/strict';import path fro
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'.qa/cloudflare-export-manifest.json'),'utf8')).files;
 const text=fs.readFileSync(path.join(root,'dist/_headers'),'utf8');
+assert.equal(fs.readFileSync(path.join(root,'dist/.assetsignore'),'utf8'),'.timbuilds-export\n');
 const blocks=text.trim().split(/\n\s*\n/).map(b=>b.split('\n')),routes=new Map();
 for(const [route,...lines] of blocks){assert.ok(!routes.has(route),'duplicate header route: '+route);routes.set(route,lines.join('\n'));}
 assert.ok(routes.size<=100);assert.ok(!routes.get('/*').includes('Cache-Control'),'do not change non-HTML caching');
