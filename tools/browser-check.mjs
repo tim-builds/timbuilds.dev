@@ -38,7 +38,7 @@ const server=http.createServer((req,res)=>{
  if(relative==='/')relative='/index.html';
  let file=path.resolve(root,'.'+relative);
  if(!file.startsWith(root+path.sep)||relative.split('/').some(p=>p.startsWith('.'))){res.writeHead(403).end();return;}
- try{if(fs.statSync(file).isDirectory())file=path.join(file,"index.html");const content=fs.readFileSync(file);res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(content);}catch{res.writeHead(404).end('Not found');}
+ try{if(!fs.existsSync(file)&&fs.existsSync(file+'.html'))file+='.html';if(fs.statSync(file).isDirectory())file=path.join(file,"index.html");const content=fs.readFileSync(file);res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(content);}catch{res.writeHead(404).end('Not found');}
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const origin=process.env.PORTFOLIO_ORIGIN || `http://127.0.0.1:${server.address().port}`;

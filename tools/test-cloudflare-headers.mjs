@@ -7,6 +7,7 @@ for(const [route,...lines] of blocks){assert.ok(!routes.has(route),'duplicate he
 assert.ok(routes.size<=100);assert.ok(!routes.get('/*').includes('Cache-Control'),'do not change non-HTML caching');
 for(const f of manifest){assert.deepEqual(fs.readFileSync(path.join(root,f.path)),fs.readFileSync(path.join(root,'dist',f.path)),'export retains original bytes');if(!f.path.endsWith('.html'))continue;
  const clean=f.path==='index.html'?'/':f.path.endsWith('/index.html')?'/'+f.path.slice(0,-10):'/'+f.path.slice(0,-5);
- for(const url of ['/'+f.path,clean]){const header=routes.get(url);assert.ok(header?.includes('no-transform'),url);if(f.path==='openhoops/reset.html'){assert.ok(header.includes('no-store'));assert.ok(!header.includes('public'));}else assert.ok(header.includes('public, max-age=0, must-revalidate'));}
+ for(const url of ['/'+f.path,clean]){const header=routes.get(url);assert.ok(header?.includes('no-transform'),url);if(['openhoops/reset.html','openhoops/confirm.html'].includes(f.path)){assert.ok(header.includes('no-store'));assert.ok(!header.includes('public'));}else assert.ok(header.includes('public, max-age=0, must-revalidate'));}
 }
-console.log(`PASS ${routes.size} nonoverlapping header rules; all HTML paths preserve content, reset stays no-store, and all ${manifest.length} source files export unchanged.`);
+assert.ok(!text.includes('Clear-Site-Data'));
+console.log(`PASS ${routes.size} nonoverlapping header rules; all HTML paths preserve content, auth pages stay no-store, and all ${manifest.length} source files export unchanged.`);
