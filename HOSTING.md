@@ -4,7 +4,7 @@
 
 `tim-builds/timbuilds.dev` is the only website source. Cloudflare Worker **`timbuilds-web`** serves both `https://timbuilds.dev` and `https://tim-builds.dev` through their existing routes. Neither apex redirects to the other. Workers Builds from `main` is the only deploy path; the former Pages project `timbuilds-site` and the GitHub Pages sites are gone (see the 2026-09-25 note below). Routine publishing does not change DNS or email.
 
-The Worker uses Static Assets. `tools/build-cloudflare.mjs` copies only approved public source into `dist/`, then generates `404.html`, `_headers`, and an `.assetsignore` rule excluding its local export marker. `wrangler.workers.jsonc` points only at `dist/`, declares the existing apex routes and workers.dev hostname, and serves real 404s. The separate `wrangler.jsonc` is the leftover configuration of the deleted Pages project and is not used by any deploy. Do not upload the repository root, private runtime, QA results, owner files, local configuration, or browser profiles.
+The Worker uses Static Assets. `tools/build-cloudflare.mjs` copies only approved public source into `dist/`, then generates `404.html`, `_headers`, and an `.assetsignore` rule excluding its local export marker. `wrangler.workers.jsonc` points only at `dist/`, declares the existing apex routes and workers.dev hostname, and serves real 404s. The leftover Pages configuration `wrangler.jsonc` and the GitHub Pages `CNAME` file were removed on 2026-09-25; there is no default Wrangler configuration, so always pass `--config wrangler.workers.jsonc` explicitly. Do not upload the repository root, private runtime, QA results, owner files, local configuration, or browser profiles.
 
 ## Publishing from Git
 
@@ -15,7 +15,7 @@ Build:  npm ci && npm run build:worker
 Deploy: npx wrangler deploy --config wrangler.workers.jsonc
 ```
 
-`package-lock.json` pins Wrangler. `build:worker` checks generated source, project sites, portfolio and media, then creates and checks the allowlisted export. The named deploy configuration is required because the default `wrangler.jsonc` is the old Pages configuration. Workers previews are disabled, so a feature branch does not publish a preview of this production Worker, and no Pages project remains to build previews. Change the preview rule only with owner approval.
+`package-lock.json` pins Wrangler. `build:worker` checks generated source, project sites, portfolio and media, then creates and checks the allowlisted export. The named deploy configuration is required: the old Pages configuration `wrangler.jsonc` was removed on 2026-09-25, so the repository has no default Wrangler configuration and every Wrangler command must pass `--config wrangler.workers.jsonc` explicitly. Workers previews are disabled, so a feature branch does not publish a preview of this production Worker, and no Pages project remains to build previews. Change the preview rule only with owner approval.
 
 For routine changes, branch from current canonical `main`, edit source and generators, regenerate outputs, run the README checks, and review the complete diff in one PR. After required checks and independent review pass, merge to `main`. Workers Builds runs the commands above and deploys the complete `dist/` export to `timbuilds-web`; the existing routes expose it on both apexes. Do not manually deploy old source while a PR is in flight.
 
