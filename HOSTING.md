@@ -4,7 +4,7 @@
 
 `tim-builds/timbuilds.dev` is the only website source. Cloudflare Worker **`timbuilds-web`** serves both `https://timbuilds.dev` and `https://tim-builds.dev` through their existing routes. Neither apex redirects to the other. Workers Builds from `main` is the only deploy path; the former Pages project `timbuilds-site` and the GitHub Pages sites are gone (see the 2026-09-25 note below). Routine publishing does not change DNS or email.
 
-The Worker uses Static Assets. `tools/build-cloudflare.mjs` copies only approved public source into `dist/`, then generates `404.html`, `_headers`, and an `.assetsignore` rule excluding its local export marker. `wrangler.workers.jsonc` points only at `dist/`, declares the existing apex routes and workers.dev hostname, and serves real 404s. The separate `wrangler.jsonc` is the leftover configuration of the deleted Pages project and is not used by any deploy. Do not upload the repository root, private runtime, QA results, owner files, local configuration, or browser profiles.
+The Worker uses Static Assets. `tools/build-cloudflare.mjs` copies only approved public source into `dist/`, then generates `404.html`, `_headers`, and an `.assetsignore` rule excluding its local export marker. `wrangler.jsonc` is the single Worker configuration for `timbuilds-web`: it points only at `dist/`, declares the existing apex routes and workers.dev hostname, and serves real 404s. The old Pages configuration, the `wrangler.workers.jsonc` file name and the GitHub Pages `CNAME` file were retired on 2026-09-25, so a bare `wrangler deploy` now targets the correct Worker and uploads only `dist/`. Do not upload the repository root, private runtime, QA results, owner files, local configuration, or browser profiles.
 
 ## Publishing from Git
 
@@ -12,14 +12,14 @@ Workers Builds is connected to `tim-builds/timbuilds.dev`, production branch `ma
 
 ```text
 Build:  npm ci && npm run build:worker
-Deploy: npx wrangler deploy --config wrangler.workers.jsonc
+Deploy: npx wrangler deploy
 ```
 
-`package-lock.json` pins Wrangler. `build:worker` checks generated source, project sites, portfolio and media, then creates and checks the allowlisted export. The named deploy configuration is required because the default `wrangler.jsonc` is the old Pages configuration. Workers previews are disabled, so a feature branch does not publish a preview of this production Worker, and no Pages project remains to build previews. Change the preview rule only with owner approval.
+`package-lock.json` pins Wrangler. `build:worker` checks generated source, project sites, portfolio and media, then creates and checks the allowlisted export. No `--config` flag is needed: since 2026-09-25 the default `wrangler.jsonc` is the Worker configuration for `timbuilds-web` (the old Pages configuration and the `wrangler.workers.jsonc` name were retired). Workers previews are disabled, so a feature branch does not publish a preview of this production Worker, and no Pages project remains to build previews. Change the preview rule only with owner approval.
 
 For routine changes, branch from current canonical `main`, edit source and generators, regenerate outputs, run the README checks, and review the complete diff in one PR. After required checks and independent review pass, merge to `main`. Workers Builds runs the commands above and deploys the complete `dist/` export to `timbuilds-web`; the existing routes expose it on both apexes. Do not manually deploy old source while a PR is in flight.
 
-For local serving checks, run `npm ci`, `npm run build:worker`, and `npx wrangler dev --config wrangler.workers.jsonc` with a disposable browser profile. `npx wrangler deploy --config wrangler.workers.jsonc --dry-run` validates the upload without changing production. The workers.dev hostname reaches the production Worker, so it is not an isolated staging site.
+For local serving checks, run `npm ci`, `npm run build:worker`, and `npx wrangler dev` with a disposable browser profile. `npx wrangler deploy --dry-run` validates the upload without changing production. The workers.dev hostname reaches the production Worker, so it is not an isolated staging site.
 
 ## Response behavior and verification
 
