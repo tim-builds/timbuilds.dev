@@ -2,9 +2,9 @@
 
 ## Current production
 
-`tim-builds/timbuilds.dev` is the only website source. Cloudflare Worker **`timbuilds-web`** serves both `https://timbuilds.dev` and `https://tim-builds.dev` through their existing routes. Neither apex redirects to the other. The Git-integrated Pages project **`timbuilds-site`** still builds `main` as a fallback; it is no longer the normal path for apex traffic. Routine publishing does not change DNS or email.
+`tim-builds/timbuilds.dev` is the only website source. Cloudflare Worker **`timbuilds-web`** serves both `https://timbuilds.dev` and `https://tim-builds.dev` through their existing routes. Neither apex redirects to the other. Workers Builds from `main` is the only deploy path; the former Pages project `timbuilds-site` and the GitHub Pages sites are gone (see the 2026-09-25 note below). Routine publishing does not change DNS or email.
 
-The Worker uses Static Assets. `tools/build-cloudflare.mjs` copies only approved public source into `dist/`, then generates `404.html`, `_headers`, and an `.assetsignore` rule excluding its local export marker. `wrangler.workers.jsonc` points only at `dist/`, declares the existing apex routes and workers.dev hostname, and serves real 404s. The separate `wrangler.jsonc` remains the Pages configuration. Do not upload the repository root, private runtime, QA results, owner files, local configuration, or browser profiles.
+The Worker uses Static Assets. `tools/build-cloudflare.mjs` copies only approved public source into `dist/`, then generates `404.html`, `_headers`, and an `.assetsignore` rule excluding its local export marker. `wrangler.workers.jsonc` points only at `dist/`, declares the existing apex routes and workers.dev hostname, and serves real 404s. The separate `wrangler.jsonc` is the leftover configuration of the deleted Pages project and is not used by any deploy. Do not upload the repository root, private runtime, QA results, owner files, local configuration, or browser profiles.
 
 ## Publishing from Git
 
@@ -15,9 +15,9 @@ Build:  npm ci && npm run build:worker
 Deploy: npx wrangler deploy --config wrangler.workers.jsonc
 ```
 
-`package-lock.json` pins Wrangler. `build:worker` checks generated source, project sites, portfolio and media, then creates and checks the allowlisted export. The named deploy configuration is required because the default `wrangler.jsonc` still targets Pages. Workers previews are disabled, so a feature branch does not publish a preview of this production Worker. Pages previews remain restricted to `prep/pages-20-current`. Change either preview rule only with owner approval.
+`package-lock.json` pins Wrangler. `build:worker` checks generated source, project sites, portfolio and media, then creates and checks the allowlisted export. The named deploy configuration is required because the default `wrangler.jsonc` is the old Pages configuration. Workers previews are disabled, so a feature branch does not publish a preview of this production Worker, and no Pages project remains to build previews. Change the preview rule only with owner approval.
 
-For routine changes, branch from current canonical `main`, edit source and generators, regenerate outputs, run the README checks, and review the complete diff in one PR. After required checks and independent review pass, merge to `main`. Workers Builds runs the commands above and deploys the complete `dist/` export to `timbuilds-web`; the existing routes expose it on both apexes. Pages also builds that same `main` source as fallback. Do not manually deploy old source while a PR is in flight.
+For routine changes, branch from current canonical `main`, edit source and generators, regenerate outputs, run the README checks, and review the complete diff in one PR. After required checks and independent review pass, merge to `main`. Workers Builds runs the commands above and deploys the complete `dist/` export to `timbuilds-web`; the existing routes expose it on both apexes. Do not manually deploy old source while a PR is in flight.
 
 For local serving checks, run `npm ci`, `npm run build:worker`, and `npx wrangler dev --config wrangler.workers.jsonc` with a disposable browser profile. `npx wrangler deploy --config wrangler.workers.jsonc --dry-run` validates the upload without changing production. The workers.dev hostname reaches the production Worker, so it is not an isolated staging site.
 
@@ -27,22 +27,31 @@ Workers Static Assets applies the generated `_headers` rules. HTML uses `Cache-C
 
 After a merge, read the Workers Build **ID, successful status, source commit, deployment ID, and active Worker version**. Re-read both routes to confirm they still target `timbuilds-web`. From a checkout containing that commit, run `node tools/build-cloudflare.mjs` and `node tools/verify-cloudflare.mjs https://timbuilds.dev --git-ref=<full-deployed-commit-sha>`; repeat for `https://tim-builds.dev`. Check live headers and browser behavior on both domains, including OpenHoops, screenshots, project tabs, recovery and app-link routes, redirects, query/fragment handling, and actual 404s. Windows working-copy line endings are not the reference for a Linux build. Keep test results in ignored `.qa/`.
 
-The former staged Worker added `X-TimBuilds-Release` and fetched unchanged files from pinned Pages deployment `4a80b07d.timbuilds-site.pages.dev`. A complete Static Assets deployment serves the export itself; prove the new release with build metadata and body hashes rather than that old header. Real-account recovery, physical-device and old-install acceptance remain open until separately exercised. Never use real passwords or recovery tokens in these checks.
+The former staged Worker added `X-TimBuilds-Release` and fetched unchanged files from pinned Pages deployment `4a80b07d.timbuilds-site.pages.dev`, which was deleted with the Pages project on 2026-09-25. A complete Static Assets deployment serves the export itself; prove the new release with build metadata and body hashes rather than that old header. Real-account recovery, physical-device and old-install acceptance remain open until separately exercised. Never use real passwords or recovery tokens in these checks.
 
-## Rollback and retained fallbacks
+## Rollback
 
-For a code regression, revert the offending change in canonical `main`, wait for the checked Worker build, and verify both apexes. For urgent restoration, select a known-good `timbuilds-web` version in Cloudflare, confirm its deployment and both domains, then reconcile `main` before the next build. The pre-migration Worker version `de9a79d4-88eb-474a-84cd-6969f2f8b946` depends on pinned Pages deployment `4a80b07d-216b-44b3-9f33-8d6007e0a644`; retain that deployment while it remains a rollback choice.
+For a code regression, revert the offending change in canonical `main`, wait for the checked Worker build, and verify both apexes. For urgent restoration, select a known-good `timbuilds-web` version in Cloudflare, confirm its deployment and both domains, then reconcile `main` before the next build. These are the only rollback paths. The pre-migration Worker version `de9a79d4-88eb-474a-84cd-6969f2f8b946` depended on the deleted Pages deployment `4a80b07d-216b-44b3-9f33-8d6007e0a644` and is **not** a valid rollback choice.
 
-The Pages project stays Git-connected to `main` as a fallback. Removing the two apex Worker routes would send traffic to the **current** Pages production deployment, which may be newer than the pinned version above. Re-read routes, Pages deployment, and TLS before such a change; do not remove routes merely to simplify the setup. DNS rollback is a separate owner-authorized account action. The former GitHub Pages origins, privately saved Git bundle, and named historical refs remain recovery material; the retired repository is not an authoring lane.
+There is no Pages fallback behind the Worker. Removing the two apex Worker routes would leave both apexes pointing at the originless placeholder `192.0.2.1`, so the sites would stop serving; do not remove routes. DNS rollback is a separate owner-authorized account action. The privately saved Git bundle of the deleted repository and the `archive/site/*` branches remain historical material, not an authoring lane or a hosting fallback.
+
+## Pages and GitHub Pages retired — September 25, 2026
+
+- Both apex DNS records (`timbuilds.dev`, `tim-builds.dev`) changed from `CNAME -> timbuilds-site.pages.dev` to a **proxied A record to `192.0.2.1`**, the same originless placeholder pattern as the `www` records. The Worker routes serve all apex traffic. WWW redirects, MX, SPF, DKIM and SES records were unchanged.
+- The Cloudflare Pages project `timbuilds-site` was deleted after its custom domains were removed; `timbuilds-site.pages.dev` and its pinned deployments no longer exist.
+- GitHub Pages was disabled on `tim-builds/timbuilds.dev`. The retired `tim-builds/site` repository was deleted by the owner; a full private Git bundle (all branches) is kept on the owner's PC. The `archive/site/*` branches here remain.
+
+Rollback for the DNS change: restoring the old apex `CNAME -> timbuilds-site.pages.dev` is **no longer possible**, because that Pages project is deleted. The apex A records only carry the Worker routes; if they must change, keep them proxied and keep the routes on `timbuilds-web`. Any DNS change needs the owner's specific authority.
+
 ## WWW aliases — completed September 22, 2026
 
-Both WWW hostnames now terminate HTTPS and redirect at Cloudflare, independently of the frozen GitHub origins. Each zone has one active Single Redirect: `http*://www.<matching-domain>/*` to `https://<matching-domain>/${2}`, status 301, Preserve query string enabled. Neither apex redirects to the other. Browser-held fragments were checked with harmless markers, not live credentials.
+Both WWW hostnames now terminate HTTPS and redirect at Cloudflare, independently of the former GitHub origins. Each zone has one active Single Redirect: `http*://www.<matching-domain>/*` to `https://<matching-domain>/${2}`, status 301, Preserve query string enabled. Neither apex redirects to the other. Browser-held fragments were checked with harmless markers, not live credentials.
 
 Only each zone's `www` DNS record changed: a proxied A record to `192.0.2.1`, TTL Auto, as a redirect-only record. The redirect runs at the edge; that reserved address is not an application server. Do not disable its proxy or remove the redirect without arranging a replacement. The existing free Universal SSL serves the WWW certificates. No extra Pages custom-domain binding or paid feature is required.
 
-The former `www.timbuilds.dev` certificate mismatch is fixed. Both aliases preserve paths and queries, including OpenHoops URLs. The exact rule names, checks and rollback are recorded in [the WWW completion note](docs/www-redirects-2026-09-22.md). Both apex Pages records, all email records, nameservers, account-wide TLS/security settings and private game runtime were unchanged.
+The former `www.timbuilds.dev` certificate mismatch is fixed. Both aliases preserve paths and queries, including OpenHoops URLs. The exact rule names, checks and rollback are recorded in [the WWW completion note](docs/www-redirects-2026-09-22.md). The apex records (then Pages CNAMEs, since replaced on September 25), all email records, nameservers, account-wide TLS/security settings and private game runtime were unchanged.
 
-For an authorized WWW-only rollback, restore that hostname's saved original `CNAME www -> tim-builds.github.io`, DNS only / Auto, and disable only its new WWW redirect. Re-check the frozen GitHub origin first. The primary WWW previously had a certificate mismatch, so returning to that old configuration is not a guarantee of healthy HTTPS. Keep both apexes and all mail untouched.
+The former WWW-only rollback (restoring `CNAME www -> tim-builds.github.io`) is **no longer available**: the GitHub Pages origins were disabled or deleted on September 25, 2026. Keep the WWW redirects in place; any replacement needs owner authority and must keep both apexes and all mail untouched.
 
 Re-read active rules and DNS before edits, and confirm saved state rather than relying on a reported click. Do not use another write channel to bypass a blocked action.
 
